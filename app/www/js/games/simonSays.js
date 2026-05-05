@@ -26,6 +26,7 @@ import {
   makeQueue,
 } from '../ui.js';
 import { load, save } from '../storage.js';
+import { isLocked, attemptPurchase } from '../featureFlags.js';
 
 const KEY = 'simonSays';
 
@@ -271,7 +272,11 @@ export function init() {
     setTimeout(() => speak('Simon says touch your nose', { rate: 1.0, pitch: 1.05 }), 150);
   });
 
-  document.getElementById('simonStartBtn').addEventListener('click', () => {
+  document.getElementById('simonStartBtn').addEventListener('click', async () => {
+    if (await isLocked('simon')) {
+      attemptPurchase();
+      return;
+    }
     ensureAudio();
     unlockSpeech();
     startSpeechKeepalive();

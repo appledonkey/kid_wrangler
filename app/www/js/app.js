@@ -9,6 +9,7 @@
 import { initScreens } from './ui.js';
 import { hideSplash, setStatusBar, isNative } from './native.js';
 import { load, save } from './storage.js';
+import { applyPaywallUI } from './featureFlags.js';
 
 import * as findMe from './games/findMe.js';
 import * as redLight from './games/redLight.js';
@@ -116,6 +117,10 @@ function bootstrap() {
   simonSays.init();
   animalCharades.init();
   whatIsIt.init();
+
+  // Mark paid game tiles as locked / unlocked based on premium state.
+  // v1 always returns "unlocked" so this is currently a no-op visually.
+  applyPaywallUI();
 
   registerServiceWorker();
 

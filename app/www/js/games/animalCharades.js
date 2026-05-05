@@ -28,6 +28,7 @@ import { show, setupOpts, setupToggle, retriggerAnim, makeQueue } from '../ui.js
 import { ANIMALS, CATEGORIES, CATEGORY_LABELS, animalsIn } from './animalsData.js';
 import { playAnimalSound } from './animalSounds.js';
 import { load, save } from '../storage.js';
+import { isLocked, attemptPurchase } from '../featureFlags.js';
 
 const KEY = 'animalCharades';
 
@@ -180,7 +181,11 @@ export function init() {
     }
   });
 
-  document.getElementById('charadesStartBtn').addEventListener('click', () => {
+  document.getElementById('charadesStartBtn').addEventListener('click', async () => {
+    if (await isLocked('charades')) {
+      attemptPurchase();
+      return;
+    }
     ensureAudio();
     unlockSpeech();
     startSpeechKeepalive();

@@ -32,6 +32,7 @@ import {
   makeQueue,
 } from '../ui.js';
 import { load, save } from '../storage.js';
+import { isLocked, attemptPurchase } from '../featureFlags.js';
 
 const KEY = 'superHero';
 
@@ -540,7 +541,11 @@ export function init() {
     setTimeout(() => speak(testLine, { rate: 1.0, pitch: 1.05 }), 150);
   });
 
-  document.getElementById('heroStartBtn').addEventListener('click', () => {
+  document.getElementById('heroStartBtn').addEventListener('click', async () => {
+    if (await isLocked('hero')) {
+      attemptPurchase();
+      return;
+    }
     ensureAudio();
     unlockSpeech();
     startSpeechKeepalive();
