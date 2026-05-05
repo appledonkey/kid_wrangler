@@ -73,6 +73,12 @@
       <span class="game-title">What Is It?</span>
       <span class="game-sub">EMOJI QUIZ</span>
     </button>
+    <button class="game-opt" data-val="mission">
+      <span class="lock-badge">🔒</span>
+      <span class="icon">🚀</span>
+      <span class="game-title">Mission Control</span>
+      <span class="game-sub">FLIGHT GAME</span>
+    </button>
     <button class="game-opt coming-soon" data-val="dance" disabled>
       <span class="icon">💃</span>
       <span class="game-title">Dance Party</span>
@@ -374,6 +380,32 @@
     <button class="big-btn" id="whatIsItStartBtn">First Emoji!</button>
   </div>
 
+  <!-- ============ MISSION CONTROL SETTINGS ============ -->
+  <div class="conditional hidden" id="missionSettings">
+    <p class="tag">Pilots and astronauts! Mission Control calls out commands — barrel rolls, takeoffs, dock with the space station, eye of the tornado.</p>
+
+    <button class="big-btn test" id="missionTestBtn">🔊 Test Voice</button>
+
+    <div class="label">Command Pace</div>
+    <div class="options" id="missionPaceOpts">
+      <button class="opt" data-val="quick">Quick</button>
+      <button class="opt selected" data-val="normal">Normal</button>
+      <button class="opt" data-val="chill">Chill</button>
+      <button class="opt" data-val="long">Long</button>
+    </div>
+    <div class="range-display" id="missionPaceDisplay">3–5 seconds per command</div>
+
+    <div class="label">Mission Length</div>
+    <div class="options" id="missionLengthOpts">
+      <button class="opt" data-val="60">1 min</button>
+      <button class="opt selected" data-val="120">2 min</button>
+      <button class="opt" data-val="300">5 min</button>
+      <button class="opt" data-val="0">Endless</button>
+    </div>
+
+    <button class="big-btn" id="missionStartBtn">Liftoff!</button>
+  </div>
+
   <!-- ============ GUESS THE SOUND SETTINGS ============ -->
   <div class="conditional hidden" id="guessSettings">
     <p class="tag">Phone plays an animal sound a few times — kids guess what it is! Tap to reveal the answer.</p>
@@ -562,6 +594,25 @@
   <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🎯</h1>
   <div class="stat" id="whatIsItFinalScore">5 emojis!</div>
   <button class="big-btn" id="whatIsItAgainBtn">Play Again</button>
+</div>
+
+<!-- ============ MISSION CONTROL ============ -->
+<div class="screen center" id="missionCountdownScreen">
+  <div class="label">Suiting Up!</div>
+  <div class="countdown-num" id="missionCountdown">3</div>
+  <div class="hide-text">Cleared for takeoff!</div>
+</div>
+<div class="screen center" id="missionGameScreen">
+  <div class="action-emoji" id="missionEmoji">🚀</div>
+  <div class="action-text" id="missionText">Get ready, pilot!</div>
+  <div class="rlgl-timer" id="missionTimer">2:00 left</div>
+  <button class="big-btn stop" id="missionStopBtn">End Mission</button>
+</div>
+<div class="screen center" id="missionEndScreen">
+  <div class="confetti-text">Mission complete!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🚀</h1>
+  <div class="stat">A true ace pilot!</div>
+  <button class="big-btn" id="missionAgainBtn">Fly Again</button>
 </div>
 
 <!-- ============ GUESS THE SOUND ============ -->

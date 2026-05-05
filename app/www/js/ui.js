@@ -32,6 +32,9 @@ const SCREEN_IDS = [
   ['charadesEnd', 'charadesEndScreen'],
   ['whatIsItGame', 'whatIsItGameScreen'],
   ['whatIsItEnd', 'whatIsItEndScreen'],
+  ['missionCountdown', 'missionCountdownScreen'],
+  ['missionGame', 'missionGameScreen'],
+  ['missionEnd', 'missionEndScreen'],
   ['guessGame', 'guessGameScreen'],
   ['guessEnd', 'guessEndScreen'],
 ];

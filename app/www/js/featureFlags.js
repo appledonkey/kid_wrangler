@@ -16,7 +16,7 @@ import { load, save } from './storage.js';
 const PAYWALL_KEY = 'premiumUnlocked';
 
 /** Game IDs that go behind the $4.99 unlock. Free games are not in this set. */
-export const PAID_GAMES = new Set(['hero', 'simon', 'charades']);
+export const PAID_GAMES = new Set(['hero', 'simon', 'charades', 'mission']);
 
 /**
  * v1 toggle. Leave true through v1.x. Flip to false the same release that

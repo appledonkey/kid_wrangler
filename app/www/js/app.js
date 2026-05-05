@@ -18,6 +18,7 @@ import * as superHero from './games/superHero.js';
 import * as simonSays from './games/simonSays.js';
 import * as animalCharades from './games/animalCharades.js';
 import * as whatIsIt from './games/whatIsIt.js';
+import * as missionControl from './games/missionControl.js';
 
 const PANEL_BY_GAME = {
   findMe: 'findMeSettings',
@@ -27,6 +28,7 @@ const PANEL_BY_GAME = {
   simon: 'simonSettings',
   charades: 'charadesSettings',
   whatis: 'whatIsItSettings',
+  mission: 'missionSettings',
 };
 
 // Games that are present in the picker but not yet wired up. Tiles for these
@@ -117,6 +119,7 @@ function bootstrap() {
   simonSays.init();
   animalCharades.init();
   whatIsIt.init();
+  missionControl.init();
 
   // Mark paid game tiles as locked / unlocked based on premium state.
   // v1 always returns "unlocked" so this is currently a no-op visually.

@@ -30,6 +30,16 @@ body.hero-bg .action-text {
   color: white;
   text-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
 }
+body.mission-bg {
+  background: radial-gradient(ellipse at center, #87CEEB, #2F4FB8 45%, #0A0F2E);
+}
+body.mission-bg .action-text {
+  color: white;
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+body.mission-bg .rlgl-timer {
+  color: white;
+}
 
 /* ----- Find Me: creature + rings + intensity bar ----- */
 
