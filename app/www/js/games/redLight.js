@@ -1,0 +1,208 @@
+/* Red Light / Green Light — phone calls "Green Light" / "Red Light" at random
+ * intervals. Kids run on green, freeze on red.
+ */
+
+import {
+  ensureAudio,
+  playGreenSound,
+  playRedSound,
+  playTickSound,
+  playSuccessJingle,
+} from '../audio.js';
+import {
+  speak,
+  unlockSpeech,
+  startSpeechKeepalive,
+  stopSpeechKeepalive,
+} from '../speech.js';
+import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
+import { show, screens, setupOpts, setupToggle, isActiveScreen, retriggerAnim } from '../ui.js';
+import { load, save } from '../storage.js';
+
+const KEY = 'rlgl';
+
+const STATE = {
+  speed: 'normal',
+  length: 120,
+  voice: true,
+};
+
+// [greenMin, greenMax, redMin, redMax] in seconds
+const SPEED_CONFIG = {
+  relaxed: [5, 10, 1.5, 3],
+  normal: [3, 7, 2, 4],
+  fast: [1.5, 4, 1.5, 3.5],
+  chaos: [0.8, 2.5, 0.8, 2.5],
+};
+
+let stateTimeout = null;
+let endTimeout = null;
+let endTime = 0;
+let timerInterval = null;
+let countdownTimer = null;
+let currentLight = 'green';
+
+function setLight(newState) {
+  currentLight = newState;
+  const body = document.body;
+  const emoji = document.getElementById('rlglEmoji');
+  const stateText = document.getElementById('rlglStateText');
+  const actionText = document.getElementById('rlglActionText');
+
+  body.classList.remove('green-bg', 'red-bg');
+  if (newState === 'green') {
+    body.classList.add('green-bg');
+    emoji.textContent = '🟢';
+    stateText.textContent = 'GREEN LIGHT';
+    actionText.textContent = 'RUN!';
+    retriggerAnim(emoji, stateText);
+    playGreenSound();
+    if (STATE.voice) setTimeout(() => speak('Green light!', { rate: 1.05, pitch: 1.1 }), 100);
+  } else {
+    body.classList.add('red-bg');
+    emoji.textContent = '🔴';
+    stateText.textContent = 'RED LIGHT';
+    actionText.textContent = 'FREEZE!';
+    retriggerAnim(emoji, stateText);
+    playRedSound();
+    if (STATE.voice) setTimeout(() => speak('Red light!', { rate: 1.05, pitch: 0.95 }), 100);
+  }
+
+  scheduleNext();
+}
+
+function scheduleNext() {
+  const cfg = SPEED_CONFIG[STATE.speed];
+  const [min, max] = currentLight === 'green' ? [cfg[0], cfg[1]] : [cfg[2], cfg[3]];
+  const duration = (min + Math.random() * (max - min)) * 1000;
+
+  if (stateTimeout) clearTimeout(stateTimeout);
+  stateTimeout = setTimeout(() => {
+    if (!isActiveScreen('rlglGame')) return;
+    setLight(currentLight === 'green' ? 'red' : 'green');
+  }, duration);
+}
+
+function updateTimer() {
+  if (STATE.length <= 0) return;
+  const remaining = Math.max(0, Math.ceil((endTime - Date.now()) / 1000));
+  const m = Math.floor(remaining / 60);
+  const s = remaining % 60;
+  document.getElementById('rlglTimer').textContent = `${m}:${s.toString().padStart(2, '0')} left`;
+}
+
+function startGame() {
+  show('rlglGame');
+  setLight('green');
+  if (STATE.length > 0) {
+    endTime = Date.now() + STATE.length * 1000;
+    updateTimer();
+    timerInterval = setInterval(updateTimer, 250);
+    endTimeout = setTimeout(endGame, STATE.length * 1000);
+  } else {
+    document.getElementById('rlglTimer').textContent = 'Endless mode';
+  }
+}
+
+function startCountdown() {
+  show('rlglCountdown');
+  let remaining = 3;
+  const el = document.getElementById('rlglCountdown');
+  el.textContent = remaining;
+  playTickSound();
+  countdownTimer = setInterval(() => {
+    remaining--;
+    if (remaining > 0) {
+      el.textContent = remaining;
+      playTickSound();
+    } else {
+      clearInterval(countdownTimer);
+      countdownTimer = null;
+      startGame();
+    }
+  }, 1000);
+}
+
+function endGame() {
+  if (stateTimeout) clearTimeout(stateTimeout);
+  if (endTimeout) clearTimeout(endTimeout);
+  if (timerInterval) clearInterval(timerInterval);
+  stateTimeout = endTimeout = timerInterval = null;
+  releaseWakeLock();
+  stopSpeechKeepalive();
+  document.body.classList.remove('green-bg', 'red-bg');
+  if (STATE.voice) speak('Time is up! Great job!', { rate: 1.0 });
+  playSuccessJingle();
+  show('rlglEnd');
+}
+
+function clearAll() {
+  if (stateTimeout) clearTimeout(stateTimeout);
+  if (endTimeout) clearTimeout(endTimeout);
+  if (timerInterval) clearInterval(timerInterval);
+  if (countdownTimer) clearInterval(countdownTimer);
+  stateTimeout = endTimeout = timerInterval = countdownTimer = null;
+}
+
+// ---------- Wiring ----------
+
+async function loadSettings() {
+  const saved = await load(KEY, null);
+  if (!saved) return;
+  Object.assign(STATE, saved);
+  syncOpt('rlglSpeedOpts', STATE.speed);
+  syncOpt('rlglLengthOpts', String(STATE.length));
+  document.getElementById('voiceToggle').classList.toggle('on', !!STATE.voice);
+}
+
+function syncOpt(containerId, value) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  c.querySelectorAll('.opt').forEach((b) => {
+    b.classList.toggle('selected', b.dataset.val === value);
+  });
+}
+
+const persist = () => save(KEY, STATE);
+
+export function init() {
+  setupOpts('rlglSpeedOpts', (v) => {
+    STATE.speed = v;
+    persist();
+  });
+  setupOpts('rlglLengthOpts', (v) => {
+    STATE.length = parseInt(v, 10);
+    persist();
+  });
+  setupToggle('voiceToggle', (on) => {
+    STATE.voice = on;
+    persist();
+  });
+
+  document.getElementById('rlglTestBtn').addEventListener('click', () => {
+    ensureAudio();
+    unlockSpeech();
+    playGreenSound();
+    if (STATE.voice) {
+      setTimeout(() => speak('Green light!', { rate: 1.0, pitch: 1.1 }), 100);
+    }
+  });
+
+  document.getElementById('rlglStartBtn').addEventListener('click', () => {
+    ensureAudio();
+    unlockSpeech();
+    startSpeechKeepalive();
+    requestWakeLock();
+    startCountdown();
+  });
+
+  document.getElementById('rlglStopBtn').addEventListener('click', endGame);
+
+  document.getElementById('rlglAgainBtn').addEventListener('click', () => {
+    clearAll();
+    document.body.classList.remove('green-bg', 'red-bg');
+    show('setup');
+  });
+
+  loadSettings();
+}

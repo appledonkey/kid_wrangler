@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FFF4E0">
+<title>KidWrangler</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/webp" sizes="192x192" href="icons/icon-192.webp">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+
+<!-- TODO: bundle these locally for true offline-first.
+     Currently relies on first-online-load caching by the service worker. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles/main.css">
+<link rel="stylesheet" href="styles/games.css">
+</head>
+<body>
+
+<div class="deco s1"></div>
+<div class="deco s2"></div>
+<div class="deco s3"></div>
+<div class="deco s4"></div>
+
+<!-- ============ SETUP ============ -->
+<div class="screen active" id="setupScreen">
+  <h1>Kid <span class="accent">Wrangler</span></h1>
+
+  <div class="label">Pick a Game</div>
+  <div class="game-options" id="gameOpts">
+    <button class="game-opt selected" data-val="findMe">
+      <span class="icon">🔍</span>
+      <span class="game-title">Find Me!</span>
+      <span class="game-sub">HIDE & SEEK</span>
+    </button>
+    <button class="game-opt" data-val="rlgl">
+      <span class="icon">🚦</span>
+      <span class="game-title">Red Light</span>
+      <span class="game-sub">FREEZE GAME</span>
+    </button>
+    <button class="game-opt" data-val="action">
+      <span class="icon">🌋</span>
+      <span class="game-title">Floor Lava</span>
+      <span class="game-sub">ACTION GAME</span>
+    </button>
+    <button class="game-opt" data-val="hero">
+      <span class="icon">🦸</span>
+      <span class="game-title">Super Hero</span>
+      <span class="game-sub">PRETEND PLAY</span>
+    </button>
+    <button class="game-opt" data-val="simon">
+      <span class="icon">🎤</span>
+      <span class="game-title">Simon Says</span>
+      <span class="game-sub">LISTEN GAME</span>
+    </button>
+    <button class="game-opt" data-val="charades">
+      <span class="icon">🐘</span>
+      <span class="game-title">Animal Acts</span>
+      <span class="game-sub">CHARADES</span>
+    </button>
+    <button class="game-opt" data-val="whatis">
+      <span class="icon">❓</span>
+      <span class="game-title">What Is It?</span>
+      <span class="game-sub">EMOJI QUIZ</span>
+    </button>
+    <button class="game-opt coming-soon" data-val="dance" disabled>
+      <span class="icon">💃</span>
+      <span class="game-title">Dance Party</span>
+      <span class="game-sub">COMING SOON</span>
+    </button>
+    <button class="game-opt coming-soon" data-val="guess" disabled>
+      <span class="icon">🔊</span>
+      <span class="game-title">Guess the Sound</span>
+      <span class="game-sub">COMING SOON</span>
+    </button>
+  </div>
+
+  <!-- ============ FIND ME SETTINGS ============ -->
+  <div class="conditional" id="findMeSettings">
+    <p class="tag">Hide your phone. The sound gets louder and faster until the kids find it.</p>
+
+    <button class="big-btn test" id="testBtn">🔊 Test Sound</button>
+
+    <div class="label">Sound</div>
+    <div class="options" id="soundOpts">
+      <button class="opt selected" data-val="chime">Chime</button>
+      <button class="opt" data-val="bell">Bell</button>
+      <button class="opt" data-val="siren">Siren</button>
+      <button class="opt" data-val="beep">Beep</button>
+      <button class="opt" data-val="cuckoo">Cuckoo</button>
+      <button class="opt" data-val="whistle">Whistle</button>
+      <button class="opt" data-val="boing">Boing</button>
+      <button class="opt" data-val="birdcall">Birdcall</button>
+    </div>
+
+    <div class="label">Difficulty</div>
+    <div class="options" id="difficultyOpts">
+      <button class="opt" data-val="easy">Easy</button>
+      <button class="opt selected" data-val="medium">Medium</button>
+      <button class="opt" data-val="hard">Hard</button>
+    </div>
+    <div class="range-display" id="findMeDifficultyDisplay">About 4 min total · slow build, frantic finish</div>
+
+    <div class="label">Hide Time</div>
+    <div class="options" id="hideOpts">
+      <button class="opt" data-val="10">10s</button>
+      <button class="opt selected" data-val="20">20s</button>
+      <button class="opt" data-val="30">30s</button>
+    </div>
+
+    <button class="big-btn" id="startBtn">Start Hiding!</button>
+  </div>
+
+  <!-- ============ RLGL SETTINGS ============ -->
+  <div class="conditional hidden" id="rlglSettings">
+    <p class="tag">Phone calls out "Green Light" and "Red Light" — kids run on green, freeze on red!</p>
+
+    <button class="big-btn test" id="rlglTestBtn">🔊 Test Voice</button>
+
+    <div class="label">Speed</div>
+    <div class="options" id="rlglSpeedOpts">
+      <button class="opt" data-val="relaxed">Relaxed</button>
+      <button class="opt selected" data-val="normal">Normal</button>
+      <button class="opt" data-val="fast">Fast</button>
+      <button class="opt danger" data-val="chaos">CHAOS</button>
+    </div>
+
+    <div class="label">Game Length</div>
+    <div class="options" id="rlglLengthOpts">
+      <button class="opt" data-val="60">1 min</button>
+      <button class="opt selected" data-val="120">2 min</button>
+      <button class="opt" data-val="300">5 min</button>
+      <button class="opt" data-val="0">Endless</button>
+    </div>
+
+    <div class="toggle-wrap">
+      <span class="tlabel">Voice (says the words)</span>
+      <div class="toggle on" id="voiceToggle"></div>
+    </div>
+
+    <button class="big-btn" id="rlglStartBtn">Start Game!</button>
+  </div>
+
+  <!-- ============ ACTION/LAVA SETTINGS ============ -->
+  <div class="conditional hidden" id="actionSettings">
+    <p class="tag">Phone calls out crazy actions to do — and sometimes the floor turns to LAVA!</p>
+
+    <button class="big-btn test" id="actionTestBtn">🔊 Test Voice</button>
+
+    <div class="label">Action Length</div>
+    <div class="options" id="actionPaceOpts">
+      <button class="opt" data-val="quick">Quick</button>
+      <button class="opt selected" data-val="normal">Normal</button>
+      <button class="opt" data-val="chill">Chill</button>
+      <button class="opt" data-val="long">Long</button>
+      <button class="opt" data-val="surprise">Surprise</button>
+      <button class="opt" data-val="custom">Custom</button>
+    </div>
+    <div class="range-display" id="paceRangeDisplay">3–5 seconds per action</div>
+
+    <div class="conditional hidden" id="customPaceSettings">
+      <div class="custom-range">
+        <div class="range-row">
+          <label>Shortest:</label>
+          <button class="step-btn" data-target="customMin" data-step="-1">−</button>
+          <span class="range-val" id="customMinVal">3</span><span class="range-unit">s</span>
+          <button class="step-btn" data-target="customMin" data-step="1">+</button>
+        </div>
+        <div class="range-row">
+          <label>Longest:</label>
+          <button class="step-btn" data-target="customMax" data-step="-1">−</button>
+          <span class="range-val" id="customMaxVal">8</span><span class="range-unit">s</span>
+          <button class="step-btn" data-target="customMax" data-step="1">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="label">Difficulty</div>
+    <div class="options" id="actionDifficultyOpts">
+      <button class="opt" data-val="easy">Easy</button>
+      <button class="opt selected" data-val="mixed">Mixed</button>
+      <button class="opt" data-val="wild">Wild</button>
+    </div>
+
+    <div class="label">Floor Is Lava</div>
+    <div class="options" id="actionLavaOpts">
+      <button class="opt" data-val="never">Never</button>
+      <button class="opt selected" data-val="sometimes">Sometimes</button>
+      <button class="opt" data-val="often">Often</button>
+      <button class="opt danger" data-val="mayhem">MAYHEM</button>
+    </div>
+    <div class="range-display" id="lavaRangeDisplay">~ every 35–60 seconds</div>
+
+    <div class="label">Game Length</div>
+    <div class="options" id="actionLengthOpts">
+      <button class="opt" data-val="60">1 min</button>
+      <button class="opt selected" data-val="120">2 min</button>
+      <button class="opt" data-val="300">5 min</button>
+      <button class="opt" data-val="0">Endless</button>
+    </div>
+
+    <button class="big-btn" id="actionStartBtn">Start Game!</button>
+  </div>
+
+  <!-- ============ SUPER HERO SETTINGS ============ -->
+  <div class="conditional hidden" id="heroSettings">
+    <p class="tag">Strike a pose — save the day or hatch an evil scheme! Phone calls out hero or villain moves and kids act them out.</p>
+
+    <button class="big-btn test" id="heroTestBtn">🔊 Test Voice</button>
+
+    <div class="label">Role</div>
+    <div class="options" id="heroRoleOpts">
+      <button class="opt selected" data-val="hero">Hero</button>
+      <button class="opt" data-val="villain">Villain</button>
+      <button class="opt" data-val="both">Both</button>
+    </div>
+    <div class="range-display" id="heroRoleDisplay">130 hero powers</div>
+
+    <div class="label">Action Length</div>
+    <div class="options" id="heroPaceOpts">
+      <button class="opt" data-val="quick">Quick</button>
+      <button class="opt selected" data-val="normal">Normal</button>
+      <button class="opt" data-val="chill">Chill</button>
+      <button class="opt" data-val="long">Long</button>
+    </div>
+    <div class="range-display" id="heroPaceDisplay">3–6 seconds per power</div>
+
+    <div class="label">Game Length</div>
+    <div class="options" id="heroLengthOpts">
+      <button class="opt" data-val="60">1 min</button>
+      <button class="opt selected" data-val="120">2 min</button>
+      <button class="opt" data-val="300">5 min</button>
+      <button class="opt" data-val="0">Endless</button>
+    </div>
+
+    <button class="big-btn" id="heroStartBtn">Suit Up!</button>
+  </div>
+
+  <!-- ============ SIMON SAYS SETTINGS ============ -->
+  <div class="conditional hidden" id="simonSettings">
+    <p class="tag">Phone calls out commands. Only do them if it says "Simon Says..." first! Otherwise you're out.</p>
+
+    <button class="big-btn test" id="simonTestBtn">🔊 Test Voice</button>
+
+    <div class="label">Trickiness</div>
+    <div class="options" id="simonTrickyOpts">
+      <button class="opt" data-val="easy">Easy</button>
+      <button class="opt selected" data-val="normal">Normal</button>
+      <button class="opt danger" data-val="sneaky">SNEAKY</button>
+    </div>
+    <div class="range-display" id="simonTrickyDisplay">~ 1 in 3 commands skip "Simon Says"</div>
+
+    <div class="label">Pace</div>
+    <div class="options" id="simonPaceOpts">
+      <button class="opt" data-val="slow">Slow</button>
+      <button class="opt selected" data-val="normal">Normal</button>
+      <button class="opt" data-val="fast">Fast</button>
+    </div>
+
+    <div class="label">Game Length</div>
+    <div class="options" id="simonLengthOpts">
+      <button class="opt" data-val="60">1 min</button>
+      <button class="opt selected" data-val="120">2 min</button>
+      <button class="opt" data-val="300">5 min</button>
+      <button class="opt" data-val="0">Endless</button>
+    </div>
+
+    <button class="big-btn" id="simonStartBtn">Start Game!</button>
+  </div>
+
+  <!-- ============ DANCE PARTY SETTINGS ============ -->
+  <div class="conditional hidden" id="danceSettings">
+    <p class="tag">Beat plays, phone calls out dance moves. Bust 'em out, freeze when it says FREEZE!</p>
+
+    <button class="big-btn test" id="danceTestBtn">🔊 Test Beat</button>
+
+    <div class="label">Tempo</div>
+    <div class="options" id="danceTempoOpts">
+      <button class="opt" data-val="slow">Slow</button>
+      <button class="opt selected" data-val="normal">Normal</button>
+      <button class="opt" data-val="fast">Fast</button>
+      <button class="opt danger" data-val="party">PARTY</button>
+    </div>
+    <div class="range-display" id="danceTempoDisplay">110 BPM, moves every 4–7 sec</div>
+
+    <div class="toggle-wrap">
+      <span class="tlabel">Freeze breaks</span>
+      <div class="toggle on" id="danceFreezeToggle"></div>
+    </div>
+
+    <div class="label">Game Length</div>
+    <div class="options" id="danceLengthOpts">
+      <button class="opt" data-val="60">1 min</button>
+      <button class="opt selected" data-val="180">3 min</button>
+      <button class="opt" data-val="300">5 min</button>
+      <button class="opt" data-val="0">Endless</button>
+    </div>
+
+    <div class="toggle-wrap">
+      <span class="tlabel">Voice (calls out moves)</span>
+      <div class="toggle on" id="danceVoiceToggle"></div>
+    </div>
+
+    <button class="big-btn" id="danceStartBtn">Drop the Beat!</button>
+  </div>
+
+  <!-- ============ ANIMAL CHARADES SETTINGS ============ -->
+  <div class="conditional hidden" id="charadesSettings">
+    <p class="tag">Phone names an animal — kid acts it out! Others guess. Tap when guessed for the next one.</p>
+
+    <button class="big-btn test" id="charadesTestBtn">🔊 Test Voice</button>
+
+    <div class="label">Pool</div>
+    <div class="options" id="charadesPoolOpts">
+      <button class="opt selected" data-val="all">All</button>
+      <button class="opt" data-val="farm">Farm</button>
+      <button class="opt" data-val="wild">Wild</button>
+      <button class="opt" data-val="ocean">Ocean</button>
+      <button class="opt" data-val="forest">Forest</button>
+      <button class="opt" data-val="arctic">Arctic</button>
+      <button class="opt" data-val="backyard">Backyard</button>
+      <button class="opt" data-val="dinosaurs">Dinosaurs</button>
+    </div>
+    <div class="range-display" id="charadesPoolDisplay">All habitats — 90 animals</div>
+
+    <div class="label">Reveal Mode</div>
+    <div class="options" id="charadesRevealOpts">
+      <button class="opt selected" data-val="show-and-speak">Show &amp; speak</button>
+      <button class="opt" data-val="show-silent">Show silent</button>
+      <button class="opt" data-val="whisper">Whisper</button>
+    </div>
+    <div class="range-display" id="charadesRevealDisplay">Phone shows + says it loud (party mode)</div>
+
+    <div class="toggle-wrap">
+      <span class="tlabel">Play the animal sound too</span>
+      <div class="toggle" id="charadesSoundToggle"></div>
+    </div>
+
+    <button class="big-btn" id="charadesStartBtn">First Animal!</button>
+  </div>
+
+  <!-- ============ WHAT IS IT? SETTINGS ============ -->
+  <div class="conditional hidden" id="whatIsItSettings">
+    <p class="tag">Phone shows an emoji — kids guess what it is! Tap to reveal.</p>
+
+    <button class="big-btn test" id="whatIsItTestBtn">🔊 Test Voice</button>
+
+    <div class="label">Pool</div>
+    <div class="options" id="whatIsItPoolOpts">
+      <button class="opt selected" data-val="all">All</button>
+      <button class="opt" data-val="animals">Animals</button>
+      <button class="opt" data-val="food">Food</button>
+      <button class="opt" data-val="objects">Objects</button>
+      <button class="opt" data-val="vehicles">Vehicles</button>
+      <button class="opt" data-val="nature">Nature</button>
+    </div>
+    <div class="range-display" id="whatIsItPoolDisplay">All — 191 emojis</div>
+
+    <div class="toggle-wrap">
+      <span class="tlabel">Auto-advance after reveal</span>
+      <div class="toggle" id="whatIsItAutoToggle"></div>
+    </div>
+
+    <button class="big-btn" id="whatIsItStartBtn">First Emoji!</button>
+  </div>
+
+  <!-- ============ GUESS THE SOUND SETTINGS ============ -->
+  <div class="conditional hidden" id="guessSettings">
+    <p class="tag">Phone plays an animal sound a few times — kids guess what it is! Tap to reveal the answer.</p>
+
+    <button class="big-btn test" id="guessTestBtn">🔊 Test Sound</button>
+
+    <div class="label">Difficulty</div>
+    <div class="options" id="guessDifficultyOpts">
+      <button class="opt selected" data-val="easy">Easy</button>
+      <button class="opt" data-val="medium">Medium</button>
+      <button class="opt" data-val="all">All</button>
+    </div>
+
+    <div class="label">Sound Repeats</div>
+    <div class="options" id="guessRepeatsOpts">
+      <button class="opt" data-val="2">2x</button>
+      <button class="opt selected" data-val="3">3x</button>
+      <button class="opt" data-val="4">4x</button>
+    </div>
+
+    <div class="toggle-wrap">
+      <span class="tlabel">Auto-advance after reveal</span>
+      <div class="toggle" id="guessAutoToggle"></div>
+    </div>
+
+    <button class="big-btn" id="guessStartBtn">First Sound!</button>
+  </div>
+</div>
+
+<!-- ============ FIND ME — HIDE COUNTDOWN ============ -->
+<div class="screen center" id="hideScreen">
+  <div class="label">Hide The Phone Now!</div>
+  <div class="countdown-num" id="countdown">20</div>
+  <div class="hide-text">
+    Crank the volume and stash it!
+    <small>Screen stays on so audio keeps playing.</small>
+  </div>
+</div>
+
+<!-- ============ FIND ME — SEEKING ============ -->
+<div class="screen center" id="seekScreen">
+  <div class="creature-wrap">
+    <div class="ring" id="ring1"></div>
+    <div class="ring" id="ring2"></div>
+    <div class="creature" id="creature">
+      <div class="eye left"></div>
+      <div class="eye right"></div>
+      <div class="mouth"></div>
+    </div>
+  </div>
+  <div class="intensity-bar"><div class="intensity-fill" id="intensityFill"></div></div>
+  <div class="status" id="status">Listening for footsteps...</div>
+  <div class="info-pill"><strong>Audio is on.</strong> Kids: tap when found!</div>
+  <button class="big-btn found" id="foundBtn">Found Me!</button>
+</div>
+
+<!-- ============ FIND ME — END ============ -->
+<div class="screen center" id="foundScreen">
+  <div class="confetti-text">You found me!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🎉</h1>
+  <div class="stat" id="timeStat">Took 0:42</div>
+  <button class="big-btn" id="againBtn">Play Again</button>
+</div>
+
+<!-- ============ RLGL ============ -->
+<div class="screen center" id="rlglCountdownScreen">
+  <div class="label">Get Ready!</div>
+  <div class="countdown-num" id="rlglCountdown">3</div>
+  <div class="hide-text">Listen for "Green Light" to GO!</div>
+</div>
+<div class="screen center" id="rlglGameScreen">
+  <div class="rlgl-emoji" id="rlglEmoji">🟢</div>
+  <div class="rlgl-state" id="rlglStateText">GREEN LIGHT</div>
+  <div class="rlgl-action" id="rlglActionText">RUN!</div>
+  <div class="rlgl-timer" id="rlglTimer">2:00 left</div>
+  <button class="big-btn stop" id="rlglStopBtn">Stop Game</button>
+</div>
+<div class="screen center" id="rlglEndScreen">
+  <div class="confetti-text">Time's Up!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🏁</h1>
+  <div class="stat">Great game!</div>
+  <button class="big-btn" id="rlglAgainBtn">Play Again</button>
+</div>
+
+<!-- ============ ACTION / LAVA ============ -->
+<div class="screen center" id="actionCountdownScreen">
+  <div class="label">Get Ready!</div>
+  <div class="countdown-num" id="actionCountdown">3</div>
+  <div class="hide-text">First action coming up!</div>
+</div>
+<div class="screen center" id="actionGameScreen">
+  <div class="action-emoji" id="actionEmoji">🎯</div>
+  <div class="action-text" id="actionText">Get ready!</div>
+  <div class="rlgl-timer" id="actionTimer">2:00 left</div>
+  <button class="big-btn stop" id="actionStopBtn">Stop Game</button>
+</div>
+<div class="screen center" id="actionEndScreen">
+  <div class="confetti-text">Time's Up!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🏆</h1>
+  <div class="stat">Phew! Great workout!</div>
+  <button class="big-btn" id="actionAgainBtn">Play Again</button>
+</div>
+
+<!-- ============ HERO ============ -->
+<div class="screen center" id="heroCountdownScreen">
+  <div class="label">Suiting Up!</div>
+  <div class="countdown-num" id="heroCountdown">3</div>
+  <div class="hide-text">Time to be a hero!</div>
+</div>
+<div class="screen center" id="heroGameScreen">
+  <div class="action-emoji" id="heroEmoji">🦸</div>
+  <div class="action-text" id="heroText">Get ready!</div>
+  <div class="rlgl-timer" id="heroTimer">2:00 left</div>
+  <button class="big-btn stop" id="heroStopBtn">Stop Game</button>
+</div>
+<div class="screen center" id="heroEndScreen">
+  <div class="confetti-text">You saved the day!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🦸</h1>
+  <div class="stat">A true superhero!</div>
+  <button class="big-btn" id="heroAgainBtn">Play Again</button>
+</div>
+
+<!-- ============ SIMON SAYS ============ -->
+<div class="screen center" id="simonCountdownScreen">
+  <div class="label">Listen Up!</div>
+  <div class="countdown-num" id="simonCountdown">3</div>
+  <div class="hide-text">Only do it if Simon Says!</div>
+</div>
+<div class="screen center" id="simonGameScreen">
+  <div class="action-emoji" id="simonEmoji">👂</div>
+  <div class="action-text" id="simonText">Listen carefully...</div>
+  <div class="rlgl-timer" id="simonTimer">2:00 left</div>
+  <button class="big-btn stop" id="simonStopBtn">Stop Game</button>
+</div>
+<div class="screen center" id="simonEndScreen">
+  <div class="confetti-text">Game Over!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🎤</h1>
+  <div class="stat">Great listening!</div>
+  <button class="big-btn" id="simonAgainBtn">Play Again</button>
+</div>
+
+<!-- ============ DANCE PARTY ============ -->
+<div class="screen center" id="danceCountdownScreen">
+  <div class="label">Get Ready!</div>
+  <div class="countdown-num" id="danceCountdown">3</div>
+  <div class="hide-text">Time to dance!</div>
+</div>
+<div class="screen center" id="danceGameScreen">
+  <div class="action-emoji" id="danceEmoji">💃</div>
+  <div class="action-text" id="danceText">Get ready to dance!</div>
+  <div class="rlgl-timer" id="danceTimer">3:00 left</div>
+  <button class="big-btn stop" id="danceStopBtn">Stop Game</button>
+</div>
+<div class="screen center" id="danceEndScreen">
+  <div class="confetti-text">Dance party over!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🪩</h1>
+  <div class="stat">You've got moves!</div>
+  <button class="big-btn" id="danceAgainBtn">Play Again</button>
+</div>
+
+<!-- ============ CHARADES ============ -->
+<div class="screen center" id="charadesGameScreen">
+  <div class="action-emoji" id="charadesEmoji">🐘</div>
+  <div class="action-text" id="charadesText">Tap to start!</div>
+  <div class="rlgl-timer" id="charadesScore">0 acted out</div>
+  <button class="big-btn found" id="charadesNextBtn">Got it! Next</button>
+  <button class="big-btn stop" id="charadesStopBtn" style="margin-top:10px">End Game</button>
+</div>
+<div class="screen center" id="charadesEndScreen">
+  <div class="confetti-text">Great acting!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🎭</h1>
+  <div class="stat" id="charadesFinalScore">5 animals!</div>
+  <button class="big-btn" id="charadesAgainBtn">Play Again</button>
+</div>
+
+<!-- ============ WHAT IS IT? ============ -->
+<div class="screen center" id="whatIsItGameScreen">
+  <div class="action-emoji" id="whatIsItEmoji">❓</div>
+  <div class="action-text" id="whatIsItText">What is it?</div>
+  <div class="rlgl-timer" id="whatIsItScore">Round 1</div>
+  <button class="big-btn found" id="whatIsItRevealBtn">Reveal Answer</button>
+  <button class="big-btn stop" id="whatIsItStopBtn" style="margin-top:10px">End Game</button>
+</div>
+<div class="screen center" id="whatIsItEndScreen">
+  <div class="confetti-text">Great guessing!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🎯</h1>
+  <div class="stat" id="whatIsItFinalScore">5 emojis!</div>
+  <button class="big-btn" id="whatIsItAgainBtn">Play Again</button>
+</div>
+
+<!-- ============ GUESS THE SOUND ============ -->
+<div class="screen center" id="guessGameScreen">
+  <div class="action-emoji" id="guessEmoji">🔊</div>
+  <div class="action-text" id="guessText">Listen carefully...</div>
+  <div class="rlgl-timer" id="guessScore">Round 1</div>
+  <button class="big-btn found" id="guessRevealBtn">Reveal Answer</button>
+  <button class="big-btn stop" id="guessStopBtn" style="margin-top:10px">End Game</button>
+</div>
+<div class="screen center" id="guessEndScreen">
+  <div class="confetti-text">Nice work!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🦉</h1>
+  <div class="stat" id="guessFinalScore">5 sounds!</div>
+  <button class="big-btn" id="guessAgainBtn">Play Again</button>
+</div>
+
+<!-- ============ Silent loop keepalive ============ -->
+<audio id="silentLoop" loop preload="auto" playsinline>
+  <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=" type="audio/wav">
+</audio>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

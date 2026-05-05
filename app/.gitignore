@@ -1,0 +1,29 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Capacitor build artifacts
+ios/App/Pods/
+ios/App/build/
+ios/App/Podfile.lock
+ios/DerivedData/
+ios/.gradle/
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/app/release/
+android/captures/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# Builds
+*.apk
+*.aab
+*.ipa

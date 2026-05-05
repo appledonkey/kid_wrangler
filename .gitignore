@@ -1,0 +1,34 @@
+# Local Claude Code state (per-project memory, transcripts, etc.)
+.claude/
+
+# Node / npm
+**/node_modules/
+**/npm-debug.log
+**/yarn-error.log
+
+# Capacitor / native build outputs
+app/ios/App/Pods/
+app/ios/App/build/
+app/ios/App/Podfile.lock
+app/ios/DerivedData/
+app/android/.gradle/
+app/android/build/
+app/android/app/build/
+app/android/local.properties
+app/android/app/release/
+app/android/captures/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# Mobile build artifacts
+*.apk
+*.aab
+*.ipa
+
+# Generated icon caches
+**/icons-source/.tmp/

@@ -1,0 +1,3685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Kids Games</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; overflow: hidden; user-select: none; -webkit-user-select: none; }
+
+  :root {
+    --coral: #FF7B6B;
+    --coral-deep: #E85A48;
+    --butter: #FFD56B;
+    --teal: #6BC9C0;
+    --teal-deep: #3FA89F;
+    --cream: #FFF4E0;
+    --navy: #2B3D5C;
+    --pink: #FFB5A7;
+    --green: #4CAF50;
+    --green-deep: #2E7D32;
+    --red: #E53935;
+    --red-deep: #B71C1C;
+    --lava: #FF5722;
+    --lava-deep: #BF360C;
+    --action: #9C27B0;
+    --action-deep: #6A1B9A;
+  }
+
+  body {
+    font-family: 'Fredoka', sans-serif;
+    background: radial-gradient(ellipse at top, #FFF4E0 0%, #FFE5C2 60%, #FFD9A8 100%);
+    color: var(--navy);
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    inset: 0;
+    transition: background 0.4s;
+  }
+  body.green-bg { background: radial-gradient(ellipse at center, #6FCF7A, var(--green) 50%, var(--green-deep)); }
+  body.red-bg { background: radial-gradient(ellipse at center, #FF6B6B, var(--red) 50%, var(--red-deep)); }
+  body.action-bg { background: radial-gradient(ellipse at center, #BA68C8, var(--action) 50%, var(--action-deep)); }
+  body.lava-bg {
+    background: radial-gradient(ellipse at center, #FFB347, #FF4500 45%, #8B0000);
+    animation: lavaShimmer 0.6s ease-in-out infinite alternate;
+  }
+  @keyframes lavaShimmer {
+    from { filter: brightness(1) saturate(1); }
+    to   { filter: brightness(1.15) saturate(1.3); }
+  }
+  body.hero-bg {
+    background: radial-gradient(ellipse at center, #5C7CFA, #1E4FB8 50%, #0D1F4D);
+  }
+  body.hero-bg .action-text { color: white; text-shadow: 0 3px 0 rgba(0,0,0,0.3); }
+
+  .screen {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px 20px 30px;
+    text-align: center;
+    animation: fadeIn 0.4s ease-out;
+    overflow-y: auto;
+  }
+  .screen.active { display: flex; }
+  .screen.center { justify-content: center; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h1 {
+    font-size: clamp(2rem, 7.5vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-top: 8px;
+    margin-bottom: 6px;
+  }
+  h1 .accent {
+    font-family: 'Caveat', cursive;
+    color: var(--coral-deep);
+    display: inline-block;
+    transform: rotate(-4deg);
+  }
+
+  p.tag {
+    font-size: 0.95rem;
+    color: var(--navy);
+    opacity: 0.7;
+    margin-bottom: 14px;
+    max-width: 340px;
+    line-height: 1.4;
+  }
+
+  .label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    opacity: 0.6;
+    margin-bottom: 6px;
+    margin-top: 4px;
+  }
+
+  .options {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 360px;
+  }
+
+  .opt {
+    padding: 9px 14px;
+    border: 2.5px solid var(--navy);
+    border-radius: 14px;
+    background: var(--cream);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--navy);
+    cursor: pointer;
+    transition: transform 0.15s, background 0.15s;
+    box-shadow: 2px 2px 0 var(--navy);
+  }
+  .opt:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--navy); }
+  .opt.selected { background: var(--butter); }
+  .opt.danger.selected { background: var(--coral); color: white; }
+
+  /* Game picker - very prominent */
+  .game-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 18px;
+    width: 100%;
+    max-width: 400px;
+  }
+  @media (min-width: 480px) {
+    .game-options {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .game-opt {
+    padding: 12px 4px;
+  }
+  .game-opt .icon { font-size: 1.4rem; }
+  .game-opt .game-title { font-size: 0.85rem; line-height: 1.1; }
+  .game-opt .game-sub { font-size: 0.55rem; }
+  .game-opt {
+    flex: 1;
+    padding: 14px 6px;
+    border: 3px solid var(--navy);
+    border-radius: 18px;
+    background: var(--cream);
+    font-family: inherit;
+    font-weight: 700;
+    color: var(--navy);
+    cursor: pointer;
+    box-shadow: 4px 4px 0 var(--navy);
+    transition: transform 0.15s, background 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    min-width: 0;
+  }
+  .game-opt:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--navy); }
+  .game-opt.selected { background: var(--coral); color: white; }
+  .game-opt .icon { font-size: 1.5rem; line-height: 1; }
+  .game-opt .game-title { font-size: 0.92rem; }
+  .game-opt .game-sub { font-size: 0.62rem; font-weight: 500; opacity: 0.85; letter-spacing: 0.04em; white-space: nowrap; }
+
+  /* Mode toggle */
+  .mode-options {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    width: 100%;
+    max-width: 360px;
+  }
+  .mode-opt {
+    flex: 1;
+    padding: 12px 12px;
+    border: 3px solid var(--navy);
+    border-radius: 16px;
+    background: var(--cream);
+    font-family: inherit;
+    font-weight: 700;
+    color: var(--navy);
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--navy);
+    transition: transform 0.15s, background 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .mode-opt:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--navy); }
+  .mode-opt.selected { background: var(--teal); color: white; }
+  .mode-opt .mode-title { font-size: 1rem; }
+  .mode-opt .mode-sub { font-size: 0.7rem; font-weight: 500; opacity: 0.85; letter-spacing: 0.05em; }
+
+  .toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding: 10px 16px;
+    border: 2.5px solid var(--navy);
+    border-radius: 14px;
+    background: var(--cream);
+    box-shadow: 2px 2px 0 var(--navy);
+  }
+  .toggle-wrap .tlabel {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .toggle {
+    width: 44px;
+    height: 24px;
+    background: #ccc;
+    border-radius: 14px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+    border: 2px solid var(--navy);
+  }
+  .toggle.on { background: var(--teal); }
+  .toggle::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: white;
+    border: 2px solid var(--navy);
+    border-radius: 50%;
+    top: 50%;
+    left: 2px;
+    transform: translateY(-50%);
+    transition: left 0.2s;
+  }
+  .toggle.on::after { left: 22px; }
+
+  .range-display {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--navy);
+    opacity: 0.7;
+    margin-top: -8px;
+    margin-bottom: 14px;
+    padding: 4px 12px;
+    background: rgba(43, 61, 92, 0.08);
+    border-radius: 10px;
+  }
+
+  .conditional { display: flex; flex-direction: column; align-items: center; width: 100%; }
+  .conditional.hidden { display: none; }
+
+  /* Custom range for action duration */
+  .custom-range {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding: 12px 16px;
+    border: 2.5px solid var(--navy);
+    border-radius: 14px;
+    background: var(--cream);
+    box-shadow: 2px 2px 0 var(--navy);
+    width: 100%;
+    max-width: 340px;
+  }
+  .range-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-between;
+  }
+  .range-row label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    flex: 1;
+  }
+  .step-btn {
+    width: 36px;
+    height: 36px;
+    border: 2.5px solid var(--navy);
+    border-radius: 10px;
+    background: var(--butter);
+    font-family: inherit;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--navy);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 0 var(--navy);
+    line-height: 1;
+  }
+  .step-btn:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--navy); }
+  .range-val {
+    font-weight: 700;
+    font-size: 1.2rem;
+    min-width: 30px;
+    text-align: center;
+  }
+  .range-unit {
+    font-size: 0.95rem;
+    opacity: 0.7;
+    margin-left: -4px;
+  }
+
+  .big-btn {
+    padding: 18px 36px;
+    border: 4px solid var(--navy);
+    border-radius: 22px;
+    background: var(--coral);
+    color: white;
+    font-family: inherit;
+    font-size: 1.35rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 5px 5px 0 var(--navy);
+    transition: transform 0.1s, box-shadow 0.1s;
+    letter-spacing: 0.02em;
+    margin-top: 6px;
+  }
+  .big-btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: 1px 1px 0 var(--navy);
+  }
+  .big-btn.found {
+    background: var(--teal);
+    font-size: 1.7rem;
+    padding: 24px 48px;
+    margin-top: 14px;
+  }
+  .big-btn.test {
+    background: var(--teal);
+    font-size: 1rem;
+    padding: 12px 22px;
+    box-shadow: 3px 3px 0 var(--navy);
+    margin-bottom: 14px;
+  }
+  .big-btn.stop {
+    background: white;
+    color: var(--navy);
+    font-size: 1.1rem;
+    padding: 14px 28px;
+    box-shadow: 4px 4px 0 var(--navy);
+  }
+
+  .countdown-num {
+    font-size: clamp(7rem, 28vw, 13rem);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--coral-deep);
+    text-shadow: 6px 6px 0 var(--butter);
+    animation: pop 1s ease-out infinite;
+  }
+  @keyframes pop {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+
+  .hide-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 20px;
+    color: var(--navy);
+    max-width: 320px;
+    line-height: 1.4;
+  }
+  .hide-text small {
+    display: block;
+    font-weight: 400;
+    font-size: 0.95rem;
+    opacity: 0.65;
+    margin-top: 8px;
+  }
+
+  .creature-wrap {
+    width: min(55vw, 220px);
+    height: min(55vw, 220px);
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .creature {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #FFB5A7, var(--coral) 60%, var(--coral-deep));
+    box-shadow:
+      inset -10px -20px 30px rgba(0,0,0,0.15),
+      0 12px 30px rgba(232, 90, 72, 0.4);
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .creature.pulse { animation: pulseAnim 0.6s ease-out; }
+  @keyframes pulseAnim {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.18); }
+    60% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+  }
+  .ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 4px solid var(--coral-deep);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .ring.go { animation: ringExpand 1.2s ease-out; }
+  @keyframes ringExpand {
+    0% { transform: scale(1); opacity: 0.8; border-width: 6px; }
+    100% { transform: scale(1.6); opacity: 0; border-width: 1px; }
+  }
+
+  .eye {
+    position: absolute;
+    width: 18%;
+    height: 22%;
+    background: var(--navy);
+    border-radius: 50%;
+    top: 35%;
+  }
+  .eye.left { left: 22%; }
+  .eye.right { right: 22%; }
+  .eye::after {
+    content: '';
+    position: absolute;
+    width: 35%;
+    height: 35%;
+    background: white;
+    border-radius: 50%;
+    top: 18%;
+    right: 18%;
+  }
+  .mouth {
+    position: absolute;
+    width: 28%;
+    height: 14%;
+    background: var(--navy);
+    border-radius: 0 0 100px 100px;
+    bottom: 22%;
+    left: 36%;
+    transition: all 0.3s;
+  }
+  .creature.singing .mouth {
+    height: 20%;
+    border-radius: 50%;
+    bottom: 20%;
+  }
+
+  .intensity-bar {
+    width: min(80vw, 320px);
+    height: 12px;
+    background: rgba(43, 61, 92, 0.15);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 14px;
+    border: 2px solid var(--navy);
+  }
+  .intensity-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--teal), var(--butter), var(--coral), var(--coral-deep));
+    transition: width 1s linear;
+  }
+
+  .status {
+    font-size: 1.05rem;
+    font-weight: 500;
+    opacity: 0.75;
+    margin-bottom: 14px;
+    min-height: 1.4em;
+    max-width: 320px;
+  }
+
+  .info-pill {
+    background: rgba(107, 201, 192, 0.2);
+    border: 2px solid var(--teal-deep);
+    border-radius: 14px;
+    padding: 10px 16px;
+    margin-bottom: 14px;
+    font-size: 0.9rem;
+    color: var(--navy);
+    max-width: 320px;
+    line-height: 1.4;
+  }
+  .info-pill strong { color: var(--teal-deep); }
+
+  .confetti-text {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(3rem, 12vw, 5rem);
+    color: var(--coral-deep);
+    transform: rotate(-3deg);
+    margin-bottom: 8px;
+  }
+  .stat {
+    font-size: 1.3rem;
+    margin-bottom: 24px;
+    opacity: 0.75;
+  }
+
+  .deco { position: absolute; pointer-events: none; opacity: 0.5; z-index: -1; }
+  .deco.s1 { top: 8%; left: 6%; width: 40px; height: 40px; background: var(--teal); border-radius: 50%; }
+  .deco.s2 { top: 12%; right: 8%; width: 24px; height: 24px; background: var(--butter); transform: rotate(45deg); }
+  .deco.s3 { bottom: 10%; left: 12%; width: 30px; height: 30px; background: var(--pink); border-radius: 8px; transform: rotate(20deg); }
+  .deco.s4 { bottom: 14%; right: 10%; width: 36px; height: 36px; background: var(--teal-deep); border-radius: 50%; opacity: 0.3; }
+
+  /* RLGL screen */
+  .rlgl-state {
+    font-size: clamp(3.5rem, 14vw, 6rem);
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 4px 0 rgba(0,0,0,0.2);
+    line-height: 1;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+    animation: stateIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes stateIn {
+    from { transform: scale(0.6); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .rlgl-emoji {
+    font-size: clamp(7rem, 28vw, 12rem);
+    line-height: 1;
+    margin-bottom: 16px;
+    animation: stateIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .rlgl-action {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 30px;
+    text-shadow: 0 2px 0 rgba(0,0,0,0.15);
+  }
+  .rlgl-timer {
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    opacity: 0.9;
+  }
+
+  /* Action game */
+  .action-emoji {
+    font-size: clamp(6.5rem, 26vw, 11rem);
+    line-height: 1;
+    margin-bottom: 14px;
+    animation: stateIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .action-text {
+    font-size: clamp(1.5rem, 5.5vw, 2.3rem);
+    font-weight: 700;
+    color: var(--navy);
+    text-align: center;
+    max-width: 92%;
+    line-height: 1.2;
+    margin-bottom: 18px;
+    animation: stateIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    white-space: pre-line;
+  }
+  body.lava-bg .action-text { color: white; text-shadow: 0 3px 0 rgba(0,0,0,0.25); }
+  body.lava-bg .rlgl-timer { color: white; }
+</style>
+</head>
+<body>
+
+<div class="deco s1"></div>
+<div class="deco s2"></div>
+<div class="deco s3"></div>
+<div class="deco s4"></div>
+
+<!-- SETUP -->
+<div class="screen active" id="setupScreen">
+  <h1>Kids <span class="accent">Games</span></h1>
+
+  <div class="label">Pick a Game</div>
+  <div class="game-options" id="gameOpts">
+    <button class="game-opt selected" data-val="findMe">
+      <span class="icon">🔍</span>
+      <span class="game-title">Find Me!</span>
+      <span class="game-sub">HIDE & SEEK</span>
+    </button>
+    <button class="game-opt" data-val="rlgl">
+      <span class="icon">🚦</span>
+      <span class="game-title">Red Light</span>
+      <span class="game-sub">FREEZE GAME</span>
+    </button>
+    <button class="game-opt" data-val="action">
+      <span class="icon">🌋</span>
+      <span class="game-title">Floor Lava</span>
+      <span class="game-sub">ACTION GAME</span>
+    </button>
+    <button class="game-opt" data-val="hero">
+      <span class="icon">🦸</span>
+      <span class="game-title">Super Hero</span>
+      <span class="game-sub">PRETEND PLAY</span>
+    </button>
+    <button class="game-opt" data-val="simon">
+      <span class="icon">🎤</span>
+      <span class="game-title">Simon Says</span>
+      <span class="game-sub">LISTEN GAME</span>
+    </button>
+    <button class="game-opt" data-val="dance">
+      <span class="icon">💃</span>
+      <span class="game-title">Dance Party</span>
+      <span class="game-sub">MUSIC GAME</span>
+    </button>
+    <button class="game-opt" data-val="charades">
+      <span class="icon">🐘</span>
+      <span class="game-title">Animal Acts</span>
+      <span class="game-sub">CHARADES</span>
+    </button>
+    <button class="game-opt" data-val="guess">
+      <span class="icon">🔊</span>
+      <span class="game-title">Guess the Sound</span>
+      <span class="game-sub">ANIMAL QUIZ</span>
+    </button>
+  </div>
+
+  <!-- ============ FIND ME SETTINGS ============ -->
+  <div class="conditional" id="findMeSettings">
+    <p class="tag">Hide your phone. The sound gets louder and faster until the kids find it.</p>
+
+    <button class="big-btn test" id="testBtn">🔊 Test Sound</button>
+
+    <div class="label">Mode</div>
+    <div class="mode-options" id="modeOpts">
+      <button class="mode-opt selected" data-val="pulse">
+        <span class="mode-title">Pulse</span>
+        <span class="mode-sub">CONSTANT · EASY</span>
+      </button>
+      <button class="mode-opt" data-val="chirp">
+        <span class="mode-title">Chirp</span>
+        <span class="mode-sub">INTERVAL · HARDER</span>
+      </button>
+    </div>
+
+    <div class="conditional hidden" id="chirpSettings">
+      <div class="label">Chirp Sound</div>
+      <div class="options" id="soundOpts">
+        <button class="opt selected" data-val="chime">Chime</button>
+        <button class="opt" data-val="bell">Bell</button>
+        <button class="opt" data-val="siren">Siren</button>
+        <button class="opt" data-val="beep">Beep</button>
+        <button class="opt" data-val="cuckoo">Cuckoo</button>
+      </div>
+    </div>
+
+    <div class="label">Volume Boost</div>
+    <div class="options" id="volumeOpts">
+      <button class="opt" data-val="normal">Normal</button>
+      <button class="opt selected" data-val="loud">Loud</button>
+      <button class="opt danger" data-val="max">MAX</button>
+    </div>
+
+    <div class="toggle-wrap">
+      <span class="tlabel">Reverb (echo)</span>
+      <div class="toggle" id="reverbToggle"></div>
+    </div>
+
+    <div class="label">Difficulty</div>
+    <div class="options" id="difficultyOpts">
+      <button class="opt" data-val="easy">Easy</button>
+      <button class="opt selected" data-val="medium">Medium</button>
+      <button class="opt" data-val="hard">Hard</button>
+    </div>
+
+    <div class="label">Hide Time</div>
+    <div class="options" id="hideOpts">
+      <button class="opt" data-val="10">10s</button>
+      <button class="opt selected" data-val="20">20s</button>
+      <button class="opt" data-val="30">30s</button>
+      <button class="opt" data-val="60">60s</button>
+    </div>
+
+    <button class="big-btn" id="startBtn">Start Hiding!</button>
+  </div>
+
+  <!-- ============ RLGL SETTINGS ============ -->
+  <div class="conditional hidden" id="rlglSettings">
+    <p class="tag">Phone calls out "Green Light" and "Red Light" — kids run on green, freeze on red!</p>
+
+    <button class="big-btn test" id="rlglTestBtn">🔊 Test Voice</button>
+
+    <div class="info-pill" style="margin-top:-4px">
+      <strong>iPhone:</strong> If you don't hear the voice, flip the silent switch on the side of your phone OFF (no orange showing). Voice respects the silent switch even at max volume.
+    </div>
+
+    <div class="label">Speed</div>
+    <div class="options" id="rlglSpeedOpts">
+      <button class="opt" data-val="relaxed">Relaxed</button>
+      <button class="opt selected" data-val="normal">Normal</button>
+      <button class="opt" data-val="fast">Fast</button>
+      <button class="opt danger" data-val="chaos">CHAOS</button>
+    </div>
+
+    <div class="label">Game Length</div>
+    <div class="options" id="rlglLengthOpts">
+      <button class="opt" data-val="60">1 min</button>
+      <button class="opt selected" data-val="120">2 min</button>
+      <button class="opt" data-val="300">5 min</button>
+      <button class="opt" data-val="0">Endless</button>
+    </div>
+
+    <div class="toggle-wrap">
+      <span class="tlabel">Voice (says the words)</span>
+      <div class="toggle on" id="voiceToggle"></div>
+    </div>
+
+    <div class="label">Volume Boost</div>
+    <div class="options" id="rlglVolumeOpts">
+      <button class="opt" data-val="normal">Normal</button>
+      <button class="opt selected" data-val="loud">Loud</button>
+      <button class="opt danger" data-val="max">MAX</button>
+    </div>
+
+    <button class="big-btn" id="rlglStartBtn">Start Game!</button>
+  </div>
+
+  <!-- ============ ACTION/LAVA SETTINGS ============ -->
+  <div class="conditional hidden" id="actionSettings">
+    <p class="tag">Phone calls out crazy actions to do — and sometimes the floor turns to LAVA!</p>
+
+    <button class="big-btn test" id="actionTestBtn">🔊 Test Voice</button>
+
+    <div class="info-pill" style="margin-top:-4px">
+      <strong>iPhone:</strong> Silent switch must be OFF (no orange showing) for voice to work.
+    </div>
+
+    <div class="label">Action Length</div>
+    <div class="options" id="actionPaceOpts">
+      <button class="opt" data-val="quick">Quick</button>
+      <button class="opt selected" data-val="normal">Normal</button>
+      <button class="opt" data-val="chill">Chill</button>
+      <button class="opt" data-val="long">Long</button>
+      <button class="opt" data-val="surprise">Surprise</button>
+      <button class="opt" data-val="custom">Custom</button>
+    </div>
+    <div class="range-display" id="paceRangeDisplay">3–5 seconds per action</div>
+
+    <div class="conditional hidden" id="customPaceSettings">
+      <div class="custom-range">
+        <div class="range-row">
+          <label>Shortest:</label>
+          <button class="step-btn" data-target="customMin" data-step="-1">−</button>
+          <span class="range-val" id="customMinVal">3</span><span class="range-unit">s</span>
+          <button class="step-btn" data-target="customMin" data-step="1">+</button>
+        </div>
+        <div class="range-row">
+          <label>Longest:</label>
+          <button class="step-btn" data-target="customMax" data-step="-1">−</button>
+          <span class="range-val" id="customMaxVal">8</span><span class="range-unit">s</span>
+          <button class="step-btn" data-target="customMax" data-step="1">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="label">Difficulty</div>
+    <div class="options" id="actionDifficultyOpts">
+      <button class="opt" data-val="easy">Easy</button>
+      <button class="opt selected" data-val="mixed">Mixed</button>
+      <button class="opt" data-val="wild">Wild</button>
+    </div>
+
+    <div class="label">Floor Is Lava</div>
+    <div class="options" id="actionLavaOpts">
+      <button class="opt" data-val="never">Never</button>
+      <button class="opt selected" data-val="sometimes">Sometimes</button>
+      <button class="opt" data-val="often">Often</button>
+      <button class="opt danger" data-val="mayhem">MAYHEM</button>
+    </div>
+    <div class="range-display" id="lavaRangeDisplay">~ every 35–60 seconds</div>
+
+    <div class="label">Game Length</div>
+    <div class="options" id="actionLengthOpts">
+      <button class="opt" data-val="60">1 min</button>
+      <button class="opt selected" data-val="120">2 min</button>
+      <button class="opt" data-val="300">5 min</button>
+      <button class="opt" data-val="0">Endless</button>
+    </div>
+
+    <div class="toggle-wrap">
+      <span class="tlabel">Voice (says the actions)</span>
+      <div class="toggle on" id="actionVoiceToggle"></div>
+    </div>
+
+    <div class="label">Volume Boost</div>
+    <div class="options" id="actionVolumeOpts">
+      <button class="opt" data-val="normal">Normal</button>
+      <button class="opt selected" data-val="loud">Loud</button>
+      <button class="opt danger" data-val="max">MAX</button>
+    </div>
+
+    <button class="big-btn" id="actionStartBtn">Start Game!</button>
+  </div>
+
+  <!-- ============ SUPER HERO SETTINGS ============ -->
+  <div class="conditional hidden" id="heroSettings">
+    <p class="tag">Strike a pose, save the day! Phone calls out hero powers — flying, invisible, hulk smash, web slinging — and kids act them out.</p>
+
+    <button class="big-btn test" id="heroTestBtn">🔊 Test Voice</button>
+
+    <div class="info-pill" style="margin-top:-4px">
+      <strong>iPhone:</strong> Silent switch must be OFF (no orange showing) for voice to work.
+    </div>
+
+    <div class="label">Hero Style</div>
+    <div class="options" id="heroStyleOpts">
+      <button class="opt selected" data-val="classic">Classic</button>
+      <button class="opt" data-val="silly">Silly</button>
+      <button class="opt" data-val="all">All Powers</button>
+    </div>
+    <div class="range-display" id="heroStyleDisplay">Classic hero powers</div>
+
+    <div class="label">Action Length</div>
+    <div class="options" id="heroPaceOpts">
+      <button class="opt" data-val="quick">Quick</button>
+      <button class="opt selected" data-val="normal">Normal</button>
+      <button class="opt" data-val="chill">Chill</button>
+      <button class="opt" data-val="long">Long</button>
+    </div>
+    <div class="range-display" id="heroPaceDisplay">3–6 seconds per power</div>
+
+    <div class="label">Game Length</div>
+    <div class="options" id="heroLengthOpts">
+      <button class="opt" data-val="60">1 min</button>
+      <button class="opt selected" data-val="120">2 min</button>
+      <button class="opt" data-val="300">5 min</button>
+      <button class="opt" data-val="0">Endless</button>
+    </div>
+
+    <div class="toggle-wrap">
+      <span class="tlabel">Voice (says the powers)</span>
+      <div class="toggle on" id="heroVoiceToggle"></div>
+    </div>
+
+    <div class="label">Volume Boost</div>
+    <div class="options" id="heroVolumeOpts">
+      <button class="opt" data-val="normal">Normal</button>
+      <button class="opt selected" data-val="loud">Loud</button>
+      <button class="opt danger" data-val="max">MAX</button>
+    </div>
+
+    <button class="big-btn" id="heroStartBtn">Suit Up!</button>
+  </div>
+
+  <!-- ============ SIMON SAYS SETTINGS ============ -->
+  <div class="conditional hidden" id="simonSettings">
+    <p class="tag">Phone calls out commands. Only do them if it says "Simon Says..." first! Otherwise you're out.</p>
+
+    <button class="big-btn test" id="simonTestBtn">🔊 Test Voice</button>
+
+    <div class="info-pill" style="margin-top:-4px">
+      <strong>iPhone:</strong> Silent switch must be OFF (no orange showing) for voice to work.
+    </div>
+
+    <div class="label">Trickiness</div>
+    <div class="options" id="simonTrickyOpts">
+      <button class="opt" data-val="easy">Easy</button>
+      <button class="opt selected" data-val="normal">Normal</button>
+      <button class="opt danger" data-val="sneaky">SNEAKY</button>
+    </div>
+    <div class="range-display" id="simonTrickyDisplay">~ 1 in 4 commands skip "Simon Says"</div>
+
+    <div class="label">Pace</div>
+    <div class="options" id="simonPaceOpts">
+      <button class="opt" data-val="slow">Slow</button>
+      <button class="opt selected" data-val="normal">Normal</button>
+      <button class="opt" data-val="fast">Fast</button>
+    </div>
+
+    <div class="label">Game Length</div>
+    <div class="options" id="simonLengthOpts">
+      <button class="opt" data-val="60">1 min</button>
+      <button class="opt selected" data-val="120">2 min</button>
+      <button class="opt" data-val="300">5 min</button>
+      <button class="opt" data-val="0">Endless</button>
+    </div>
+
+    <div class="label">Volume Boost</div>
+    <div class="options" id="simonVolumeOpts">
+      <button class="opt" data-val="normal">Normal</button>
+      <button class="opt selected" data-val="loud">Loud</button>
+      <button class="opt danger" data-val="max">MAX</button>
+    </div>
+
+    <button class="big-btn" id="simonStartBtn">Start Game!</button>
+  </div>
+
+  <!-- ============ DANCE PARTY SETTINGS ============ -->
+  <div class="conditional hidden" id="danceSettings">
+    <p class="tag">Beat plays, phone calls out dance moves. Bust 'em out, freeze when it says FREEZE!</p>
+
+    <button class="big-btn test" id="danceTestBtn">🔊 Test Beat</button>
+
+    <div class="info-pill" style="margin-top:-4px">
+      <strong>iPhone:</strong> Silent switch must be OFF for voice. The beat works either way.
+    </div>
+
+    <div class="label">Tempo</div>
+    <div class="options" id="danceTempoOpts">
+      <button class="opt" data-val="slow">Slow</button>
+      <button class="opt selected" data-val="normal">Normal</button>
+      <button class="opt" data-val="fast">Fast</button>
+      <button class="opt danger" data-val="party">PARTY</button>
+    </div>
+    <div class="range-display" id="danceTempoDisplay">110 BPM, moves every 4–7 sec</div>
+
+    <div class="toggle-wrap">
+      <span class="tlabel">Freeze breaks</span>
+      <div class="toggle on" id="danceFreezeToggle"></div>
+    </div>
+
+    <div class="label">Game Length</div>
+    <div class="options" id="danceLengthOpts">
+      <button class="opt" data-val="60">1 min</button>
+      <button class="opt selected" data-val="180">3 min</button>
+      <button class="opt" data-val="300">5 min</button>
+      <button class="opt" data-val="0">Endless</button>
+    </div>
+
+    <div class="toggle-wrap">
+      <span class="tlabel">Voice (calls out moves)</span>
+      <div class="toggle on" id="danceVoiceToggle"></div>
+    </div>
+
+    <div class="label">Volume Boost</div>
+    <div class="options" id="danceVolumeOpts">
+      <button class="opt" data-val="normal">Normal</button>
+      <button class="opt selected" data-val="loud">Loud</button>
+      <button class="opt danger" data-val="max">MAX</button>
+    </div>
+
+    <button class="big-btn" id="danceStartBtn">Drop the Beat!</button>
+  </div>
+
+  <!-- ============ ANIMAL CHARADES SETTINGS ============ -->
+  <div class="conditional hidden" id="charadesSettings">
+    <p class="tag">Phone names an animal — kid acts it out! Others guess. Tap when guessed for the next one.</p>
+
+    <button class="big-btn test" id="charadesTestBtn">🔊 Test Voice</button>
+
+    <div class="info-pill" style="margin-top:-4px">
+      <strong>iPhone:</strong> Silent switch must be OFF (no orange showing) for voice to work.
+    </div>
+
+    <div class="label">Difficulty</div>
+    <div class="options" id="charadesDifficultyOpts">
+      <button class="opt selected" data-val="easy">Easy</button>
+      <button class="opt" data-val="medium">Medium</button>
+      <button class="opt" data-val="hard">Hard</button>
+      <button class="opt" data-val="all">All</button>
+    </div>
+    <div class="range-display" id="charadesDifficultyDisplay">Common animals kids know well</div>
+
+    <div class="toggle-wrap">
+      <span class="tlabel">Show animal name</span>
+      <div class="toggle on" id="charadesShowToggle"></div>
+    </div>
+
+    <div class="toggle-wrap">
+      <span class="tlabel">Voice (says the animal)</span>
+      <div class="toggle on" id="charadesVoiceToggle"></div>
+    </div>
+
+    <div class="label">Volume Boost</div>
+    <div class="options" id="charadesVolumeOpts">
+      <button class="opt" data-val="normal">Normal</button>
+      <button class="opt selected" data-val="loud">Loud</button>
+      <button class="opt danger" data-val="max">MAX</button>
+    </div>
+
+    <button class="big-btn" id="charadesStartBtn">First Animal!</button>
+  </div>
+
+  <!-- ============ GUESS THE SOUND SETTINGS ============ -->
+  <div class="conditional hidden" id="guessSettings">
+    <p class="tag">Phone plays an animal sound a few times — kids guess what it is! Tap to reveal the answer.</p>
+
+    <button class="big-btn test" id="guessTestBtn">🔊 Test Sound</button>
+
+    <div class="info-pill" style="margin-top:-4px">
+      <strong>iPhone:</strong> Silent switch must be OFF for the voice reveal to work. Sounds work either way.
+    </div>
+
+    <div class="label">Difficulty</div>
+    <div class="options" id="guessDifficultyOpts">
+      <button class="opt selected" data-val="easy">Easy</button>
+      <button class="opt" data-val="medium">Medium</button>
+      <button class="opt" data-val="all">All</button>
+    </div>
+
+    <div class="label">Sound Repeats</div>
+    <div class="options" id="guessRepeatsOpts">
+      <button class="opt" data-val="2">2x</button>
+      <button class="opt selected" data-val="3">3x</button>
+      <button class="opt" data-val="4">4x</button>
+    </div>
+
+    <div class="toggle-wrap">
+      <span class="tlabel">Auto-advance after reveal</span>
+      <div class="toggle" id="guessAutoToggle"></div>
+    </div>
+
+    <div class="label">Volume Boost</div>
+    <div class="options" id="guessVolumeOpts">
+      <button class="opt" data-val="normal">Normal</button>
+      <button class="opt selected" data-val="loud">Loud</button>
+      <button class="opt danger" data-val="max">MAX</button>
+    </div>
+
+    <button class="big-btn" id="guessStartBtn">First Sound!</button>
+  </div>
+</div>
+
+<!-- HIDE COUNTDOWN (Find Me) -->
+<div class="screen center" id="hideScreen">
+  <div class="label">Hide The Phone Now!</div>
+  <div class="countdown-num" id="countdown">20</div>
+  <div class="hide-text">
+    Crank the volume and stash it!
+    <small>Screen stays on so audio keeps playing.</small>
+  </div>
+</div>
+
+<!-- SEEKING (Find Me) -->
+<div class="screen center" id="seekScreen">
+  <div class="creature-wrap">
+    <div class="ring" id="ring1"></div>
+    <div class="ring" id="ring2"></div>
+    <div class="creature" id="creature">
+      <div class="eye left"></div>
+      <div class="eye right"></div>
+      <div class="mouth"></div>
+    </div>
+  </div>
+  <div class="intensity-bar"><div class="intensity-fill" id="intensityFill"></div></div>
+  <div class="status" id="status">Listening for footsteps...</div>
+  <div class="info-pill"><strong>Audio is on.</strong> Kids: tap when found!</div>
+  <button class="big-btn found" id="foundBtn">Found Me!</button>
+</div>
+
+<!-- FOUND (Find Me) -->
+<div class="screen center" id="foundScreen">
+  <div class="confetti-text">You found me!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🎉</h1>
+  <div class="stat" id="timeStat">Took 0:42</div>
+  <button class="big-btn" id="againBtn">Play Again</button>
+</div>
+
+<!-- RLGL COUNTDOWN -->
+<div class="screen center" id="rlglCountdownScreen">
+  <div class="label">Get Ready!</div>
+  <div class="countdown-num" id="rlglCountdown">3</div>
+  <div class="hide-text">Listen for "Green Light" to GO!</div>
+</div>
+
+<!-- RLGL GAME -->
+<div class="screen center" id="rlglGameScreen">
+  <div class="rlgl-emoji" id="rlglEmoji">🟢</div>
+  <div class="rlgl-state" id="rlglStateText">GREEN LIGHT</div>
+  <div class="rlgl-action" id="rlglActionText">RUN!</div>
+  <div class="rlgl-timer" id="rlglTimer">2:00 left</div>
+  <button class="big-btn stop" id="rlglStopBtn">Stop Game</button>
+</div>
+
+<!-- RLGL END -->
+<div class="screen center" id="rlglEndScreen">
+  <div class="confetti-text">Time's Up!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🏁</h1>
+  <div class="stat">Great game!</div>
+  <button class="big-btn" id="rlglAgainBtn">Play Again</button>
+</div>
+
+<!-- ACTION COUNTDOWN -->
+<div class="screen center" id="actionCountdownScreen">
+  <div class="label">Get Ready!</div>
+  <div class="countdown-num" id="actionCountdown">3</div>
+  <div class="hide-text">First action coming up!</div>
+</div>
+
+<!-- ACTION GAME -->
+<div class="screen center" id="actionGameScreen">
+  <div class="action-emoji" id="actionEmoji">🎯</div>
+  <div class="action-text" id="actionText">Get ready!</div>
+  <div class="rlgl-timer" id="actionTimer">2:00 left</div>
+  <button class="big-btn stop" id="actionStopBtn">Stop Game</button>
+</div>
+
+<!-- ACTION END -->
+<div class="screen center" id="actionEndScreen">
+  <div class="confetti-text">Time's Up!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🏆</h1>
+  <div class="stat">Phew! Great workout!</div>
+  <button class="big-btn" id="actionAgainBtn">Play Again</button>
+</div>
+
+<!-- HERO COUNTDOWN -->
+<div class="screen center" id="heroCountdownScreen">
+  <div class="label">Suiting Up!</div>
+  <div class="countdown-num" id="heroCountdown">3</div>
+  <div class="hide-text">Time to be a hero!</div>
+</div>
+
+<!-- HERO GAME -->
+<div class="screen center" id="heroGameScreen">
+  <div class="action-emoji" id="heroEmoji">🦸</div>
+  <div class="action-text" id="heroText">Get ready!</div>
+  <div class="rlgl-timer" id="heroTimer">2:00 left</div>
+  <button class="big-btn stop" id="heroStopBtn">Stop Game</button>
+</div>
+
+<!-- HERO END -->
+<div class="screen center" id="heroEndScreen">
+  <div class="confetti-text">You saved the day!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🦸</h1>
+  <div class="stat">A true superhero!</div>
+  <button class="big-btn" id="heroAgainBtn">Play Again</button>
+</div>
+
+<!-- SIMON SAYS COUNTDOWN -->
+<div class="screen center" id="simonCountdownScreen">
+  <div class="label">Listen Up!</div>
+  <div class="countdown-num" id="simonCountdown">3</div>
+  <div class="hide-text">Only do it if Simon Says!</div>
+</div>
+
+<!-- SIMON SAYS GAME -->
+<div class="screen center" id="simonGameScreen">
+  <div class="action-emoji" id="simonEmoji">👂</div>
+  <div class="action-text" id="simonText">Listen carefully...</div>
+  <div class="rlgl-timer" id="simonTimer">2:00 left</div>
+  <button class="big-btn stop" id="simonStopBtn">Stop Game</button>
+</div>
+
+<!-- SIMON SAYS END -->
+<div class="screen center" id="simonEndScreen">
+  <div class="confetti-text">Game Over!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🎤</h1>
+  <div class="stat">Great listening!</div>
+  <button class="big-btn" id="simonAgainBtn">Play Again</button>
+</div>
+
+<!-- DANCE COUNTDOWN -->
+<div class="screen center" id="danceCountdownScreen">
+  <div class="label">Get Ready!</div>
+  <div class="countdown-num" id="danceCountdown">3</div>
+  <div class="hide-text">Time to dance!</div>
+</div>
+
+<!-- DANCE GAME -->
+<div class="screen center" id="danceGameScreen">
+  <div class="action-emoji" id="danceEmoji">💃</div>
+  <div class="action-text" id="danceText">Get ready to dance!</div>
+  <div class="rlgl-timer" id="danceTimer">3:00 left</div>
+  <button class="big-btn stop" id="danceStopBtn">Stop Game</button>
+</div>
+
+<!-- DANCE END -->
+<div class="screen center" id="danceEndScreen">
+  <div class="confetti-text">Dance party over!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🪩</h1>
+  <div class="stat">You've got moves!</div>
+  <button class="big-btn" id="danceAgainBtn">Play Again</button>
+</div>
+
+<!-- CHARADES GAME -->
+<div class="screen center" id="charadesGameScreen">
+  <div class="action-emoji" id="charadesEmoji">🐘</div>
+  <div class="action-text" id="charadesText">Tap to start!</div>
+  <div class="rlgl-timer" id="charadesScore">0 acted out</div>
+  <button class="big-btn found" id="charadesNextBtn">Got it! Next</button>
+  <button class="big-btn stop" id="charadesStopBtn" style="margin-top:10px">End Game</button>
+</div>
+
+<!-- CHARADES END -->
+<div class="screen center" id="charadesEndScreen">
+  <div class="confetti-text">Great acting!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🎭</h1>
+  <div class="stat" id="charadesFinalScore">5 animals!</div>
+  <button class="big-btn" id="charadesAgainBtn">Play Again</button>
+</div>
+
+<!-- GUESS GAME -->
+<div class="screen center" id="guessGameScreen">
+  <div class="action-emoji" id="guessEmoji">🔊</div>
+  <div class="action-text" id="guessText">Listen carefully...</div>
+  <div class="rlgl-timer" id="guessScore">Round 1</div>
+  <button class="big-btn found" id="guessRevealBtn">Reveal Answer</button>
+  <button class="big-btn stop" id="guessStopBtn" style="margin-top:10px">End Game</button>
+</div>
+
+<!-- GUESS END -->
+<div class="screen center" id="guessEndScreen">
+  <div class="confetti-text">Nice work!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🦉</h1>
+  <div class="stat" id="guessFinalScore">5 sounds!</div>
+  <button class="big-btn" id="guessAgainBtn">Play Again</button>
+</div>
+
+<audio id="silentLoop" loop preload="auto" playsinline>
+  <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=" type="audio/wav">
+</audio>
+
+<script>
+(function() {
+  // ---------- Active game ----------
+  let activeGame = 'findMe';
+
+  // ---------- Find Me state ----------
+  let mode = 'pulse';
+  let chirpSound = 'chime';
+  let difficulty = 'medium';
+  let hideTime = 20;
+  let volumeBoost = 'loud';
+  let reverbOn = false;
+
+  // ---------- RLGL state ----------
+  let rlglSpeed = 'normal';
+  let rlglLength = 120;
+  let rlglVoice = true;
+  let rlglVolumeBoost = 'loud';
+  let rlglState = 'green';
+  let rlglStateTimeout = null;
+  let rlglEndTimeout = null;
+  let rlglEndTime = 0;
+  let rlglTimerInterval = null;
+  let rlglCountdownTimer = null;
+  let speechVoice = null;
+
+  // ---------- Action/Lava state ----------
+  let actionPace = 'normal';
+  let actionDifficulty = 'mixed';
+  let actionLavaFreq = 'sometimes';
+  let actionLength = 120;
+  let actionVoice = true;
+  let actionVolumeBoost = 'loud';
+  let actionTimer = null;
+  let actionEndTimeout = null;
+  let actionEndTime = 0;
+  let actionTimerInterval = null;
+  let actionCountdownTimer = null;
+  let lastActionPick = null;
+  let inLava = false;
+  let lastLavaTime = 0;
+
+  // ---------- Hero state ----------
+  let heroStyle = 'classic';
+  let heroPace = 'normal';
+  let heroLength = 120;
+  let heroVoice = true;
+  let heroVolumeBoost = 'loud';
+  let heroTimer = null;
+  let heroEndTimeout = null;
+  let heroEndTime = 0;
+  let heroTimerInterval = null;
+  let heroCountdownTimer = null;
+  let lastHeroPick = null;
+  let heroQueue = [];
+  let heroQueueStyleKey = null;
+
+  // ---------- Simon Says state ----------
+  let simonTricky = 'normal';
+  let simonPace = 'normal';
+  let simonLength = 120;
+  let simonVolumeBoost = 'loud';
+  let simonTimer = null;
+  let simonEndTimeout = null;
+  let simonEndTime = 0;
+  let simonTimerInterval = null;
+  let simonCountdownTimer = null;
+  let lastSimonPick = null;
+
+  // ---------- Dance Party state ----------
+  let danceTempo = 'normal';
+  let danceFreeze = true;
+  let danceLength = 180;
+  let danceVoice = true;
+  let danceVolumeBoost = 'loud';
+  let danceTimer = null;
+  let danceMoveTimer = null;
+  let danceBeatTimer = null;
+  let danceEndTimeout = null;
+  let danceEndTime = 0;
+  let danceTimerInterval = null;
+  let danceCountdownTimer = null;
+  let danceFrozen = false;
+  let lastDancePick = null;
+
+  // ---------- Charades state ----------
+  let charadesDifficulty = 'easy';
+  let charadesShow = true;
+  let charadesVoice = true;
+  let charadesVolumeBoost = 'loud';
+  let charadesScore = 0;
+  let lastCharadesPick = null;
+
+  // ---------- Guess the Sound state ----------
+  let guessDifficulty = 'easy';
+  let guessRepeats = 3;
+  let guessAuto = false;
+  let guessVolumeBoost = 'loud';
+  let guessRound = 0;
+  let lastGuessPick = null;
+  let guessCurrentAnimal = null;
+  let guessRevealed = false;
+  let guessAutoTimeout = null;
+
+  // ---------- Audio infrastructure ----------
+  let audioCtx = null;
+  let masterGain = null;
+  let compressor = null;
+  let convolver = null;
+  let dryGain = null;
+  let wetGain = null;
+
+  let chirpTimer = null;
+  let pulseTimer = null;
+  let countdownTimer = null;
+  let phaseTimers = [];
+  let seekStartTime = 0;
+  let currentPhase = 0;
+  let wakeLock = null;
+  let silentAudio = document.getElementById('silentLoop');
+  let lastChirpAt = 0;
+
+  const PHASE_DURATION = { easy: 25, medium: 45, hard: 70 };
+  const NUM_PHASES = 5;
+
+  const CHIRP_PHASES = [
+    { interval: 22000, baseFreq: 523, notes: 1, vol: 0.4,  label: "Listening for footsteps..." },
+    { interval: 14000, baseFreq: 587, notes: 2, vol: 0.55, label: "Hmm, where could they be?" },
+    { interval: 8000,  baseFreq: 659, notes: 3, vol: 0.75, label: "Getting a little nervous..." },
+    { interval: 4500,  baseFreq: 784, notes: 4, vol: 0.9,  label: "Help! Find me!" },
+    { interval: 2200,  baseFreq: 880, notes: 5, vol: 1.0,  label: "FIND ME NOW!!!" },
+  ];
+
+  const PULSE_PHASES = [
+    { interval: 1400, baseFreq: 523, vol: 0.5,  label: "Steady pulse... listening..." },
+    { interval: 1000, baseFreq: 587, vol: 0.65, label: "Pulse picks up..." },
+    { interval: 700,  baseFreq: 659, vol: 0.8,  label: "Getting nervous!" },
+    { interval: 450,  baseFreq: 784, vol: 0.95, label: "Heart racing!" },
+    { interval: 250,  baseFreq: 880, vol: 1.0,  label: "FIND ME NOW!!!" },
+  ];
+
+  const VOLUME_MULT = { normal: 1.0, loud: 1.6, max: 2.4 };
+
+  // RLGL speed configs: [greenMin, greenMax, redMin, redMax] in seconds
+  const RLGL_SPEED = {
+    relaxed: [5, 10, 1.5, 3],
+    normal:  [3, 7, 2, 4],
+    fast:    [1.5, 4, 1.5, 3.5],
+    chaos:   [0.8, 2.5, 0.8, 2.5],
+  };
+
+  // ---------- Action / Lava data ----------
+  const ACTIONS = {
+    easy: [
+      { text: 'Hop on one foot!', emoji: '🦶' },
+      { text: 'Spin in a circle!', emoji: '🌀' },
+      { text: 'Touch your nose!', emoji: '👃' },
+      { text: 'Touch your toes!', emoji: '🤸' },
+      { text: 'March in place!', emoji: '🪖' },
+      { text: 'Jump up and down!', emoji: '⬆️' },
+      { text: 'Wave your hands!', emoji: '👋' },
+      { text: 'Clap five times!', emoji: '👏' },
+      { text: 'Make a silly face!', emoji: '🤪' },
+      { text: 'Stomp your feet!', emoji: '👣' },
+      { text: 'Stand on tiptoes!', emoji: '🩰' },
+      { text: 'Touch your head!', emoji: '🙆' },
+      { text: 'Raise your hands up high!', emoji: '🙌' },
+      { text: 'Pat your belly!', emoji: '🫃' },
+    ],
+    animals: [
+      { text: 'Bark like a dog!', emoji: '🐶' },
+      { text: 'Roar like a lion!', emoji: '🦁' },
+      { text: 'Hop like a bunny!', emoji: '🐰' },
+      { text: 'Flap like a bird!', emoji: '🐦' },
+      { text: 'Slither like a snake!', emoji: '🐍' },
+      { text: 'Stomp like an elephant!', emoji: '🐘' },
+      { text: 'Crawl like a crab!', emoji: '🦀' },
+      { text: 'Jump like a frog!', emoji: '🐸' },
+      { text: 'Howl like a wolf!', emoji: '🐺' },
+      { text: 'Waddle like a penguin!', emoji: '🐧' },
+      { text: 'Buzz like a bee!', emoji: '🐝' },
+      { text: 'Gallop like a horse!', emoji: '🐴' },
+      { text: 'Roar like a dinosaur!', emoji: '🦖' },
+      { text: 'Stretch like a cat!', emoji: '🐱' },
+    ],
+    medium: [
+      { text: 'Walk backwards!', emoji: '🔄' },
+      { text: 'Crawl on hands and knees!', emoji: '👶' },
+      { text: 'Balance on one foot!', emoji: '🦩' },
+      { text: 'Spin around three times!', emoji: '🌀' },
+      { text: 'Pretend to swim!', emoji: '🏊' },
+      { text: 'Do five jumping jacks!', emoji: '🤸' },
+      { text: 'Touch the wall!', emoji: '🧱' },
+      { text: 'Pretend to fly!', emoji: '🦸' },
+      { text: 'Tiptoe like a ninja!', emoji: '🥷' },
+      { text: 'Wiggle like a worm!', emoji: '🪱' },
+      { text: 'Touch elbow to knee!', emoji: '💪' },
+      { text: 'Do a frog jump!', emoji: '🐸' },
+    ],
+    find: [
+      { text: 'Find something RED!', emoji: '🔴' },
+      { text: 'Find something soft!', emoji: '☁️' },
+      { text: 'Find something round!', emoji: '⚪' },
+      { text: 'Find a book!', emoji: '📖' },
+      { text: 'Find a pillow!', emoji: '🛏️' },
+      { text: 'Find something blue!', emoji: '🔵' },
+      { text: 'Find something fluffy!', emoji: '🧸' },
+      { text: 'Find something green!', emoji: '🟢' },
+      { text: 'Find a shoe!', emoji: '👟' },
+    ],
+    silly: [
+      { text: 'Do a silly dance!', emoji: '💃' },
+      { text: 'Sing your name!', emoji: '🎤' },
+      { text: 'Talk like a robot!', emoji: '🤖' },
+      { text: 'Walk like a zombie!', emoji: '🧟' },
+      { text: 'Do a superhero pose!', emoji: '🦸' },
+      { text: 'Pretend to be a tree!', emoji: '🌳' },
+      { text: 'Be a statue for 5 seconds!', emoji: '🗿' },
+      { text: 'Pretend to be a snowman!', emoji: '⛄' },
+      { text: 'Pretend to brush your teeth!', emoji: '🪥' },
+      { text: 'Pretend to be asleep!', emoji: '😴' },
+    ],
+  };
+
+  const LAVA_ACTIONS = [
+    { text: 'FLOOR IS LAVA!\nClimb on something!', emoji: '🔥' },
+    { text: 'LAVA EVERYWHERE!\nGet off the floor!', emoji: '🌋' },
+    { text: 'The ground is melting!\nFind higher ground!', emoji: '🔥' },
+    { text: 'LAVA! LAVA! LAVA!\nGet up high NOW!', emoji: '🌋' },
+    { text: 'HOT LAVA!\nJump on the couch!', emoji: '🔥' },
+  ];
+
+  const ACTION_PACE = {
+    quick:    [1.5, 3],
+    normal:   [3, 5],
+    chill:    [5, 8],
+    long:     [8, 15],
+    surprise: [2, 15],
+  };
+  let customMin = 3;
+  let customMax = 8;
+
+  const LAVA_FREQ = { never: 0, sometimes: 0.10, often: 0.22, mayhem: 0.45 };
+  const LAVA_MIN_GAP_MS = { never: 0, sometimes: 25000, often: 15000, mayhem: 7000 };
+  const LAVA_DURATION = 7000; // ms in lava mode
+
+  // ---------- Hero powers ----------
+  const HERO_POWERS = {
+    classic: [
+      // Flight & speed
+      { text: 'Fly through the sky!', emoji: '🦅' },
+      { text: 'Run faster than the Flash!', emoji: '⚡' },
+      { text: 'Teleport across the room!', emoji: '✨' },
+      { text: 'Phase through a wall!', emoji: '👻' },
+      { text: 'Swing on a web like Spider-Man!', emoji: '🕸️' },
+      { text: 'Glide through the air!', emoji: '🪁' },
+      // Strength & smashing
+      { text: 'Super strength! Lift something heavy!', emoji: '💪' },
+      { text: 'Hulk SMASH!', emoji: '👊' },
+      { text: 'Punch a bad guy! Bam!', emoji: '💥' },
+      { text: 'Catch a falling building!', emoji: '🏢' },
+      { text: 'Pick up a car!', emoji: '🚗' },
+      { text: 'Crush a rock with your bare hands!', emoji: '🪨' },
+      // Energy & elements
+      { text: 'Shoot laser eyes! Pew pew!', emoji: '👀' },
+      { text: 'Shoot fire from your hands!', emoji: '🔥' },
+      { text: 'Shoot ice from your hands!', emoji: '❄️' },
+      { text: 'Send out a thunderclap!', emoji: '⛈️' },
+      { text: 'Throw a lightning bolt!', emoji: '🌩️' },
+      { text: 'Freeze breath! Frost everything!', emoji: '🥶' },
+      { text: 'Heat vision! Melt the bad guys!', emoji: '🔆' },
+      { text: 'Control the wind!', emoji: '🌬️' },
+      { text: 'Control the rain!', emoji: '🌧️' },
+      { text: 'Make a giant tidal wave!', emoji: '🌊' },
+      { text: 'Plant powers! Grow vines!', emoji: '🌱' },
+      // Mind powers
+      { text: 'Use telekinesis! Move stuff with your mind!', emoji: '🧠' },
+      { text: 'Read minds like Professor X!', emoji: '🤔' },
+      { text: 'Use mind control on a villain!', emoji: '🌀' },
+      { text: 'Send a telepathic message!', emoji: '💭' },
+      // Stealth & senses
+      { text: 'Become invisible! Sneak around!', emoji: '🫥' },
+      { text: 'Spider-sense tingling! Dodge!', emoji: '🕷️' },
+      { text: 'Super hearing! Listen far away!', emoji: '👂' },
+      { text: 'X-ray vision! See through walls!', emoji: '👁️' },
+      // Iconic moves
+      { text: 'Throw your shield like Captain America!', emoji: '🛡️' },
+      { text: 'Spin your magic lasso!', emoji: '🪢' },
+      { text: 'Wield a mighty hammer like Thor!', emoji: '🔨' },
+      { text: 'Slash with metal claws!', emoji: '🗡️' },
+      { text: 'Summon your Iron Man suit!', emoji: '🤖' },
+      { text: 'Aim your bow and arrow!', emoji: '🏹' },
+      { text: 'Light up a Green Lantern ring!', emoji: '💚' },
+      { text: 'Show off your Bat-glare!', emoji: '🦇' },
+      { text: 'Strike a hero pose!', emoji: '🦸' },
+      { text: 'Cape twirl and pose!', emoji: '🎭' },
+      // Transformations & shape-shifting
+      { text: 'Hulk out! Get angry!', emoji: '😡' },
+      { text: 'Shape-shift into something cool!', emoji: '🔄' },
+      { text: 'Grow giant, like Ant-Man big!', emoji: '🦣' },
+      { text: 'Shrink down tiny like Ant-Man!', emoji: '🐜' },
+      { text: 'Stretch your arms out long!', emoji: '🤸' },
+      { text: 'Turn to stone like The Thing!', emoji: '🗿' },
+      { text: 'Catch fire like Human Torch!', emoji: '🔥' },
+      { text: 'Bounce like rubber!', emoji: '🤾' },
+      // Animal/savage
+      { text: 'Roar like a hero beast!', emoji: '🦁' },
+      { text: 'Talk to animals!', emoji: '🐺' },
+      { text: 'Climb a wall like a spider!', emoji: '🧗' },
+      // Force fields & defense
+      { text: 'Put up a force field!', emoji: '🛡️' },
+      { text: 'Block bullets with your wrist guards!', emoji: '✋' },
+      // Heroic deeds
+      { text: 'Save someone in trouble!', emoji: '🆘' },
+      { text: 'Rescue a kitten from a tree!', emoji: '🐱' },
+      { text: 'Stop a runaway train!', emoji: '🚂' },
+      { text: 'Catch a falling person!', emoji: '🪂' },
+      { text: 'Defuse a bomb!', emoji: '💣' },
+      { text: 'Take a heroic bow for the crowd!', emoji: '🙇' },
+      // Time & space
+      { text: 'Slow down time!', emoji: '⏰' },
+      { text: 'Open a portal to another dimension!', emoji: '🌌' },
+      { text: 'Time travel back five seconds!', emoji: '⏳' },
+    ],
+    silly: [
+      // Food powers
+      { text: 'Throw an invisible pizza!', emoji: '🍕' },
+      { text: 'Use Spaghetti Lasso!', emoji: '🍝' },
+      { text: 'Banana hand power! Slip the villain!', emoji: '🍌' },
+      { text: 'Taco shield deflects all attacks!', emoji: '🌮' },
+      { text: 'Throw donut boomerangs!', emoji: '🍩' },
+      { text: 'Pickle javelin attack!', emoji: '🥒' },
+      { text: 'Marshmallow blast!', emoji: '🍡' },
+      { text: 'Summon a giant rubber chicken!', emoji: '🐔' },
+      // Body sound powers
+      { text: 'Use your sneeze power!', emoji: '🤧' },
+      { text: 'Burp shockwave!', emoji: '😤' },
+      { text: 'Hiccup teleport!', emoji: '😅' },
+      { text: 'Yawn to put villains to sleep!', emoji: '😴' },
+      { text: 'Toot... I mean POWER FART!', emoji: '💨' },
+      // Defeat them with cuteness
+      { text: 'Tickle the bad guy until they give up!', emoji: '😂' },
+      { text: 'Defeat evil with a hug!', emoji: '🤗' },
+      { text: 'Sing the bad guys to sleep!', emoji: '🎵' },
+      { text: 'Wiggle dance to defeat evil!', emoji: '🪱' },
+      { text: 'Stare contest the villain into submission!', emoji: '👀' },
+      // Movement
+      { text: 'Activate your dance attack!', emoji: '💃' },
+      { text: 'Cartwheel of justice!', emoji: '🤸' },
+      { text: 'Bounce off the walls!', emoji: '🤹' },
+      { text: 'Dramatic slow motion run!', emoji: '🏃' },
+      { text: 'Inflate like a balloon and float!', emoji: '🎈' },
+      { text: 'Spin like a tornado!', emoji: '🌪️' },
+      // Defensive items
+      { text: 'Activate Pillow Shield!', emoji: '🛏️' },
+      { text: 'Sock puppet diplomacy!', emoji: '🧦' },
+      { text: 'Umbrella of doom!', emoji: '☂️' },
+      { text: 'Toilet paper armor!', emoji: '🧻' },
+      // Animal sidekicks & impressions
+      { text: 'Summon your loyal pet hamster!', emoji: '🐹' },
+      { text: 'Quack like a battle duck!', emoji: '🦆' },
+      { text: 'Walk like a penguin army!', emoji: '🐧' },
+      { text: 'Llama spit attack!', emoji: '🦙' },
+      // Costume bits
+      { text: 'Adjust your invisible cape!', emoji: '🦸' },
+      { text: 'Polish your cool sunglasses!', emoji: '🕶️' },
+      { text: 'Strike a magazine-cover pose!', emoji: '📸' },
+      { text: 'Catchphrase time! Make one up!', emoji: '💬' },
+      // Weird ones
+      { text: 'Sentient hair attack!', emoji: '💇' },
+      { text: 'Awkward laugh of doom!', emoji: '😬' },
+      { text: 'Excessive thumbs-up power!', emoji: '👍' },
+      { text: 'Sticker bomb the bad guys!', emoji: '⭐' },
+      { text: 'Bubble wrap stomp!', emoji: '🫧' },
+      { text: 'Confused villain — point and stare!', emoji: '🫣' },
+    ],
+  };
+
+  function getHeroPool() {
+    if (heroStyle === 'classic') return HERO_POWERS.classic;
+    if (heroStyle === 'silly') return HERO_POWERS.silly;
+    return [...HERO_POWERS.classic, ...HERO_POWERS.silly];
+  }
+
+  const HERO_PACE = {
+    quick:  [2, 4],
+    normal: [3, 6],
+    chill:  [5, 9],
+    long:   [9, 14],
+  };
+
+  // ---------- Simon Says ----------
+  const SIMON_COMMANDS = [
+    'touch your nose', 'touch your toes', 'touch your ears', 'touch your knees',
+    'jump up high', 'spin around', 'clap three times', 'pat your head',
+    'rub your tummy', 'wiggle your fingers', 'stomp your feet', 'wave hello',
+    'stand on one foot', 'sit down', 'stand up', 'turn around',
+    'reach for the sky', 'touch the floor', 'make a silly face', 'roar like a lion',
+    'flap like a bird', 'hop like a bunny', 'do a tiny dance', 'shake your head',
+    'point at the ceiling', 'cross your arms', 'do a thumbs up', 'blink three times',
+    'pretend to swim', 'march in place', 'tippy toe', 'crouch low',
+  ];
+  const SIMON_TRICKY = { easy: 0.15, normal: 0.30, sneaky: 0.50 };
+  const SIMON_PACE = { slow: [3.5, 5.5], normal: [2.2, 4], fast: [1.4, 2.6] };
+
+  // ---------- Dance Party ----------
+  const DANCE_MOVES = [
+    { text: 'The Robot!', emoji: '🤖' },
+    { text: 'Disco point!', emoji: '🕺' },
+    { text: 'Spin around!', emoji: '🌀' },
+    { text: 'Twist twist twist!', emoji: '🌪️' },
+    { text: 'Wiggle your hips!', emoji: '💃' },
+    { text: 'Kick your legs!', emoji: '🦵' },
+    { text: 'Floss dance!', emoji: '🧵' },
+    { text: 'The sprinkler!', emoji: '💦' },
+    { text: 'Shake shake shake!', emoji: '✨' },
+    { text: 'Wave your arms!', emoji: '🙌' },
+    { text: 'Jump jump jump!', emoji: '⬆️' },
+    { text: 'Funky chicken!', emoji: '🐔' },
+    { text: 'The shopping cart!', emoji: '🛒' },
+    { text: 'Stir the pot!', emoji: '🥣' },
+    { text: 'Wave like seaweed!', emoji: '🌊' },
+    { text: 'Clap to the beat!', emoji: '👏' },
+    { text: 'Snap your fingers!', emoji: '🫰' },
+    { text: 'Stomp your feet!', emoji: '👟' },
+    { text: 'Do the moonwalk!', emoji: '🌙' },
+    { text: 'Wave a hand in the air!', emoji: '✋' },
+    { text: 'Bounce up and down!', emoji: '🏀' },
+    { text: 'Slide side to side!', emoji: '↔️' },
+  ];
+  const DANCE_TEMPO = {
+    slow:   { bpm: 90,  moveMin: 5, moveMax: 9 },
+    normal: { bpm: 110, moveMin: 4, moveMax: 7 },
+    fast:   { bpm: 130, moveMin: 3, moveMax: 5 },
+    party:  { bpm: 150, moveMin: 2, moveMax: 4 },
+  };
+
+  // ---------- Animal Charades + Guess the Sound ----------
+  // Each animal: name, emoji, and a sound playback function key
+  const ANIMALS = {
+    easy: [
+      { name: 'cow',     emoji: '🐄', sound: 'cow' },
+      { name: 'cat',     emoji: '🐱', sound: 'cat' },
+      { name: 'dog',     emoji: '🐶', sound: 'dog' },
+      { name: 'pig',     emoji: '🐷', sound: 'pig' },
+      { name: 'duck',    emoji: '🦆', sound: 'duck' },
+      { name: 'sheep',   emoji: '🐑', sound: 'sheep' },
+      { name: 'horse',   emoji: '🐴', sound: 'horse' },
+      { name: 'chicken', emoji: '🐔', sound: 'chicken' },
+      { name: 'frog',    emoji: '🐸', sound: 'frog' },
+      { name: 'bee',     emoji: '🐝', sound: 'bee' },
+      { name: 'lion',    emoji: '🦁', sound: 'lion' },
+      { name: 'monkey',  emoji: '🐒', sound: 'monkey' },
+    ],
+    medium: [
+      { name: 'elephant', emoji: '🐘', sound: 'elephant' },
+      { name: 'snake',    emoji: '🐍', sound: 'snake' },
+      { name: 'owl',      emoji: '🦉', sound: 'owl' },
+      { name: 'wolf',     emoji: '🐺', sound: 'wolf' },
+      { name: 'rooster',  emoji: '🐓', sound: 'rooster' },
+      { name: 'mouse',    emoji: '🐭', sound: 'mouse' },
+      { name: 'turkey',   emoji: '🦃', sound: 'turkey' },
+      { name: 'crow',     emoji: '🐦‍⬛', sound: 'crow' },
+      { name: 'donkey',   emoji: '🫏', sound: 'donkey' },
+      { name: 'bear',     emoji: '🐻', sound: 'bear' },
+    ],
+    hard: [
+      { name: 'kangaroo', emoji: '🦘' },
+      { name: 'penguin',  emoji: '🐧' },
+      { name: 'octopus',  emoji: '🐙' },
+      { name: 'crab',     emoji: '🦀' },
+      { name: 'giraffe',  emoji: '🦒' },
+      { name: 'zebra',    emoji: '🦓' },
+      { name: 'flamingo', emoji: '🦩' },
+      { name: 'shark',    emoji: '🦈' },
+      { name: 'whale',    emoji: '🐳' },
+      { name: 'crocodile',emoji: '🐊' },
+      { name: 'hedgehog', emoji: '🦔' },
+      { name: 'sloth',    emoji: '🦥' },
+    ],
+  };
+
+  function getCharadesPool() {
+    if (charadesDifficulty === 'easy') return ANIMALS.easy;
+    if (charadesDifficulty === 'medium') return [...ANIMALS.easy, ...ANIMALS.medium];
+    if (charadesDifficulty === 'hard') return [...ANIMALS.medium, ...ANIMALS.hard];
+    return [...ANIMALS.easy, ...ANIMALS.medium, ...ANIMALS.hard];
+  }
+
+  function getGuessPool() {
+    // Only animals with sound
+    if (guessDifficulty === 'easy') return ANIMALS.easy.filter(a => a.sound);
+    if (guessDifficulty === 'medium') return [...ANIMALS.easy, ...ANIMALS.medium].filter(a => a.sound);
+    return [...ANIMALS.easy, ...ANIMALS.medium].filter(a => a.sound);
+  }
+
+  // ---------- Animal sound synthesis ----------
+  // Each sound is a procedural synthesis routine, no audio files needed
+  function playAnimalSound(name) {
+    if (!audioCtx) return;
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const now = audioCtx.currentTime;
+
+    function tone(freq, startT, dur, type, vol, freqEnd) {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type || 'sine';
+      osc.frequency.setValueAtTime(freq, startT);
+      if (freqEnd !== undefined) osc.frequency.exponentialRampToValueAtTime(freqEnd, startT + dur);
+      gain.gain.setValueAtTime(0, startT);
+      gain.gain.linearRampToValueAtTime(vol, startT + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, startT + dur);
+      osc.connect(gain);
+      connectSource(gain);
+      osc.start(startT);
+      osc.stop(startT + dur + 0.05);
+    }
+
+    function noise(startT, dur, vol, filterFreq) {
+      const bufferSize = audioCtx.sampleRate * dur;
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+      const src = audioCtx.createBufferSource();
+      src.buffer = buffer;
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = filterFreq || 1000;
+      filter.Q.value = 1;
+      const gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(0, startT);
+      gain.gain.linearRampToValueAtTime(vol, startT + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, startT + dur);
+      src.connect(filter);
+      filter.connect(gain);
+      connectSource(gain);
+      src.start(startT);
+      src.stop(startT + dur + 0.05);
+    }
+
+    switch (name) {
+      case 'cow':
+        // Long descending moo
+        tone(220, now, 0.4, 'sawtooth', 0.6, 165);
+        tone(440, now, 0.4, 'sine', 0.2, 330);
+        tone(165, now + 0.45, 0.6, 'sawtooth', 0.7, 110);
+        tone(330, now + 0.45, 0.6, 'sine', 0.25, 220);
+        break;
+      case 'cat':
+        // Two-note meow
+        tone(700, now, 0.15, 'sawtooth', 0.4, 900);
+        tone(900, now + 0.15, 0.35, 'sawtooth', 0.5, 500);
+        break;
+      case 'dog':
+        // Two sharp barks
+        tone(300, now, 0.08, 'square', 0.6, 200);
+        noise(now, 0.1, 0.3, 800);
+        tone(300, now + 0.25, 0.08, 'square', 0.6, 200);
+        noise(now + 0.25, 0.1, 0.3, 800);
+        break;
+      case 'pig':
+        // Snorts
+        for (let i = 0; i < 3; i++) {
+          const t = now + i * 0.25;
+          noise(t, 0.15, 0.5, 400 + i * 100);
+          tone(180, t, 0.15, 'sawtooth', 0.3, 140);
+        }
+        break;
+      case 'duck':
+        // Quack quack
+        for (let i = 0; i < 2; i++) {
+          const t = now + i * 0.35;
+          tone(380, t, 0.1, 'sawtooth', 0.5, 320);
+          tone(380, t + 0.1, 0.15, 'square', 0.4, 280);
+        }
+        break;
+      case 'sheep':
+        // Baa with vibrato
+        const base = 440;
+        for (let i = 0; i < 8; i++) {
+          const t = now + i * 0.05;
+          tone(base + (i % 2 ? 30 : -30), t, 0.06, 'sawtooth', 0.45);
+        }
+        tone(330, now + 0.45, 0.4, 'sawtooth', 0.5, 280);
+        break;
+      case 'horse':
+        // Neigh - high whinny
+        tone(800, now, 0.15, 'sawtooth', 0.4, 600);
+        tone(600, now + 0.15, 0.2, 'sawtooth', 0.5, 900);
+        tone(900, now + 0.35, 0.35, 'sawtooth', 0.5, 500);
+        tone(500, now + 0.7, 0.25, 'sawtooth', 0.4, 350);
+        break;
+      case 'chicken':
+        // Bawk bawk bawk-PUUUUKAW
+        for (let i = 0; i < 3; i++) {
+          const t = now + i * 0.18;
+          tone(500, t, 0.08, 'square', 0.4, 700);
+          tone(700, t + 0.08, 0.08, 'square', 0.4, 500);
+        }
+        tone(500, now + 0.7, 0.1, 'square', 0.5, 800);
+        tone(900, now + 0.8, 0.4, 'sawtooth', 0.5, 400);
+        break;
+      case 'frog':
+        // Ribbit ribbit
+        for (let i = 0; i < 2; i++) {
+          const t = now + i * 0.4;
+          tone(180, t, 0.08, 'sawtooth', 0.6);
+          tone(220, t + 0.08, 0.15, 'square', 0.5, 160);
+        }
+        break;
+      case 'bee':
+        // Buzzy drone
+        tone(220, now, 0.8, 'sawtooth', 0.4);
+        tone(225, now, 0.8, 'sawtooth', 0.4);
+        tone(440, now, 0.8, 'sawtooth', 0.2);
+        break;
+      case 'lion':
+        // Big roar
+        noise(now, 0.8, 0.7, 250);
+        tone(110, now, 0.8, 'sawtooth', 0.7, 80);
+        tone(220, now, 0.8, 'sawtooth', 0.4, 165);
+        break;
+      case 'monkey':
+        // Ooh ooh aah aah
+        tone(500, now, 0.15, 'square', 0.4, 600);
+        tone(700, now + 0.2, 0.15, 'square', 0.4, 800);
+        tone(450, now + 0.45, 0.2, 'square', 0.45, 380);
+        tone(380, now + 0.7, 0.25, 'square', 0.5, 320);
+        break;
+      case 'elephant':
+        // Trumpet
+        tone(220, now, 0.1, 'sawtooth', 0.5, 800);
+        tone(800, now + 0.1, 0.6, 'sawtooth', 0.7, 400);
+        noise(now, 0.7, 0.2, 600);
+        break;
+      case 'snake':
+        // Hisssss
+        noise(now, 1.0, 0.6, 4000);
+        break;
+      case 'owl':
+        // Hoo hoo
+        for (let i = 0; i < 2; i++) {
+          const t = now + i * 0.4;
+          tone(330, t, 0.3, 'sine', 0.5, 280);
+        }
+        break;
+      case 'wolf':
+        // Howl - long rising note
+        tone(220, now, 1.2, 'sawtooth', 0.6, 440);
+        tone(440, now, 1.2, 'sine', 0.3, 880);
+        break;
+      case 'rooster':
+        // Cock-a-doodle-doo
+        tone(700, now, 0.15, 'sawtooth', 0.5, 900);
+        tone(900, now + 0.15, 0.15, 'sawtooth', 0.5, 700);
+        tone(700, now + 0.3, 0.15, 'sawtooth', 0.5, 1100);
+        tone(900, now + 0.5, 0.4, 'sawtooth', 0.6, 500);
+        break;
+      case 'mouse':
+        // High squeak
+        tone(2000, now, 0.08, 'square', 0.3, 2400);
+        tone(2200, now + 0.12, 0.1, 'square', 0.3, 1800);
+        break;
+      case 'turkey':
+        // Gobble gobble
+        for (let i = 0; i < 4; i++) {
+          const t = now + i * 0.12;
+          tone(400, t, 0.05, 'sawtooth', 0.4, 600);
+          tone(600, t + 0.05, 0.05, 'sawtooth', 0.4, 400);
+        }
+        break;
+      case 'crow':
+        // Caw caw
+        for (let i = 0; i < 2; i++) {
+          const t = now + i * 0.5;
+          tone(400, t, 0.4, 'sawtooth', 0.6, 250);
+          noise(t, 0.4, 0.3, 1200);
+        }
+        break;
+      case 'donkey':
+        // Hee-haw
+        tone(900, now, 0.4, 'sawtooth', 0.5, 700);
+        tone(220, now + 0.45, 0.6, 'sawtooth', 0.7, 165);
+        break;
+      case 'bear':
+        // Low growl
+        noise(now, 0.9, 0.5, 200);
+        tone(80, now, 0.9, 'sawtooth', 0.7);
+        tone(160, now, 0.9, 'sawtooth', 0.4);
+        break;
+      default:
+        playChime(659, 1, 0.5);
+    }
+  }
+
+  // ---------- Screens ----------
+  const screens = {
+    setup: document.getElementById('setupScreen'),
+    hide:  document.getElementById('hideScreen'),
+    seek:  document.getElementById('seekScreen'),
+    found: document.getElementById('foundScreen'),
+    rlglCountdown: document.getElementById('rlglCountdownScreen'),
+    rlglGame:      document.getElementById('rlglGameScreen'),
+    rlglEnd:       document.getElementById('rlglEndScreen'),
+    actionCountdown: document.getElementById('actionCountdownScreen'),
+    actionGame:      document.getElementById('actionGameScreen'),
+    actionEnd:       document.getElementById('actionEndScreen'),
+    heroCountdown:   document.getElementById('heroCountdownScreen'),
+    heroGame:        document.getElementById('heroGameScreen'),
+    heroEnd:         document.getElementById('heroEndScreen'),
+    simonCountdown:  document.getElementById('simonCountdownScreen'),
+    simonGame:       document.getElementById('simonGameScreen'),
+    simonEnd:        document.getElementById('simonEndScreen'),
+    danceCountdown:  document.getElementById('danceCountdownScreen'),
+    danceGame:       document.getElementById('danceGameScreen'),
+    danceEnd:        document.getElementById('danceEndScreen'),
+    charadesGame:    document.getElementById('charadesGameScreen'),
+    charadesEnd:     document.getElementById('charadesEndScreen'),
+    guessGame:       document.getElementById('guessGameScreen'),
+    guessEnd:        document.getElementById('guessEndScreen'),
+  };
+  function show(name) {
+    Object.values(screens).forEach(s => s.classList.remove('active'));
+    screens[name].classList.add('active');
+  }
+
+  function setupOpts(containerId, onSelect) {
+    const container = document.getElementById(containerId);
+    container.querySelectorAll('.opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        container.querySelectorAll('.opt').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        onSelect(btn.dataset.val);
+      });
+    });
+  }
+  setupOpts('difficultyOpts', v => difficulty = v);
+  setupOpts('hideOpts',       v => hideTime = parseInt(v));
+  setupOpts('soundOpts',      v => chirpSound = v);
+  setupOpts('volumeOpts',     v => { volumeBoost = v; if (audioCtx) configureMaster(volumeBoost); });
+  setupOpts('rlglSpeedOpts',  v => rlglSpeed = v);
+  setupOpts('rlglLengthOpts', v => rlglLength = parseInt(v));
+  setupOpts('rlglVolumeOpts', v => { rlglVolumeBoost = v; if (audioCtx) configureMaster(rlglVolumeBoost); });
+  function updatePaceDisplay() {
+    const el = document.getElementById('paceRangeDisplay');
+    if (!el) return;
+    let min, max;
+    if (actionPace === 'custom') {
+      min = customMin;
+      max = customMax;
+    } else {
+      [min, max] = ACTION_PACE[actionPace];
+    }
+    el.textContent = `${min}–${max} seconds per action`;
+  }
+
+  function updateLavaDisplay() {
+    const el = document.getElementById('lavaRangeDisplay');
+    if (!el) return;
+    const labels = {
+      never:     'No lava events',
+      sometimes: '~ every 35–60 seconds',
+      often:     '~ every 20–30 seconds',
+      mayhem:    '~ every 8–15 seconds!',
+    };
+    el.textContent = labels[actionLavaFreq] || '';
+  }
+
+  setupOpts('actionPaceOpts', v => {
+    actionPace = v;
+    document.getElementById('customPaceSettings').classList.toggle('hidden', v !== 'custom');
+    updatePaceDisplay();
+  });
+
+  // Custom range step buttons
+  document.querySelectorAll('.step-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.target;
+      const step = parseInt(btn.dataset.step);
+      if (target === 'customMin') {
+        customMin = Math.max(1, Math.min(customMax - 1, customMin + step));
+        document.getElementById('customMinVal').textContent = customMin;
+      } else {
+        customMax = Math.max(customMin + 1, Math.min(60, customMax + step));
+        document.getElementById('customMaxVal').textContent = customMax;
+      }
+      updatePaceDisplay();
+    });
+  });
+  setupOpts('actionDifficultyOpts', v => actionDifficulty = v);
+  setupOpts('actionLavaOpts', v => { actionLavaFreq = v; updateLavaDisplay(); });
+  setupOpts('actionLengthOpts',     v => actionLength = parseInt(v));
+  setupOpts('actionVolumeOpts',     v => { actionVolumeBoost = v; if (audioCtx) configureMaster(actionVolumeBoost); });
+
+  // Hero handlers
+  function updateHeroStyleDisplay() {
+    const el = document.getElementById('heroStyleDisplay');
+    if (!el) return;
+    const labels = {
+      classic: 'Classic hero powers',
+      silly:   'Silly & ridiculous powers',
+      all:     'Everything mixed together',
+    };
+    el.textContent = labels[heroStyle] || '';
+  }
+  function updateHeroPaceDisplay() {
+    const el = document.getElementById('heroPaceDisplay');
+    if (!el) return;
+    const [min, max] = HERO_PACE[heroPace];
+    el.textContent = `${min}–${max} seconds per power`;
+  }
+  setupOpts('heroStyleOpts',  v => { heroStyle = v; updateHeroStyleDisplay(); });
+  setupOpts('heroPaceOpts',   v => { heroPace = v; updateHeroPaceDisplay(); });
+  setupOpts('heroLengthOpts', v => heroLength = parseInt(v));
+  setupOpts('heroVolumeOpts', v => { heroVolumeBoost = v; if (audioCtx) configureMaster(heroVolumeBoost); });
+
+  // ---------- Simon Says handlers ----------
+  function updateSimonTrickyDisplay() {
+    const el = document.getElementById('simonTrickyDisplay');
+    if (!el) return;
+    const labels = {
+      easy:   '~ 1 in 7 commands skip "Simon Says"',
+      normal: '~ 1 in 3 commands skip "Simon Says"',
+      sneaky: '~ half the time, no "Simon Says"!',
+    };
+    el.textContent = labels[simonTricky] || '';
+  }
+  setupOpts('simonTrickyOpts', v => { simonTricky = v; updateSimonTrickyDisplay(); });
+  setupOpts('simonPaceOpts',   v => simonPace = v);
+  setupOpts('simonLengthOpts', v => simonLength = parseInt(v));
+  setupOpts('simonVolumeOpts', v => { simonVolumeBoost = v; if (audioCtx) configureMaster(simonVolumeBoost); });
+
+  // ---------- Dance handlers ----------
+  function updateDanceTempoDisplay() {
+    const el = document.getElementById('danceTempoDisplay');
+    if (!el) return;
+    const cfg = DANCE_TEMPO[danceTempo];
+    el.textContent = `${cfg.bpm} BPM, moves every ${cfg.moveMin}–${cfg.moveMax} sec`;
+  }
+  setupOpts('danceTempoOpts',  v => { danceTempo = v; updateDanceTempoDisplay(); });
+  setupOpts('danceLengthOpts', v => danceLength = parseInt(v));
+  setupOpts('danceVolumeOpts', v => { danceVolumeBoost = v; if (audioCtx) configureMaster(danceVolumeBoost); });
+  document.getElementById('danceFreezeToggle').addEventListener('click', (e) => {
+    danceFreeze = !danceFreeze;
+    e.currentTarget.classList.toggle('on', danceFreeze);
+  });
+  document.getElementById('danceVoiceToggle').addEventListener('click', (e) => {
+    danceVoice = !danceVoice;
+    e.currentTarget.classList.toggle('on', danceVoice);
+  });
+
+  // ---------- Charades handlers ----------
+  function updateCharadesDifficultyDisplay() {
+    const el = document.getElementById('charadesDifficultyDisplay');
+    if (!el) return;
+    const labels = {
+      easy:   'Common animals kids know well',
+      medium: 'Common + a few trickier ones',
+      hard:   'Trickier animals only',
+      all:    'All animals — easy to wild',
+    };
+    el.textContent = labels[charadesDifficulty] || '';
+  }
+  setupOpts('charadesDifficultyOpts', v => { charadesDifficulty = v; updateCharadesDifficultyDisplay(); });
+  setupOpts('charadesVolumeOpts', v => { charadesVolumeBoost = v; if (audioCtx) configureMaster(charadesVolumeBoost); });
+  document.getElementById('charadesShowToggle').addEventListener('click', (e) => {
+    charadesShow = !charadesShow;
+    e.currentTarget.classList.toggle('on', charadesShow);
+  });
+  document.getElementById('charadesVoiceToggle').addEventListener('click', (e) => {
+    charadesVoice = !charadesVoice;
+    e.currentTarget.classList.toggle('on', charadesVoice);
+  });
+
+  // ---------- Guess handlers ----------
+  setupOpts('guessDifficultyOpts', v => guessDifficulty = v);
+  setupOpts('guessRepeatsOpts',    v => guessRepeats = parseInt(v));
+  setupOpts('guessVolumeOpts',     v => { guessVolumeBoost = v; if (audioCtx) configureMaster(guessVolumeBoost); });
+  document.getElementById('guessAutoToggle').addEventListener('click', (e) => {
+    guessAuto = !guessAuto;
+    e.currentTarget.classList.toggle('on', guessAuto);
+  });
+
+  // ---------- Game picker ----------
+  const gameContainer = document.getElementById('gameOpts');
+  gameContainer.querySelectorAll('.game-opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      gameContainer.querySelectorAll('.game-opt').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      activeGame = btn.dataset.val;
+      document.getElementById('findMeSettings').classList.toggle('hidden', activeGame !== 'findMe');
+      document.getElementById('rlglSettings').classList.toggle('hidden', activeGame !== 'rlgl');
+      document.getElementById('actionSettings').classList.toggle('hidden', activeGame !== 'action');
+      document.getElementById('heroSettings').classList.toggle('hidden', activeGame !== 'hero');
+      document.getElementById('simonSettings').classList.toggle('hidden', activeGame !== 'simon');
+      document.getElementById('danceSettings').classList.toggle('hidden', activeGame !== 'dance');
+      document.getElementById('charadesSettings').classList.toggle('hidden', activeGame !== 'charades');
+      document.getElementById('guessSettings').classList.toggle('hidden', activeGame !== 'guess');
+    });
+  });
+
+  // ---------- Mode toggle (find me) ----------
+  const modeContainer = document.getElementById('modeOpts');
+  modeContainer.querySelectorAll('.mode-opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      modeContainer.querySelectorAll('.mode-opt').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      mode = btn.dataset.val;
+      document.getElementById('chirpSettings').classList.toggle('hidden', mode !== 'chirp');
+    });
+  });
+
+  document.getElementById('reverbToggle').addEventListener('click', (e) => {
+    reverbOn = !reverbOn;
+    e.currentTarget.classList.toggle('on', reverbOn);
+    if (audioCtx) configureMaster(volumeBoost);
+  });
+
+  document.getElementById('voiceToggle').addEventListener('click', (e) => {
+    rlglVoice = !rlglVoice;
+    e.currentTarget.classList.toggle('on', rlglVoice);
+  });
+
+  document.getElementById('actionVoiceToggle').addEventListener('click', (e) => {
+    actionVoice = !actionVoice;
+    e.currentTarget.classList.toggle('on', actionVoice);
+  });
+
+  document.getElementById('heroVoiceToggle').addEventListener('click', (e) => {
+    heroVoice = !heroVoice;
+    e.currentTarget.classList.toggle('on', heroVoice);
+  });
+
+  // ---------- Audio graph ----------
+  function ensureAudio() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      buildAudioGraph();
+    }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    silentAudio.volume = 0.001;
+    silentAudio.play().catch(()=>{});
+  }
+
+  function buildAudioGraph() {
+    convolver = audioCtx.createConvolver();
+    convolver.buffer = createImpulseResponse(2.5, 3.0);
+    dryGain = audioCtx.createGain();
+    wetGain = audioCtx.createGain();
+    compressor = audioCtx.createDynamicsCompressor();
+    masterGain = audioCtx.createGain();
+
+    dryGain.connect(compressor);
+    convolver.connect(wetGain);
+    wetGain.connect(compressor);
+    compressor.connect(masterGain);
+    masterGain.connect(audioCtx.destination);
+    configureMaster(activeGame === 'rlgl' ? rlglVolumeBoost : volumeBoost);
+  }
+
+  function configureMaster(boost) {
+    if (!compressor) return;
+    const now = audioCtx.currentTime;
+    if (boost === 'normal') {
+      compressor.threshold.setValueAtTime(-12, now);
+      compressor.knee.setValueAtTime(20, now);
+      compressor.ratio.setValueAtTime(4, now);
+      compressor.attack.setValueAtTime(0.003, now);
+      compressor.release.setValueAtTime(0.25, now);
+    } else if (boost === 'loud') {
+      compressor.threshold.setValueAtTime(-22, now);
+      compressor.knee.setValueAtTime(15, now);
+      compressor.ratio.setValueAtTime(8, now);
+      compressor.attack.setValueAtTime(0.002, now);
+      compressor.release.setValueAtTime(0.2, now);
+    } else {
+      compressor.threshold.setValueAtTime(-32, now);
+      compressor.knee.setValueAtTime(8, now);
+      compressor.ratio.setValueAtTime(16, now);
+      compressor.attack.setValueAtTime(0.001, now);
+      compressor.release.setValueAtTime(0.15, now);
+    }
+    masterGain.gain.setValueAtTime(VOLUME_MULT[boost], now);
+    dryGain.gain.setValueAtTime(reverbOn && activeGame === 'findMe' ? 0.7 : 1.0, now);
+    wetGain.gain.setValueAtTime(reverbOn && activeGame === 'findMe' ? 0.5 : 0.0, now);
+  }
+
+  function createImpulseResponse(duration, decay) {
+    const sampleRate = audioCtx.sampleRate;
+    const length = Math.floor(sampleRate * duration);
+    const impulse = audioCtx.createBuffer(2, length, sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const data = impulse.getChannelData(ch);
+      for (let i = 0; i < length; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
+      }
+    }
+    return impulse;
+  }
+
+  function getRouting() { return reverbOn && activeGame === 'findMe' ? [dryGain, convolver] : [dryGain]; }
+  function connectSource(node) { getRouting().forEach(dest => node.connect(dest)); }
+
+  async function requestWakeLock() {
+    try {
+      if ('wakeLock' in navigator) {
+        wakeLock = await navigator.wakeLock.request('screen');
+        wakeLock.addEventListener('release', () => { wakeLock = null; });
+      }
+    } catch (e) {}
+  }
+
+  document.addEventListener('visibilitychange', async () => {
+    if (document.visibilityState === 'visible') {
+      const inGame = screens.hide.classList.contains('active')
+        || screens.seek.classList.contains('active')
+        || screens.rlglGame.classList.contains('active')
+        || screens.actionGame.classList.contains('active')
+        || screens.heroGame.classList.contains('active')
+        || screens.simonGame.classList.contains('active')
+        || screens.danceGame.classList.contains('active')
+        || screens.charadesGame.classList.contains('active')
+        || screens.guessGame.classList.contains('active');
+      if (inGame && !wakeLock) requestWakeLock();
+      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(()=>{});
+      silentAudio.play().catch(()=>{});
+    }
+  });
+
+  // ---------- Speech (iOS-hardened) ----------
+  let speechUnlocked = false;
+  let speechKeepalive = null;
+
+  function getEnglishVoice() {
+    if (!('speechSynthesis' in window)) return null;
+    const voices = window.speechSynthesis.getVoices();
+    if (!voices.length) return null;
+    return voices.find(v => /en[-_]?US/i.test(v.lang) && /Samantha|Karen|Daniel|Google US English|Microsoft/i.test(v.name))
+        || voices.find(v => /en[-_]?US/i.test(v.lang))
+        || voices.find(v => /^en/i.test(v.lang))
+        || voices[0];
+  }
+  if ('speechSynthesis' in window) {
+    // Voices load async on most browsers
+    window.speechSynthesis.onvoiceschanged = () => { speechVoice = getEnglishVoice(); };
+    speechVoice = getEnglishVoice();
+  }
+
+  // Must be called inside a user gesture to "unlock" speech on iOS
+  function unlockSpeech() {
+    if (!('speechSynthesis' in window)) return;
+    if (speechUnlocked) return;
+    try {
+      const u = new SpeechSynthesisUtterance(' ');
+      u.volume = 0;
+      u.rate = 1;
+      window.speechSynthesis.speak(u);
+      speechUnlocked = true;
+    } catch (e) {}
+  }
+
+  // iOS Safari has a known bug where speechSynthesis dies after ~15s.
+  // Calling pause+resume periodically keeps it alive.
+  function startSpeechKeepalive() {
+    if (speechKeepalive) return;
+    if (!('speechSynthesis' in window)) return;
+    speechKeepalive = setInterval(() => {
+      try {
+        if (!window.speechSynthesis.speaking) {
+          window.speechSynthesis.resume();
+        }
+      } catch (e) {}
+    }, 4000);
+  }
+  function stopSpeechKeepalive() {
+    if (speechKeepalive) { clearInterval(speechKeepalive); speechKeepalive = null; }
+  }
+
+  function speak(text, opts={}) {
+    if (!('speechSynthesis' in window)) return false;
+    try {
+      // Cancel any in-flight speech (safe even if nothing pending)
+      window.speechSynthesis.cancel();
+      // Tiny delay helps iOS process the cancel before the new speak
+      setTimeout(() => {
+        try {
+          const u = new SpeechSynthesisUtterance(text);
+          if (!speechVoice) speechVoice = getEnglishVoice();
+          if (speechVoice) u.voice = speechVoice;
+          u.lang = 'en-US';
+          u.rate = opts.rate || 1.0;
+          u.pitch = opts.pitch || 1.0;
+          u.volume = 1.0;
+          window.speechSynthesis.speak(u);
+        } catch (e) {}
+      }, 50);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // ---------- Find Me sounds ----------
+  function playPulse(baseFreq, vol) {
+    const now = audioCtx.currentTime;
+    const dur = 0.18;
+    const osc1 = audioCtx.createOscillator();
+    const osc2 = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc1.type = 'sine'; osc2.type = 'triangle';
+    osc1.frequency.setValueAtTime(baseFreq, now);
+    osc2.frequency.setValueAtTime(baseFreq * 1.5, now);
+    osc1.frequency.exponentialRampToValueAtTime(baseFreq * 0.85, now + dur);
+    osc2.frequency.exponentialRampToValueAtTime(baseFreq * 1.27, now + dur);
+    const mix = audioCtx.createGain();
+    mix.gain.value = 0.4;
+    osc2.connect(mix);
+    osc1.connect(gain);
+    mix.connect(gain);
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(vol, now + 0.005);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+    connectSource(gain);
+    osc1.start(now); osc1.stop(now + dur + 0.05);
+    osc2.start(now); osc2.stop(now + dur + 0.05);
+  }
+
+  function playChime(baseFreq, numNotes, vol) {
+    const now = audioCtx.currentTime;
+    const intervals = [0, 4, 7, 12, 16];
+    for (let i = 0; i < numNotes; i++) {
+      const freq = baseFreq * Math.pow(2, intervals[i] / 12);
+      const startT = now + i * 0.13;
+      const dur = 0.5;
+      const osc1 = audioCtx.createOscillator();
+      const osc2 = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc1.type = 'sine'; osc2.type = 'triangle';
+      osc1.frequency.value = freq;
+      osc2.frequency.value = freq * 2;
+      const mix = audioCtx.createGain();
+      mix.gain.value = 0.35;
+      osc2.connect(mix);
+      osc1.connect(gain);
+      mix.connect(gain);
+      gain.gain.setValueAtTime(0, startT);
+      gain.gain.linearRampToValueAtTime(vol, startT + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, startT + dur);
+      connectSource(gain);
+      osc1.start(startT); osc1.stop(startT + dur + 0.05);
+      osc2.start(startT); osc2.stop(startT + dur + 0.05);
+    }
+  }
+
+  function playBell(baseFreq, numNotes, vol) {
+    const now = audioCtx.currentTime;
+    const partials = [1, 2, 2.4, 3.2, 4.5];
+    const partialGains = [1, 0.5, 0.4, 0.25, 0.15];
+    for (let n = 0; n < numNotes; n++) {
+      const freq = baseFreq * (n === 0 ? 1 : Math.pow(2, n * 3 / 12));
+      const startT = now + n * 0.2;
+      const dur = 1.5;
+      const sumGain = audioCtx.createGain();
+      sumGain.gain.setValueAtTime(0, startT);
+      sumGain.gain.linearRampToValueAtTime(vol, startT + 0.005);
+      sumGain.gain.exponentialRampToValueAtTime(0.001, startT + dur);
+      connectSource(sumGain);
+      partials.forEach((p, i) => {
+        const osc = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq * p;
+        g.gain.value = partialGains[i];
+        osc.connect(g); g.connect(sumGain);
+        osc.start(startT); osc.stop(startT + dur + 0.1);
+      });
+    }
+  }
+
+  function playSiren(baseFreq, numNotes, vol) {
+    const now = audioCtx.currentTime;
+    const dur = 0.3 + numNotes * 0.18;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sawtooth';
+    const lowF = baseFreq * 0.7;
+    const highF = baseFreq * 1.4;
+    osc.frequency.setValueAtTime(lowF, now);
+    const sweeps = Math.max(2, numNotes);
+    for (let i = 0; i < sweeps; i++) {
+      const t2 = now + ((i + 0.5) * dur / sweeps);
+      const t3 = now + ((i + 1) * dur / sweeps);
+      osc.frequency.exponentialRampToValueAtTime(highF, t2);
+      osc.frequency.exponentialRampToValueAtTime(lowF, t3);
+    }
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(vol * 0.7, now + 0.05);
+    gain.gain.setValueAtTime(vol * 0.7, now + dur - 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+    osc.connect(gain);
+    connectSource(gain);
+    osc.start(now); osc.stop(now + dur + 0.05);
+  }
+
+  function playBeep(baseFreq, numNotes, vol) {
+    const now = audioCtx.currentTime;
+    for (let i = 0; i < numNotes; i++) {
+      const startT = now + i * 0.18;
+      const dur = 0.12;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'square';
+      osc.frequency.value = baseFreq * (i === 0 ? 1 : 1.06);
+      gain.gain.setValueAtTime(0, startT);
+      gain.gain.linearRampToValueAtTime(vol * 0.6, startT + 0.005);
+      gain.gain.setValueAtTime(vol * 0.6, startT + dur - 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, startT + dur);
+      osc.connect(gain);
+      connectSource(gain);
+      osc.start(startT); osc.stop(startT + dur + 0.02);
+    }
+  }
+
+  function playCuckoo(baseFreq, numNotes, vol) {
+    const now = audioCtx.currentTime;
+    const reps = Math.max(1, Math.floor(numNotes / 2)) + (numNotes >= 3 ? 1 : 0);
+    const high = baseFreq * 1.5;
+    const low = baseFreq * 1.2;
+    for (let r = 0; r < reps; r++) {
+      [high, low].forEach((f, i) => {
+        const startT = now + r * 0.5 + i * 0.22;
+        const dur = 0.18;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.value = f;
+        const lfo = audioCtx.createOscillator();
+        const lfoGain = audioCtx.createGain();
+        lfo.frequency.value = 6;
+        lfoGain.gain.value = 4;
+        lfo.connect(lfoGain);
+        lfoGain.connect(osc.frequency);
+        gain.gain.setValueAtTime(0, startT);
+        gain.gain.linearRampToValueAtTime(vol * 0.7, startT + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, startT + dur);
+        osc.connect(gain);
+        connectSource(gain);
+        osc.start(startT); osc.stop(startT + dur + 0.05);
+        lfo.start(startT); lfo.stop(startT + dur);
+      });
+    }
+  }
+
+  function playChirpSound(baseFreq, numNotes, vol) {
+    if (!audioCtx) return;
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    switch (chirpSound) {
+      case 'bell':   playBell(baseFreq, numNotes, vol); break;
+      case 'siren':  playSiren(baseFreq, numNotes, vol); break;
+      case 'beep':   playBeep(baseFreq, numNotes, vol); break;
+      case 'cuckoo': playCuckoo(baseFreq, numNotes, vol); break;
+      default:       playChime(baseFreq, numNotes, vol);
+    }
+    lastChirpAt = Date.now();
+  }
+
+  // ---------- RLGL sounds ----------
+  function playGreenSound() {
+    if (!audioCtx) return;
+    const now = audioCtx.currentTime;
+    // Cheerful ascending arpeggio (C-E-G)
+    const notes = [523, 659, 784];
+    notes.forEach((freq, i) => {
+      const startT = now + i * 0.08;
+      const dur = 0.4;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0, startT);
+      gain.gain.linearRampToValueAtTime(0.7, startT + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, startT + dur);
+      osc.connect(gain);
+      connectSource(gain);
+      osc.start(startT); osc.stop(startT + dur + 0.05);
+    });
+  }
+
+  function playRedSound() {
+    if (!audioCtx) return;
+    const now = audioCtx.currentTime;
+    // Low descending buzzer (G-C-low)
+    const notes = [392, 311, 233];
+    notes.forEach((freq, i) => {
+      const startT = now + i * 0.1;
+      const dur = 0.5;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0, startT);
+      gain.gain.linearRampToValueAtTime(0.6, startT + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, startT + dur);
+      osc.connect(gain);
+      connectSource(gain);
+      osc.start(startT); osc.stop(startT + dur + 0.05);
+    });
+  }
+
+  function playSuccessJingle() {
+    if (!audioCtx) return;
+    const now = audioCtx.currentTime;
+    const notes = [523, 659, 784, 1047];
+    notes.forEach((freq, i) => {
+      const startT = now + i * 0.12;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0, startT);
+      gain.gain.linearRampToValueAtTime(0.6, startT + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, startT + 0.5);
+      osc.connect(gain);
+      connectSource(gain);
+      osc.start(startT); osc.stop(startT + 0.55);
+    });
+  }
+
+  function playTickSound() {
+    if (!audioCtx) return;
+    const now = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = 800;
+    gain.gain.setValueAtTime(0.25, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+    osc.connect(gain);
+    connectSource(gain);
+    osc.start(now); osc.stop(now + 0.1);
+  }
+
+  // ---------- Visuals ----------
+  function visualChirp() {
+    const c = document.getElementById('creature');
+    if (!c) return;
+    const r1 = document.getElementById('ring1');
+    const r2 = document.getElementById('ring2');
+    c.classList.remove('pulse', 'singing');
+    r1.classList.remove('go');
+    r2.classList.remove('go');
+    void c.offsetWidth;
+    c.classList.add('pulse', 'singing');
+    r1.classList.add('go');
+    setTimeout(() => {
+      r2.classList.remove('go');
+      void r2.offsetWidth;
+      r2.classList.add('go');
+    }, 300);
+    setTimeout(() => c.classList.remove('singing'), 600);
+  }
+
+  function visualPulseLite() {
+    const c = document.getElementById('creature');
+    if (!c) return;
+    c.classList.remove('pulse');
+    void c.offsetWidth;
+    c.classList.add('pulse');
+  }
+
+  // ---------- Find Me flow ----------
+  document.getElementById('testBtn').addEventListener('click', () => {
+    ensureAudio();
+    if (mode === 'pulse') {
+      let count = 0;
+      const demo = () => {
+        if (count++ >= 4) return;
+        playPulse(659, 0.7);
+        setTimeout(demo, 600);
+      };
+      demo();
+    } else {
+      playChirpSound(659, 3, 0.7);
+    }
+  });
+
+  document.getElementById('startBtn').addEventListener('click', () => {
+    ensureAudio();
+    configureMaster(volumeBoost);
+    requestWakeLock();
+    startHideCountdown();
+  });
+
+  function startHideCountdown() {
+    show('hide');
+    let remaining = hideTime;
+    const el = document.getElementById('countdown');
+    el.textContent = remaining;
+    playTickSound();
+    countdownTimer = setInterval(() => {
+      remaining--;
+      el.textContent = remaining;
+      if (remaining <= 5 && remaining > 0) playTickSound();
+      if (remaining <= 0) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+        startSeeking();
+      }
+    }, 1000);
+  }
+
+  function clearAllPhaseTimers() {
+    phaseTimers.forEach(t => clearTimeout(t));
+    phaseTimers = [];
+    if (chirpTimer) { clearInterval(chirpTimer); chirpTimer = null; }
+    if (pulseTimer) { clearInterval(pulseTimer); pulseTimer = null; }
+  }
+
+  function startSeeking() {
+    show('seek');
+    seekStartTime = Date.now();
+    currentPhase = 0;
+    silentAudio.play().catch(()=>{});
+    setPhase(0);
+
+    const phaseLength = PHASE_DURATION[difficulty] * 1000;
+    const totalDuration = phaseLength * NUM_PHASES;
+    const fill = document.getElementById('intensityFill');
+    fill.style.transition = `width ${totalDuration}ms linear`;
+    requestAnimationFrame(() => { fill.style.width = '100%'; });
+
+    for (let p = 1; p < NUM_PHASES; p++) {
+      const t = setTimeout(() => {
+        if (screens.seek.classList.contains('active')) setPhase(p);
+      }, phaseLength * p);
+      phaseTimers.push(t);
+    }
+  }
+
+  function setPhase(p) {
+    currentPhase = p;
+    if (chirpTimer) { clearInterval(chirpTimer); chirpTimer = null; }
+    if (pulseTimer) { clearInterval(pulseTimer); pulseTimer = null; }
+
+    if (mode === 'pulse') {
+      const cfg = PULSE_PHASES[p];
+      document.getElementById('status').textContent = cfg.label;
+      const fire = () => {
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+        visualPulseLite();
+        playPulse(cfg.baseFreq, cfg.vol);
+        lastChirpAt = Date.now();
+      };
+      setTimeout(fire, 200);
+      pulseTimer = setInterval(fire, cfg.interval);
+    } else {
+      const cfg = CHIRP_PHASES[p];
+      document.getElementById('status').textContent = cfg.label;
+      const fire = () => {
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+        visualChirp();
+        playChirpSound(cfg.baseFreq, cfg.notes, cfg.vol);
+      };
+      setTimeout(fire, 400);
+      chirpTimer = setInterval(fire, cfg.interval);
+    }
+  }
+
+  setInterval(() => {
+    if (!screens.seek.classList.contains('active')) return;
+    const cfg = mode === 'pulse' ? PULSE_PHASES[currentPhase] : CHIRP_PHASES[currentPhase];
+    const since = Date.now() - lastChirpAt;
+    if (since > cfg.interval + 5000) {
+      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+      if (mode === 'pulse') {
+        visualPulseLite();
+        playPulse(cfg.baseFreq, cfg.vol);
+      } else {
+        visualChirp();
+        playChirpSound(cfg.baseFreq, cfg.notes, cfg.vol);
+      }
+      lastChirpAt = Date.now();
+    }
+  }, 3000);
+
+  document.getElementById('foundBtn').addEventListener('click', () => {
+    clearAllPhaseTimers();
+    if (wakeLock) { wakeLock.release().catch(()=>{}); wakeLock = null; }
+    const elapsed = Math.round((Date.now() - seekStartTime) / 1000);
+    const mins = Math.floor(elapsed / 60);
+    const secs = elapsed % 60;
+    document.getElementById('timeStat').textContent =
+      `Took ${mins}:${secs.toString().padStart(2, '0')}`;
+    playSuccessJingle();
+    show('found');
+  });
+
+  document.getElementById('againBtn').addEventListener('click', () => {
+    clearAllPhaseTimers();
+    if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+    document.getElementById('intensityFill').style.transition = 'none';
+    document.getElementById('intensityFill').style.width = '0%';
+    show('setup');
+  });
+
+  // ---------- RLGL flow ----------
+  document.getElementById('rlglTestBtn').addEventListener('click', () => {
+    ensureAudio();
+    unlockSpeech();
+    if (rlglVoice) {
+      // Also play the sound as a backup so the user always hears something
+      playGreenSound();
+      setTimeout(() => speak('Green light!', { rate: 1.0, pitch: 1.1 }), 100);
+    } else {
+      playGreenSound();
+    }
+  });
+
+  document.getElementById('rlglStartBtn').addEventListener('click', () => {
+    ensureAudio();
+    unlockSpeech();
+    startSpeechKeepalive();
+    configureMaster(rlglVolumeBoost);
+    requestWakeLock();
+    startRlglCountdown();
+  });
+
+  function startRlglCountdown() {
+    show('rlglCountdown');
+    let remaining = 3;
+    const el = document.getElementById('rlglCountdown');
+    el.textContent = remaining;
+    playTickSound();
+    rlglCountdownTimer = setInterval(() => {
+      remaining--;
+      if (remaining > 0) {
+        el.textContent = remaining;
+        playTickSound();
+      } else {
+        clearInterval(rlglCountdownTimer);
+        rlglCountdownTimer = null;
+        startRlglGame();
+      }
+    }, 1000);
+  }
+
+  function startRlglGame() {
+    show('rlglGame');
+    silentAudio.play().catch(()=>{});
+
+    // First state is always green
+    setRlglState('green');
+
+    // Game length timer
+    if (rlglLength > 0) {
+      rlglEndTime = Date.now() + rlglLength * 1000;
+      updateRlglTimer();
+      rlglTimerInterval = setInterval(updateRlglTimer, 250);
+      rlglEndTimeout = setTimeout(endRlglGame, rlglLength * 1000);
+    } else {
+      document.getElementById('rlglTimer').textContent = 'Endless mode';
+    }
+  }
+
+  function updateRlglTimer() {
+    if (rlglLength <= 0) return;
+    const remaining = Math.max(0, Math.ceil((rlglEndTime - Date.now()) / 1000));
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    document.getElementById('rlglTimer').textContent = `${m}:${s.toString().padStart(2,'0')} left`;
+  }
+
+  function setRlglState(newState) {
+    rlglState = newState;
+    const body = document.body;
+    const emoji = document.getElementById('rlglEmoji');
+    const stateText = document.getElementById('rlglStateText');
+    const actionText = document.getElementById('rlglActionText');
+
+    body.classList.remove('green-bg', 'red-bg');
+    if (newState === 'green') {
+      body.classList.add('green-bg');
+      emoji.textContent = '🟢';
+      stateText.textContent = 'GREEN LIGHT';
+      actionText.textContent = 'RUN!';
+      void emoji.offsetWidth;
+      emoji.style.animation = 'none';
+      stateText.style.animation = 'none';
+      void emoji.offsetWidth;
+      emoji.style.animation = '';
+      stateText.style.animation = '';
+      // Always play the sound (works even if voice fails / silent switch is on)
+      playGreenSound();
+      if (rlglVoice) setTimeout(() => speak('Green light!', { rate: 1.05, pitch: 1.1 }), 100);
+    } else {
+      body.classList.add('red-bg');
+      emoji.textContent = '🔴';
+      stateText.textContent = 'RED LIGHT';
+      actionText.textContent = 'FREEZE!';
+      void emoji.offsetWidth;
+      emoji.style.animation = 'none';
+      stateText.style.animation = 'none';
+      void emoji.offsetWidth;
+      emoji.style.animation = '';
+      stateText.style.animation = '';
+      playRedSound();
+      if (rlglVoice) setTimeout(() => speak('Red light!', { rate: 1.05, pitch: 0.95 }), 100);
+    }
+
+    scheduleNextRlglState();
+  }
+
+  function scheduleNextRlglState() {
+    const cfg = RLGL_SPEED[rlglSpeed];
+    let min, max;
+    if (rlglState === 'green') { min = cfg[0]; max = cfg[1]; }
+    else { min = cfg[2]; max = cfg[3]; }
+    const duration = (min + Math.random() * (max - min)) * 1000;
+
+    if (rlglStateTimeout) clearTimeout(rlglStateTimeout);
+    rlglStateTimeout = setTimeout(() => {
+      if (!screens.rlglGame.classList.contains('active')) return;
+      setRlglState(rlglState === 'green' ? 'red' : 'green');
+    }, duration);
+  }
+
+  function endRlglGame() {
+    if (rlglStateTimeout) { clearTimeout(rlglStateTimeout); rlglStateTimeout = null; }
+    if (rlglEndTimeout) { clearTimeout(rlglEndTimeout); rlglEndTimeout = null; }
+    if (rlglTimerInterval) { clearInterval(rlglTimerInterval); rlglTimerInterval = null; }
+    if (wakeLock) { wakeLock.release().catch(()=>{}); wakeLock = null; }
+    stopSpeechKeepalive();
+    document.body.classList.remove('green-bg', 'red-bg');
+    if (rlglVoice) speak('Time is up! Great job!', { rate: 1.0 });
+    playSuccessJingle();
+    show('rlglEnd');
+  }
+
+  document.getElementById('rlglStopBtn').addEventListener('click', () => {
+    endRlglGame();
+  });
+
+  document.getElementById('rlglAgainBtn').addEventListener('click', () => {
+    if (rlglStateTimeout) clearTimeout(rlglStateTimeout);
+    if (rlglEndTimeout) clearTimeout(rlglEndTimeout);
+    if (rlglTimerInterval) clearInterval(rlglTimerInterval);
+    if (rlglCountdownTimer) clearInterval(rlglCountdownTimer);
+    document.body.classList.remove('green-bg', 'red-bg');
+    show('setup');
+  });
+
+  // ---------- Action / Lava flow ----------
+  function getActionPool() {
+    const pool = [];
+    if (actionDifficulty === 'easy') {
+      pool.push(...ACTIONS.easy, ...ACTIONS.animals, ...ACTIONS.find);
+    } else if (actionDifficulty === 'wild') {
+      pool.push(...ACTIONS.medium, ...ACTIONS.silly, ...ACTIONS.animals);
+    } else {
+      pool.push(...ACTIONS.easy, ...ACTIONS.medium, ...ACTIONS.animals, ...ACTIONS.find, ...ACTIONS.silly);
+    }
+    return pool;
+  }
+
+  function pickNextAction() {
+    // Floor is lava: needs probability roll AND minimum cooldown since last one
+    const sinceLava = Date.now() - lastLavaTime;
+    const minGap = LAVA_MIN_GAP_MS[actionLavaFreq];
+    if (!inLava && sinceLava >= minGap && Math.random() < LAVA_FREQ[actionLavaFreq]) {
+      const lava = LAVA_ACTIONS[Math.floor(Math.random() * LAVA_ACTIONS.length)];
+      lastLavaTime = Date.now();
+      return { ...lava, isLava: true };
+    }
+    const pool = getActionPool();
+    let pick;
+    let tries = 0;
+    do {
+      pick = pool[Math.floor(Math.random() * pool.length)];
+      tries++;
+    } while (pick === lastActionPick && tries < 5);
+    lastActionPick = pick;
+    return { ...pick, isLava: false };
+  }
+
+  function announceAction(action) {
+    const emojiEl = document.getElementById('actionEmoji');
+    const textEl = document.getElementById('actionText');
+    emojiEl.textContent = action.emoji;
+    textEl.textContent = action.text;
+    // re-trigger animation
+    emojiEl.style.animation = 'none';
+    textEl.style.animation = 'none';
+    void emojiEl.offsetWidth;
+    emojiEl.style.animation = '';
+    textEl.style.animation = '';
+
+    if (action.isLava) {
+      inLava = true;
+      document.body.classList.add('lava-bg');
+      // Dramatic siren
+      playSiren(659, 4, 1.0);
+      if (actionVoice) setTimeout(() => speak(action.text.replace(/\n/g, ' '), { rate: 1.15, pitch: 1.0 }), 120);
+    } else {
+      if (inLava) document.body.classList.remove('lava-bg');
+      inLava = false;
+      // Friendly ding
+      playChime(659, 1, 0.55);
+      if (actionVoice) setTimeout(() => speak(action.text, { rate: 1.05, pitch: 1.05 }), 100);
+    }
+  }
+
+  document.getElementById('actionTestBtn').addEventListener('click', () => {
+    ensureAudio();
+    unlockSpeech();
+    playChime(659, 1, 0.6);
+    if (actionVoice) setTimeout(() => speak('Hop on one foot!', { rate: 1.05, pitch: 1.05 }), 150);
+  });
+
+  document.getElementById('actionStartBtn').addEventListener('click', () => {
+    ensureAudio();
+    unlockSpeech();
+    startSpeechKeepalive();
+    configureMaster(actionVolumeBoost);
+    requestWakeLock();
+    startActionCountdown();
+  });
+
+  function startActionCountdown() {
+    show('actionCountdown');
+    let remaining = 3;
+    const el = document.getElementById('actionCountdown');
+    el.textContent = remaining;
+    playTickSound();
+    actionCountdownTimer = setInterval(() => {
+      remaining--;
+      if (remaining > 0) {
+        el.textContent = remaining;
+        playTickSound();
+      } else {
+        clearInterval(actionCountdownTimer);
+        actionCountdownTimer = null;
+        startActionGame();
+      }
+    }, 1000);
+  }
+
+  function startActionGame() {
+    show('actionGame');
+    silentAudio.play().catch(()=>{});
+    inLava = false;
+    lastActionPick = null;
+    lastLavaTime = Date.now(); // start with cooldown active
+    document.body.classList.remove('lava-bg');
+
+    const fire = () => {
+      if (!screens.actionGame.classList.contains('active')) return;
+      const action = pickNextAction();
+      announceAction(action);
+      const [min, max] = actionPace === 'custom'
+        ? [customMin, customMax]
+        : ACTION_PACE[actionPace];
+      const duration = action.isLava
+        ? LAVA_DURATION
+        : (min + Math.random() * (max - min)) * 1000;
+      actionTimer = setTimeout(fire, duration);
+    };
+
+    setTimeout(fire, 500);
+
+    if (actionLength > 0) {
+      actionEndTime = Date.now() + actionLength * 1000;
+      updateActionTimer();
+      actionTimerInterval = setInterval(updateActionTimer, 250);
+      actionEndTimeout = setTimeout(endActionGame, actionLength * 1000);
+    } else {
+      document.getElementById('actionTimer').textContent = 'Endless mode';
+    }
+  }
+
+  function updateActionTimer() {
+    if (actionLength <= 0) return;
+    const remaining = Math.max(0, Math.ceil((actionEndTime - Date.now()) / 1000));
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    document.getElementById('actionTimer').textContent = `${m}:${s.toString().padStart(2,'0')} left`;
+  }
+
+  function endActionGame() {
+    if (actionTimer) { clearTimeout(actionTimer); actionTimer = null; }
+    if (actionEndTimeout) { clearTimeout(actionEndTimeout); actionEndTimeout = null; }
+    if (actionTimerInterval) { clearInterval(actionTimerInterval); actionTimerInterval = null; }
+    if (wakeLock) { wakeLock.release().catch(()=>{}); wakeLock = null; }
+    stopSpeechKeepalive();
+    document.body.classList.remove('lava-bg');
+    inLava = false;
+    if (actionVoice) speak('Time is up! Great job!', { rate: 1.0 });
+    playSuccessJingle();
+    show('actionEnd');
+  }
+
+  document.getElementById('actionStopBtn').addEventListener('click', () => {
+    endActionGame();
+  });
+
+  document.getElementById('actionAgainBtn').addEventListener('click', () => {
+    if (actionTimer) clearTimeout(actionTimer);
+    if (actionEndTimeout) clearTimeout(actionEndTimeout);
+    if (actionTimerInterval) clearInterval(actionTimerInterval);
+    if (actionCountdownTimer) clearInterval(actionCountdownTimer);
+    document.body.classList.remove('lava-bg');
+    show('setup');
+  });
+
+  // ---------- Hero game flow ----------
+  function shuffleArray(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function pickNextHero() {
+    // If style changed since last call, reset the queue
+    if (heroQueueStyleKey !== heroStyle) {
+      heroQueueStyleKey = heroStyle;
+      heroQueue = [];
+    }
+    // When queue is empty (or down to 1), refill with a fresh shuffle
+    if (heroQueue.length === 0) {
+      const pool = getHeroPool();
+      let shuffled = shuffleArray(pool);
+      // Avoid the new first item being the same as last picked (only when pool is big enough)
+      if (lastHeroPick && shuffled.length > 1 && shuffled[0] === lastHeroPick) {
+        // swap first two
+        [shuffled[0], shuffled[1]] = [shuffled[1], shuffled[0]];
+      }
+      heroQueue = shuffled;
+    }
+    const pick = heroQueue.shift();
+    lastHeroPick = pick;
+    return pick;
+  }
+
+  function announceHero(power) {
+    const emojiEl = document.getElementById('heroEmoji');
+    const textEl = document.getElementById('heroText');
+    emojiEl.textContent = power.emoji;
+    textEl.textContent = power.text;
+    emojiEl.style.animation = 'none';
+    textEl.style.animation = 'none';
+    void emojiEl.offsetWidth;
+    emojiEl.style.animation = '';
+    textEl.style.animation = '';
+    // Heroic chime
+    playChime(784, 2, 0.6);
+    if (heroVoice) setTimeout(() => speak(power.text, { rate: 1.0, pitch: 1.0 }), 100);
+  }
+
+  document.getElementById('heroTestBtn').addEventListener('click', () => {
+    ensureAudio();
+    unlockSpeech();
+    playChime(784, 2, 0.6);
+    if (heroVoice) setTimeout(() => speak('Fly through the sky!', { rate: 1.0, pitch: 1.05 }), 150);
+  });
+
+  document.getElementById('heroStartBtn').addEventListener('click', () => {
+    ensureAudio();
+    unlockSpeech();
+    startSpeechKeepalive();
+    configureMaster(heroVolumeBoost);
+    requestWakeLock();
+    startHeroCountdown();
+  });
+
+  function startHeroCountdown() {
+    show('heroCountdown');
+    let remaining = 3;
+    const el = document.getElementById('heroCountdown');
+    el.textContent = remaining;
+    playTickSound();
+    heroCountdownTimer = setInterval(() => {
+      remaining--;
+      if (remaining > 0) {
+        el.textContent = remaining;
+        playTickSound();
+      } else {
+        clearInterval(heroCountdownTimer);
+        heroCountdownTimer = null;
+        startHeroGame();
+      }
+    }, 1000);
+  }
+
+  function startHeroGame() {
+    show('heroGame');
+    silentAudio.play().catch(()=>{});
+    lastHeroPick = null;
+    heroQueue = [];
+    heroQueueStyleKey = null;
+    document.body.classList.add('hero-bg');
+
+    const fire = () => {
+      if (!screens.heroGame.classList.contains('active')) return;
+      const power = pickNextHero();
+      announceHero(power);
+      const [min, max] = HERO_PACE[heroPace];
+      const duration = (min + Math.random() * (max - min)) * 1000;
+      heroTimer = setTimeout(fire, duration);
+    };
+    setTimeout(fire, 500);
+
+    if (heroLength > 0) {
+      heroEndTime = Date.now() + heroLength * 1000;
+      updateHeroTimer();
+      heroTimerInterval = setInterval(updateHeroTimer, 250);
+      heroEndTimeout = setTimeout(endHeroGame, heroLength * 1000);
+    } else {
+      document.getElementById('heroTimer').textContent = 'Endless mode';
+    }
+  }
+
+  function updateHeroTimer() {
+    if (heroLength <= 0) return;
+    const remaining = Math.max(0, Math.ceil((heroEndTime - Date.now()) / 1000));
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    document.getElementById('heroTimer').textContent = `${m}:${s.toString().padStart(2,'0')} left`;
+  }
+
+  function endHeroGame() {
+    if (heroTimer) { clearTimeout(heroTimer); heroTimer = null; }
+    if (heroEndTimeout) { clearTimeout(heroEndTimeout); heroEndTimeout = null; }
+    if (heroTimerInterval) { clearInterval(heroTimerInterval); heroTimerInterval = null; }
+    if (wakeLock) { wakeLock.release().catch(()=>{}); wakeLock = null; }
+    stopSpeechKeepalive();
+    document.body.classList.remove('hero-bg');
+    if (heroVoice) speak('You saved the day! Great job hero!', { rate: 1.0 });
+    playSuccessJingle();
+    show('heroEnd');
+  }
+
+  document.getElementById('heroStopBtn').addEventListener('click', () => {
+    endHeroGame();
+  });
+
+  document.getElementById('heroAgainBtn').addEventListener('click', () => {
+    if (heroTimer) clearTimeout(heroTimer);
+    if (heroEndTimeout) clearTimeout(heroEndTimeout);
+    if (heroTimerInterval) clearInterval(heroTimerInterval);
+    if (heroCountdownTimer) clearInterval(heroCountdownTimer);
+    document.body.classList.remove('hero-bg');
+    show('setup');
+  });
+
+  // ============================================================
+  // SIMON SAYS
+  // ============================================================
+  function pickNextSimon() {
+    let cmd;
+    let tries = 0;
+    do {
+      cmd = SIMON_COMMANDS[Math.floor(Math.random() * SIMON_COMMANDS.length)];
+      tries++;
+    } while (cmd === lastSimonPick && tries < 5);
+    lastSimonPick = cmd;
+    const isSimon = Math.random() > SIMON_TRICKY[simonTricky];
+    return { command: cmd, isSimon };
+  }
+
+  function announceSimon(item) {
+    const emojiEl = document.getElementById('simonEmoji');
+    const textEl = document.getElementById('simonText');
+    if (item.isSimon) {
+      emojiEl.textContent = '✅';
+      textEl.textContent = 'Simon says ' + item.command + '!';
+      playChime(659, 1, 0.5);
+      setTimeout(() => speak('Simon says ' + item.command, { rate: 1.0, pitch: 1.05 }), 100);
+    } else {
+      emojiEl.textContent = '⚠️';
+      textEl.textContent = item.command + '!';
+      playChime(880, 1, 0.4);
+      setTimeout(() => speak(item.command, { rate: 1.0, pitch: 1.0 }), 100);
+    }
+    emojiEl.style.animation = 'none';
+    textEl.style.animation = 'none';
+    void emojiEl.offsetWidth;
+    emojiEl.style.animation = '';
+    textEl.style.animation = '';
+  }
+
+  document.getElementById('simonTestBtn').addEventListener('click', () => {
+    ensureAudio();
+    unlockSpeech();
+    playChime(659, 1, 0.5);
+    setTimeout(() => speak('Simon says touch your nose', { rate: 1.0, pitch: 1.05 }), 150);
+  });
+
+  document.getElementById('simonStartBtn').addEventListener('click', () => {
+    ensureAudio();
+    unlockSpeech();
+    startSpeechKeepalive();
+    configureMaster(simonVolumeBoost);
+    requestWakeLock();
+    show('simonCountdown');
+    let r = 3;
+    const el = document.getElementById('simonCountdown');
+    el.textContent = r;
+    playTickSound();
+    simonCountdownTimer = setInterval(() => {
+      r--;
+      if (r > 0) { el.textContent = r; playTickSound(); }
+      else { clearInterval(simonCountdownTimer); simonCountdownTimer = null; startSimonGame(); }
+    }, 1000);
+  });
+
+  function startSimonGame() {
+    show('simonGame');
+    silentAudio.play().catch(()=>{});
+    lastSimonPick = null;
+    const fire = () => {
+      if (!screens.simonGame.classList.contains('active')) return;
+      announceSimon(pickNextSimon());
+      const [min, max] = SIMON_PACE[simonPace];
+      simonTimer = setTimeout(fire, (min + Math.random() * (max - min)) * 1000);
+    };
+    setTimeout(fire, 600);
+    if (simonLength > 0) {
+      simonEndTime = Date.now() + simonLength * 1000;
+      updateSimonTimer();
+      simonTimerInterval = setInterval(updateSimonTimer, 250);
+      simonEndTimeout = setTimeout(endSimonGame, simonLength * 1000);
+    } else {
+      document.getElementById('simonTimer').textContent = 'Endless mode';
+    }
+  }
+
+  function updateSimonTimer() {
+    if (simonLength <= 0) return;
+    const remaining = Math.max(0, Math.ceil((simonEndTime - Date.now()) / 1000));
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    document.getElementById('simonTimer').textContent = `${m}:${s.toString().padStart(2,'0')} left`;
+  }
+
+  function endSimonGame() {
+    if (simonTimer) { clearTimeout(simonTimer); simonTimer = null; }
+    if (simonEndTimeout) { clearTimeout(simonEndTimeout); simonEndTimeout = null; }
+    if (simonTimerInterval) { clearInterval(simonTimerInterval); simonTimerInterval = null; }
+    if (wakeLock) { wakeLock.release().catch(()=>{}); wakeLock = null; }
+    stopSpeechKeepalive();
+    speak('Time is up! Great listening!', { rate: 1.0 });
+    playSuccessJingle();
+    show('simonEnd');
+  }
+
+  document.getElementById('simonStopBtn').addEventListener('click', endSimonGame);
+  document.getElementById('simonAgainBtn').addEventListener('click', () => {
+    if (simonTimer) clearTimeout(simonTimer);
+    if (simonEndTimeout) clearTimeout(simonEndTimeout);
+    if (simonTimerInterval) clearInterval(simonTimerInterval);
+    if (simonCountdownTimer) clearInterval(simonCountdownTimer);
+    show('setup');
+  });
+
+  // ============================================================
+  // DANCE PARTY
+  // ============================================================
+  function playKick() {
+    if (!audioCtx) return;
+    const now = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(150, now);
+    osc.frequency.exponentialRampToValueAtTime(40, now + 0.15);
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.8, now + 0.005);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+    osc.connect(gain);
+    connectSource(gain);
+    osc.start(now); osc.stop(now + 0.2);
+  }
+
+  function playSnare() {
+    if (!audioCtx) return;
+    const now = audioCtx.currentTime;
+    const bufferSize = audioCtx.sampleRate * 0.15;
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+    const src = audioCtx.createBufferSource();
+    src.buffer = buffer;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'highpass';
+    filter.frequency.value = 1500;
+    const gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.5, now + 0.005);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+    src.connect(filter); filter.connect(gain);
+    connectSource(gain);
+    src.start(now); src.stop(now + 0.13);
+  }
+
+  function playHat() {
+    if (!audioCtx) return;
+    const now = audioCtx.currentTime;
+    const bufferSize = audioCtx.sampleRate * 0.05;
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+    const src = audioCtx.createBufferSource();
+    src.buffer = buffer;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'highpass';
+    filter.frequency.value = 7000;
+    const gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(0.3, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+    src.connect(filter); filter.connect(gain);
+    connectSource(gain);
+    src.start(now); src.stop(now + 0.06);
+  }
+
+  let danceBeatStep = 0;
+  function startDanceBeat() {
+    if (danceBeatTimer) clearInterval(danceBeatTimer);
+    const cfg = DANCE_TEMPO[danceTempo];
+    const stepMs = (60 / cfg.bpm / 2) * 1000; // 8th notes
+    danceBeatStep = 0;
+    const tick = () => {
+      if (danceFrozen) { danceBeatStep++; return; }
+      const beatInBar = danceBeatStep % 8;
+      if (beatInBar === 0 || beatInBar === 4) playKick();
+      if (beatInBar === 2 || beatInBar === 6) playSnare();
+      if (beatInBar % 2 === 1) playHat();
+      danceBeatStep++;
+    };
+    tick();
+    danceBeatTimer = setInterval(tick, stepMs);
+  }
+
+  function stopDanceBeat() {
+    if (danceBeatTimer) { clearInterval(danceBeatTimer); danceBeatTimer = null; }
+  }
+
+  function pickNextDanceMove() {
+    let m;
+    let tries = 0;
+    do {
+      m = DANCE_MOVES[Math.floor(Math.random() * DANCE_MOVES.length)];
+      tries++;
+    } while (m === lastDancePick && tries < 5);
+    lastDancePick = m;
+    return m;
+  }
+
+  function announceDance(move) {
+    const emojiEl = document.getElementById('danceEmoji');
+    const textEl = document.getElementById('danceText');
+    emojiEl.textContent = move.emoji;
+    textEl.textContent = move.text;
+    emojiEl.style.animation = 'none';
+    textEl.style.animation = 'none';
+    void emojiEl.offsetWidth;
+    emojiEl.style.animation = '';
+    textEl.style.animation = '';
+    if (danceVoice) setTimeout(() => speak(move.text, { rate: 1.05, pitch: 1.1 }), 80);
+  }
+
+  function announceFreeze() {
+    const emojiEl = document.getElementById('danceEmoji');
+    const textEl = document.getElementById('danceText');
+    emojiEl.textContent = '🧊';
+    textEl.textContent = 'FREEZE!';
+    danceFrozen = true;
+    if (danceVoice) speak('Freeze!', { rate: 1.0, pitch: 1.0 });
+    setTimeout(() => {
+      if (!screens.danceGame.classList.contains('active')) return;
+      danceFrozen = false;
+      if (danceVoice) speak('Dance!', { rate: 1.05, pitch: 1.15 });
+      announceDance(pickNextDanceMove());
+    }, 3000);
+  }
+
+  document.getElementById('danceTestBtn').addEventListener('click', () => {
+    ensureAudio();
+    unlockSpeech();
+    // Quick beat demo
+    let i = 0;
+    const stepMs = (60 / DANCE_TEMPO[danceTempo].bpm / 2) * 1000;
+    const demo = setInterval(() => {
+      const b = i % 8;
+      if (b === 0 || b === 4) playKick();
+      if (b === 2 || b === 6) playSnare();
+      if (b % 2 === 1) playHat();
+      i++;
+      if (i >= 16) clearInterval(demo);
+    }, stepMs);
+  });
+
+  document.getElementById('danceStartBtn').addEventListener('click', () => {
+    ensureAudio();
+    unlockSpeech();
+    startSpeechKeepalive();
+    configureMaster(danceVolumeBoost);
+    requestWakeLock();
+    show('danceCountdown');
+    let r = 3;
+    const el = document.getElementById('danceCountdown');
+    el.textContent = r;
+    playTickSound();
+    danceCountdownTimer = setInterval(() => {
+      r--;
+      if (r > 0) { el.textContent = r; playTickSound(); }
+      else { clearInterval(danceCountdownTimer); danceCountdownTimer = null; startDanceGame(); }
+    }, 1000);
+  });
+
+  function startDanceGame() {
+    show('danceGame');
+    silentAudio.play().catch(()=>{});
+    lastDancePick = null;
+    danceFrozen = false;
+    startDanceBeat();
+    announceDance(pickNextDanceMove());
+
+    const fire = () => {
+      if (!screens.danceGame.classList.contains('active')) return;
+      // 25% chance to call freeze (if enabled)
+      if (danceFreeze && Math.random() < 0.20) {
+        announceFreeze();
+      } else {
+        announceDance(pickNextDanceMove());
+      }
+      const cfg = DANCE_TEMPO[danceTempo];
+      const dur = (cfg.moveMin + Math.random() * (cfg.moveMax - cfg.moveMin)) * 1000;
+      danceMoveTimer = setTimeout(fire, dur);
+    };
+    const cfg = DANCE_TEMPO[danceTempo];
+    const firstDur = (cfg.moveMin + Math.random() * (cfg.moveMax - cfg.moveMin)) * 1000;
+    danceMoveTimer = setTimeout(fire, firstDur);
+
+    if (danceLength > 0) {
+      danceEndTime = Date.now() + danceLength * 1000;
+      updateDanceTimer();
+      danceTimerInterval = setInterval(updateDanceTimer, 250);
+      danceEndTimeout = setTimeout(endDanceGame, danceLength * 1000);
+    } else {
+      document.getElementById('danceTimer').textContent = 'Endless mode';
+    }
+  }
+
+  function updateDanceTimer() {
+    if (danceLength <= 0) return;
+    const remaining = Math.max(0, Math.ceil((danceEndTime - Date.now()) / 1000));
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    document.getElementById('danceTimer').textContent = `${m}:${s.toString().padStart(2,'0')} left`;
+  }
+
+  function endDanceGame() {
+    stopDanceBeat();
+    if (danceMoveTimer) { clearTimeout(danceMoveTimer); danceMoveTimer = null; }
+    if (danceEndTimeout) { clearTimeout(danceEndTimeout); danceEndTimeout = null; }
+    if (danceTimerInterval) { clearInterval(danceTimerInterval); danceTimerInterval = null; }
+    if (wakeLock) { wakeLock.release().catch(()=>{}); wakeLock = null; }
+    stopSpeechKeepalive();
+    if (danceVoice) speak('Dance party over! Awesome moves!', { rate: 1.0 });
+    playSuccessJingle();
+    show('danceEnd');
+  }
+
+  document.getElementById('danceStopBtn').addEventListener('click', endDanceGame);
+  document.getElementById('danceAgainBtn').addEventListener('click', () => {
+    stopDanceBeat();
+    if (danceMoveTimer) clearTimeout(danceMoveTimer);
+    if (danceEndTimeout) clearTimeout(danceEndTimeout);
+    if (danceTimerInterval) clearInterval(danceTimerInterval);
+    if (danceCountdownTimer) clearInterval(danceCountdownTimer);
+    show('setup');
+  });
+
+  // ============================================================
+  // ANIMAL CHARADES
+  // ============================================================
+  function pickNextCharade() {
+    const pool = getCharadesPool();
+    let pick;
+    let tries = 0;
+    do {
+      pick = pool[Math.floor(Math.random() * pool.length)];
+      tries++;
+    } while (pick === lastCharadesPick && tries < 5);
+    lastCharadesPick = pick;
+    return pick;
+  }
+
+  function announceCharade(animal) {
+    const emojiEl = document.getElementById('charadesEmoji');
+    const textEl = document.getElementById('charadesText');
+    if (charadesShow) {
+      emojiEl.textContent = animal.emoji;
+      textEl.textContent = 'Act like a ' + animal.name + '!';
+    } else {
+      emojiEl.textContent = '🤫';
+      textEl.textContent = '(only the actor can hear)';
+    }
+    emojiEl.style.animation = 'none';
+    textEl.style.animation = 'none';
+    void emojiEl.offsetWidth;
+    emojiEl.style.animation = '';
+    textEl.style.animation = '';
+    playChime(659, 1, 0.5);
+    if (charadesVoice) setTimeout(() => speak('Act like a ' + animal.name, { rate: 1.0, pitch: 1.05 }), 100);
+  }
+
+  document.getElementById('charadesTestBtn').addEventListener('click', () => {
+    ensureAudio();
+    unlockSpeech();
+    playChime(659, 1, 0.5);
+    setTimeout(() => speak('Act like a kangaroo', { rate: 1.0, pitch: 1.05 }), 150);
+  });
+
+  document.getElementById('charadesStartBtn').addEventListener('click', () => {
+    ensureAudio();
+    unlockSpeech();
+    startSpeechKeepalive();
+    configureMaster(charadesVolumeBoost);
+    requestWakeLock();
+    charadesScore = 0;
+    document.getElementById('charadesScore').textContent = '0 acted out';
+    show('charadesGame');
+    silentAudio.play().catch(()=>{});
+    setTimeout(() => announceCharade(pickNextCharade()), 400);
+  });
+
+  document.getElementById('charadesNextBtn').addEventListener('click', () => {
+    charadesScore++;
+    document.getElementById('charadesScore').textContent =
+      charadesScore + (charadesScore === 1 ? ' animal acted out' : ' animals acted out');
+    announceCharade(pickNextCharade());
+  });
+
+  document.getElementById('charadesStopBtn').addEventListener('click', () => {
+    if (wakeLock) { wakeLock.release().catch(()=>{}); wakeLock = null; }
+    stopSpeechKeepalive();
+    document.getElementById('charadesFinalScore').textContent =
+      charadesScore + (charadesScore === 1 ? ' animal!' : ' animals!');
+    playSuccessJingle();
+    show('charadesEnd');
+  });
+
+  document.getElementById('charadesAgainBtn').addEventListener('click', () => {
+    show('setup');
+  });
+
+  // ============================================================
+  // GUESS THE SOUND
+  // ============================================================
+  function playSoundSequence(animal) {
+    // Play the sound `guessRepeats` times with gaps
+    let i = 0;
+    const playOne = () => {
+      if (!screens.guessGame.classList.contains('active')) return;
+      playAnimalSound(animal.sound);
+      i++;
+      if (i < guessRepeats) {
+        setTimeout(playOne, 1400);
+      }
+    };
+    playOne();
+  }
+
+  function startGuessRound() {
+    guessRevealed = false;
+    guessRound++;
+    document.getElementById('guessScore').textContent = 'Round ' + guessRound;
+    const pool = getGuessPool();
+    let pick;
+    let tries = 0;
+    do {
+      pick = pool[Math.floor(Math.random() * pool.length)];
+      tries++;
+    } while (pick === lastGuessPick && tries < 5);
+    lastGuessPick = pick;
+    guessCurrentAnimal = pick;
+
+    const emojiEl = document.getElementById('guessEmoji');
+    const textEl = document.getElementById('guessText');
+    emojiEl.textContent = '🔊';
+    textEl.textContent = 'Listen carefully...';
+    document.getElementById('guessRevealBtn').textContent = 'Reveal Answer';
+
+    setTimeout(() => playSoundSequence(pick), 500);
+  }
+
+  function revealGuess() {
+    if (!guessCurrentAnimal || guessRevealed) return;
+    guessRevealed = true;
+    const animal = guessCurrentAnimal;
+    document.getElementById('guessEmoji').textContent = animal.emoji;
+    document.getElementById('guessText').textContent = "It's a " + animal.name + '!';
+    if (animal.sound) setTimeout(() => playAnimalSound(animal.sound), 200);
+    setTimeout(() => speak("It's a " + animal.name, { rate: 1.0, pitch: 1.05 }), 800);
+    document.getElementById('guessRevealBtn').textContent = 'Next Sound';
+
+    if (guessAuto) {
+      guessAutoTimeout = setTimeout(() => {
+        if (screens.guessGame.classList.contains('active')) startGuessRound();
+      }, 3500);
+    }
+  }
+
+  document.getElementById('guessTestBtn').addEventListener('click', () => {
+    ensureAudio();
+    unlockSpeech();
+    playAnimalSound('cow');
+  });
+
+  document.getElementById('guessStartBtn').addEventListener('click', () => {
+    ensureAudio();
+    unlockSpeech();
+    startSpeechKeepalive();
+    configureMaster(guessVolumeBoost);
+    requestWakeLock();
+    guessRound = 0;
+    show('guessGame');
+    silentAudio.play().catch(()=>{});
+    startGuessRound();
+  });
+
+  document.getElementById('guessRevealBtn').addEventListener('click', () => {
+    if (guessAutoTimeout) { clearTimeout(guessAutoTimeout); guessAutoTimeout = null; }
+    if (guessRevealed) {
+      startGuessRound();
+    } else {
+      revealGuess();
+    }
+  });
+
+  document.getElementById('guessStopBtn').addEventListener('click', () => {
+    if (guessAutoTimeout) clearTimeout(guessAutoTimeout);
+    if (wakeLock) { wakeLock.release().catch(()=>{}); wakeLock = null; }
+    stopSpeechKeepalive();
+    document.getElementById('guessFinalScore').textContent =
+      guessRound + (guessRound === 1 ? ' sound played!' : ' sounds played!');
+    playSuccessJingle();
+    show('guessEnd');
+  });
+
+  document.getElementById('guessAgainBtn').addEventListener('click', () => {
+    if (guessAutoTimeout) clearTimeout(guessAutoTimeout);
+    show('setup');
+  });
+
+})();
+</script>
+</body>
+</html>
