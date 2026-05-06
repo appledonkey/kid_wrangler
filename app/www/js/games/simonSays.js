@@ -117,7 +117,12 @@ const SIMON_COMMANDS = [
 ];
 
 const TRICKY = { easy: 0.15, normal: 0.3, sneaky: 0.5 };
-const PACE = { slow: [3.5, 5.5], normal: [2.2, 4], fast: [1.4, 2.6] };
+const PACE = {
+  slow: [3.5, 5.5],
+  normal: [2.2, 4],
+  fast: [1.4, 2.6],
+  chaos: [0.8, 1.5],
+};
 
 const commandQueue = makeQueue(() => SIMON_COMMANDS);
 

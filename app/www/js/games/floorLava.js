@@ -38,8 +38,6 @@ const STATE = {
   difficulty: 'mixed',
   lavaFreq: 'sometimes',
   length: 120,
-  customMin: 3,
-  customMax: 8,
 };
 
 const ACTIONS = {
@@ -194,12 +192,20 @@ const LAVA_ACTIONS = [
 ];
 
 const ACTION_PACE = {
-  quick: [1.5, 3],
+  slow: [8, 15],
   normal: [3, 5],
-  chill: [5, 8],
-  long: [8, 15],
-  surprise: [2, 15],
+  fast: [1.5, 3],
+  chaos: [0.8, 1.5],
 };
+
+/** Old shape used quick/chill/long/surprise/custom. Map to the new tier set. */
+function normalizePaceKey(k) {
+  if (k === 'quick') return 'fast';
+  if (k === 'chill') return 'slow';
+  if (k === 'long') return 'slow';
+  if (k === 'surprise' || k === 'custom') return 'normal';
+  return k;
+}
 
 const LAVA_FREQ = { never: 0, sometimes: 0.1, often: 0.22, mayhem: 0.45 };
 const LAVA_MIN_GAP_MS = { never: 0, sometimes: 25000, often: 15000, mayhem: 7000 };
@@ -298,10 +304,7 @@ function startGame() {
     if (!isActiveScreen('actionGame')) return;
     const action = pickNextAction();
     announceAction(action);
-    const [min, max] =
-      STATE.pace === 'custom'
-        ? [STATE.customMin, STATE.customMax]
-        : ACTION_PACE[STATE.pace];
+    const [min, max] = ACTION_PACE[STATE.pace] || ACTION_PACE.normal;
     const duration = action.isLava
       ? LAVA_DURATION
       : (min + Math.random() * (max - min)) * 1000;
@@ -366,13 +369,7 @@ function clearAll() {
 function updatePaceDisplay() {
   const el = document.getElementById('paceRangeDisplay');
   if (!el) return;
-  let min, max;
-  if (STATE.pace === 'custom') {
-    min = STATE.customMin;
-    max = STATE.customMax;
-  } else {
-    [min, max] = ACTION_PACE[STATE.pace];
-  }
+  const [min, max] = ACTION_PACE[STATE.pace] || ACTION_PACE.normal;
   el.textContent = `${min}–${max} seconds per action`;
 }
 
@@ -394,15 +391,11 @@ async function loadSettings() {
   const saved = await load(KEY, null);
   if (!saved) return;
   Object.assign(STATE, saved);
+  STATE.pace = normalizePaceKey(STATE.pace);
   syncOpt('actionPaceOpts', STATE.pace);
   syncOpt('actionDifficultyOpts', STATE.difficulty);
   syncOpt('actionLavaOpts', STATE.lavaFreq);
   syncOpt('actionLengthOpts', String(STATE.length));
-  document.getElementById('customMinVal').textContent = STATE.customMin;
-  document.getElementById('customMaxVal').textContent = STATE.customMax;
-  document
-    .getElementById('customPaceSettings')
-    .classList.toggle('hidden', STATE.pace !== 'custom');
   updatePaceDisplay();
   updateLavaDisplay();
 }
@@ -420,34 +413,8 @@ const persist = () => save(KEY, STATE);
 export function init() {
   setupOpts('actionPaceOpts', (v) => {
     STATE.pace = v;
-    document
-      .getElementById('customPaceSettings')
-      .classList.toggle('hidden', v !== 'custom');
     updatePaceDisplay();
     persist();
-  });
-
-  // Custom range step buttons
-  document.querySelectorAll('.step-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const target = btn.dataset.target;
-      const step = parseInt(btn.dataset.step, 10);
-      if (target === 'customMin') {
-        STATE.customMin = Math.max(
-          1,
-          Math.min(STATE.customMax - 1, STATE.customMin + step)
-        );
-        document.getElementById('customMinVal').textContent = STATE.customMin;
-      } else if (target === 'customMax') {
-        STATE.customMax = Math.max(
-          STATE.customMin + 1,
-          Math.min(60, STATE.customMax + step)
-        );
-        document.getElementById('customMaxVal').textContent = STATE.customMax;
-      }
-      updatePaceDisplay();
-      persist();
-    });
   });
 
   setupOpts('actionDifficultyOpts', (v) => {

@@ -135,7 +135,7 @@
 
     <div class="label">Pace</div>
     <div class="options" id="rlglSpeedOpts">
-      <button class="opt" data-val="relaxed">Relaxed</button>
+      <button class="opt" data-val="slow">Slow</button>
       <button class="opt selected" data-val="normal">Normal</button>
       <button class="opt" data-val="fast">Fast</button>
       <button class="opt danger" data-val="chaos">CHAOS</button>
@@ -165,31 +165,12 @@
 
     <div class="label">Pace</div>
     <div class="options" id="actionPaceOpts">
-      <button class="opt" data-val="quick">Quick</button>
+      <button class="opt" data-val="slow">Slow</button>
       <button class="opt selected" data-val="normal">Normal</button>
-      <button class="opt" data-val="chill">Chill</button>
-      <button class="opt" data-val="long">Long</button>
-      <button class="opt" data-val="surprise">Surprise</button>
-      <button class="opt" data-val="custom">Custom</button>
+      <button class="opt" data-val="fast">Fast</button>
+      <button class="opt danger" data-val="chaos">CHAOS</button>
     </div>
     <div class="range-display" id="paceRangeDisplay">3–5 seconds per action</div>
-
-    <div class="conditional hidden" id="customPaceSettings">
-      <div class="custom-range">
-        <div class="range-row">
-          <label>Shortest:</label>
-          <button class="step-btn" data-target="customMin" data-step="-1">−</button>
-          <span class="range-val" id="customMinVal">3</span><span class="range-unit">s</span>
-          <button class="step-btn" data-target="customMin" data-step="1">+</button>
-        </div>
-        <div class="range-row">
-          <label>Longest:</label>
-          <button class="step-btn" data-target="customMax" data-step="-1">−</button>
-          <span class="range-val" id="customMaxVal">8</span><span class="range-unit">s</span>
-          <button class="step-btn" data-target="customMax" data-step="1">+</button>
-        </div>
-      </div>
-    </div>
 
     <div class="label">Difficulty</div>
     <div class="options" id="actionDifficultyOpts">
@@ -234,10 +215,10 @@
 
     <div class="label">Pace</div>
     <div class="options" id="heroPaceOpts">
-      <button class="opt" data-val="quick">Quick</button>
+      <button class="opt" data-val="slow">Slow</button>
       <button class="opt selected" data-val="normal">Normal</button>
-      <button class="opt" data-val="chill">Chill</button>
-      <button class="opt" data-val="long">Long</button>
+      <button class="opt" data-val="fast">Fast</button>
+      <button class="opt danger" data-val="chaos">CHAOS</button>
     </div>
     <div class="range-display" id="heroPaceDisplay">3–6 seconds per power</div>
 
@@ -271,6 +252,7 @@
       <button class="opt" data-val="slow">Slow</button>
       <button class="opt selected" data-val="normal">Normal</button>
       <button class="opt" data-val="fast">Fast</button>
+      <button class="opt danger" data-val="chaos">CHAOS</button>
     </div>
 
     <div class="label">Game Length</div>
@@ -388,10 +370,10 @@
 
     <div class="label">Pace</div>
     <div class="options" id="missionPaceOpts">
-      <button class="opt" data-val="quick">Quick</button>
+      <button class="opt" data-val="slow">Slow</button>
       <button class="opt selected" data-val="normal">Normal</button>
-      <button class="opt" data-val="chill">Chill</button>
-      <button class="opt" data-val="long">Long</button>
+      <button class="opt" data-val="fast">Fast</button>
+      <button class="opt danger" data-val="chaos">CHAOS</button>
     </div>
     <div class="range-display" id="missionPaceDisplay">3–5 seconds per command</div>
 

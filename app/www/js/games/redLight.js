@@ -30,11 +30,17 @@ const STATE = {
 
 // [greenMin, greenMax, redMin, redMax] in seconds
 const SPEED_CONFIG = {
-  relaxed: [5, 10, 1.5, 3],
+  slow: [5, 10, 1.5, 3],
   normal: [3, 7, 2, 4],
   fast: [1.5, 4, 1.5, 3.5],
   chaos: [0.8, 2.5, 0.8, 2.5],
 };
+
+/** Legacy key migration. Saved settings from older builds may use different
+ *  keys for the pace tier. Normalize on load. */
+function normalizePaceKey(k) {
+  return k === 'relaxed' ? 'slow' : k;
+}
 
 let stateTimeout = null;
 let endTimeout = null;
@@ -153,6 +159,7 @@ async function loadSettings() {
   const saved = await load(KEY, null);
   if (!saved) return;
   Object.assign(STATE, saved);
+  STATE.speed = normalizePaceKey(STATE.speed);
   syncOpt('rlglSpeedOpts', STATE.speed);
   syncOpt('rlglLengthOpts', String(STATE.length));
   document.getElementById('voiceToggle').classList.toggle('on', !!STATE.voice);

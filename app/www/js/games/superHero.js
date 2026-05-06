@@ -362,11 +362,19 @@ const VILLAIN_MOVES = [
 ];
 
 const HERO_PACE = {
-  quick: [2, 4],
+  slow: [9, 14],
   normal: [3, 6],
-  chill: [5, 9],
-  long: [9, 14],
+  fast: [2, 4],
+  chaos: [1, 2],
 };
+
+/** Old shape used quick/chill/long. Map to the new tier set. */
+function normalizePaceKey(k) {
+  if (k === 'quick') return 'fast';
+  if (k === 'chill') return 'slow';
+  if (k === 'long') return 'slow';
+  return k;
+}
 
 function getPool() {
   if (STATE.role === 'villain') return VILLAIN_MOVES;
@@ -497,7 +505,7 @@ async function loadSettings() {
     if (typeof saved.role === 'string' && ['hero', 'villain', 'both'].includes(saved.role)) {
       STATE.role = saved.role;
     }
-    if (typeof saved.pace === 'string') STATE.pace = saved.pace;
+    if (typeof saved.pace === 'string') STATE.pace = normalizePaceKey(saved.pace);
     if (typeof saved.length === 'number') STATE.length = saved.length;
   }
   syncOpt('heroRoleOpts', STATE.role);

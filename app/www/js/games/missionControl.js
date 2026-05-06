@@ -142,11 +142,19 @@ const COMMANDS = [
 ];
 
 const PACE = {
-  quick: [1.5, 3],
+  slow: [8, 15],
   normal: [3, 5],
-  chill: [5, 8],
-  long: [8, 15],
+  fast: [1.5, 3],
+  chaos: [0.8, 1.5],
 };
+
+/** Old shape used quick/chill/long. Map to the new tier set. */
+function normalizePaceKey(k) {
+  if (k === 'quick') return 'fast';
+  if (k === 'chill') return 'slow';
+  if (k === 'long') return 'slow';
+  return k;
+}
 
 const queue = makeQueue(() => COMMANDS);
 
@@ -251,7 +259,7 @@ function updatePaceDisplay() {
 async function loadSettings() {
   const saved = await load(KEY, null);
   if (saved) {
-    if (typeof saved.pace === 'string') STATE.pace = saved.pace;
+    if (typeof saved.pace === 'string') STATE.pace = normalizePaceKey(saved.pace);
     if (typeof saved.length === 'number') STATE.length = saved.length;
   }
   syncOpt('missionPaceOpts', STATE.pace);
