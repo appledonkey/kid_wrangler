@@ -209,20 +209,47 @@ p.tag {
   color: var(--navy);
   cursor: pointer;
   box-shadow: 4px 4px 0 var(--navy);
-  transition: transform 0.15s, background 0.15s;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background 0.25s ease,
+              box-shadow 0.2s ease,
+              color 0.2s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
   min-width: 0;
+  position: relative;
 }
 .game-opt:active {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 var(--navy);
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
 }
+/* Selected state: tile lifts up with deeper shadow + coral fill, with a
+ * brief pop on the way in. The keyframe end-state matches the resting
+ * .selected transform so there's no jump when the animation finishes. */
 .game-opt.selected {
   background: var(--coral);
   color: white;
+  transform: translateY(-2px);
+  box-shadow: 4px 6px 0 var(--navy);
+  animation: tileSelect 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 1;
+}
+.game-opt.selected:active {
+  transform: translateY(-2px) translate(2px, 2px);
+  box-shadow: 2px 4px 0 var(--navy);
+}
+.game-opt .icon {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.game-opt.selected .icon {
+  transform: scale(1.1);
+}
+@keyframes tileSelect {
+  0%   { transform: translateY(0) scale(1); }
+  40%  { transform: translateY(-6px) scale(1.05); }
+  100% { transform: translateY(-2px) scale(1); }
 }
 .game-opt.coming-soon {
   opacity: 0.5;
