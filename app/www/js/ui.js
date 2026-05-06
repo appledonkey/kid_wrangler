@@ -77,7 +77,12 @@ export function setupOpts(containerId, onSelect) {
 export function setupToggle(toggleId, onChange) {
   const el = document.getElementById(toggleId);
   if (!el) return;
-  el.addEventListener('click', () => {
+  // Make the entire toggle-wrap clickable, not just the small slider — much
+  // easier to hit on phones. Falls back to the slider element if there's no
+  // wrapper (defensive).
+  const target = el.closest('.toggle-wrap') || el;
+  target.style.cursor = 'pointer';
+  target.addEventListener('click', () => {
     const on = el.classList.toggle('on');
     onChange(on);
   });
