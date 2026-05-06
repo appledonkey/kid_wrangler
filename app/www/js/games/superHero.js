@@ -33,6 +33,7 @@ import {
 } from '../ui.js';
 import { load, save } from '../storage.js';
 import { isLocked, attemptPurchase } from '../featureFlags.js';
+import { successHaptic } from '../native.js';
 
 const KEY = 'superHero';
 
@@ -452,6 +453,7 @@ function endGame() {
   releaseWakeLock();
   stopSpeechKeepalive();
   document.body.classList.remove('hero-bg');
+  successHaptic();
   const closingLine =
     STATE.role === 'villain'
       ? 'Mwa ha ha! Great evil-doing!'

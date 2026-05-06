@@ -29,6 +29,7 @@ import { ANIMALS, CATEGORIES, CATEGORY_LABELS, animalsIn } from './animalsData.j
 import { playAnimalSound } from './animalSounds.js';
 import { load, save } from '../storage.js';
 import { isLocked, attemptPurchase } from '../featureFlags.js';
+import { tapHaptic, successHaptic } from '../native.js';
 
 const KEY = 'animalCharades';
 
@@ -99,6 +100,7 @@ function endGame() {
   stopSpeechKeepalive();
   document.getElementById('charadesFinalScore').textContent =
     score + (score === 1 ? ' animal!' : ' animals!');
+  successHaptic();
   playSuccessJingle();
   show('charadesEnd');
 }
@@ -198,6 +200,7 @@ export function init() {
   });
 
   document.getElementById('charadesNextBtn').addEventListener('click', () => {
+    tapHaptic();
     score++;
     updateScoreDisplay();
     announce(charadesQueue.next());

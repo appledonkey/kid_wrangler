@@ -27,6 +27,7 @@ import {
 } from '../ui.js';
 import { load, save } from '../storage.js';
 import { isLocked, attemptPurchase } from '../featureFlags.js';
+import { successHaptic } from '../native.js';
 
 const KEY = 'missionControl';
 
@@ -227,6 +228,7 @@ function endGame() {
   stopSpeechKeepalive();
   document.body.classList.remove('mission-bg');
   speak('Mission accomplished! Great flying!', { rate: 1.0 });
+  successHaptic();
   playSuccessJingle();
   show('missionEnd');
 }

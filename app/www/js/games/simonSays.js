@@ -27,6 +27,7 @@ import {
 } from '../ui.js';
 import { load, save } from '../storage.js';
 import { isLocked, attemptPurchase } from '../featureFlags.js';
+import { successHaptic } from '../native.js';
 
 const KEY = 'simonSays';
 
@@ -207,6 +208,7 @@ function endGame() {
   releaseWakeLock();
   stopSpeechKeepalive();
   speak('Time is up! Great listening!', { rate: 1.0 });
+  successHaptic();
   playSuccessJingle();
   show('simonEnd');
 }

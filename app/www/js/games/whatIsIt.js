@@ -16,6 +16,7 @@ import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
 import { show, setupOpts, setupToggle, isActiveScreen, makeQueue } from '../ui.js';
 import { itemsIn, CATEGORIES, CATEGORY_LABELS } from './whatIsItData.js';
 import { load, save } from '../storage.js';
+import { tapHaptic, successHaptic } from '../native.js';
 
 const KEY = 'whatIsIt';
 
@@ -68,6 +69,7 @@ function endGame() {
   stopSpeechKeepalive();
   document.getElementById('whatIsItFinalScore').textContent =
     round + (round === 1 ? ' emoji shown!' : ' emojis shown!');
+  successHaptic();
   playSuccessJingle();
   show('whatIsItEnd');
 }
@@ -133,6 +135,7 @@ export function init() {
   });
 
   document.getElementById('whatIsItRevealBtn').addEventListener('click', () => {
+    tapHaptic();
     if (autoTimeout) {
       clearTimeout(autoTimeout);
       autoTimeout = null;

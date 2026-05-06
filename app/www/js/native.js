@@ -60,10 +60,28 @@ export async function tapHaptic() {
   }
 }
 
+export async function heavyHaptic() {
+  if (!Haptics) return;
+  try {
+    await Haptics.impact({ style: 'HEAVY' });
+  } catch {
+    /* swallow */
+  }
+}
+
 export async function successHaptic() {
   if (!Haptics) return;
   try {
     await Haptics.notification({ type: 'SUCCESS' });
+  } catch {
+    /* swallow */
+  }
+}
+
+export async function warningHaptic() {
+  if (!Haptics) return;
+  try {
+    await Haptics.notification({ type: 'WARNING' });
   } catch {
     /* swallow */
   }

@@ -1,5 +1,6 @@
 import UIKit
 import Capacitor
+import AVFoundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -7,7 +8,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // Override the default AVAudioSession category so the app's voice
+        // prompts and Web Audio sounds play even when the iPhone's silent
+        // switch is on. Without this, speechSynthesis is silenced by the
+        // hardware switch — which is the #1 "the app is broken" support
+        // complaint for kids' / utility apps. .playback is the right
+        // category for foreground audio that the user explicitly invoked.
+        do {
+            try AVAudioSession.sharedInstance().setCategory(
+                .playback,
+                mode: .default,
+                options: [.mixWithOthers]
+            )
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("KidWrangler: failed to set AVAudioSession category: \(error)")
+        }
         return true
     }
 
@@ -26,7 +42,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        // Re-activate the audio session if we lost it while inactive (e.g.
+        // an incoming phone call took focus). Without this, audio can come
+        // back muted after a brief interruption.
+        do {
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("KidWrangler: failed to re-activate AVAudioSession: \(error)")
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

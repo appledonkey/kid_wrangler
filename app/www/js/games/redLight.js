@@ -18,6 +18,7 @@ import {
 import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
 import { show, screens, setupOpts, setupToggle, isActiveScreen, retriggerAnim } from '../ui.js';
 import { load, save } from '../storage.js';
+import { successHaptic, warningHaptic } from '../native.js';
 
 const KEY = 'rlgl';
 
@@ -64,6 +65,7 @@ function setLight(newState) {
     stateText.textContent = 'RED LIGHT';
     actionText.textContent = 'FREEZE!';
     retriggerAnim(emoji, stateText);
+    warningHaptic();
     playRedSound();
     if (STATE.voice) setTimeout(() => speak('Red light!', { rate: 1.05, pitch: 0.95 }), 100);
   }
@@ -132,6 +134,7 @@ function endGame() {
   stopSpeechKeepalive();
   document.body.classList.remove('green-bg', 'red-bg');
   if (STATE.voice) speak('Time is up! Great job!', { rate: 1.0 });
+  successHaptic();
   playSuccessJingle();
   show('rlglEnd');
 }

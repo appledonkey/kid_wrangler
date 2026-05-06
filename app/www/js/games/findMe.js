@@ -14,6 +14,7 @@ import {
 import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
 import { show, isActiveScreen } from '../ui.js';
 import { load, save } from '../storage.js';
+import { successHaptic } from '../native.js';
 
 const KEY = 'findMe';
 
@@ -247,6 +248,7 @@ export function init() {
     clearAllPhaseTimers();
     stopWatchdog();
     releaseWakeLock();
+    successHaptic();
     const elapsed = Math.round((Date.now() - seekStartTime) / 1000);
     const mins = Math.floor(elapsed / 60);
     const secs = elapsed % 60;

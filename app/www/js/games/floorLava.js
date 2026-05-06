@@ -29,6 +29,7 @@ import {
   makeQueue,
 } from '../ui.js';
 import { load, save } from '../storage.js';
+import { heavyHaptic, successHaptic } from '../native.js';
 
 const KEY = 'floorLava';
 
@@ -261,6 +262,7 @@ function announceAction(action) {
   if (action.isLava) {
     inLava = true;
     document.body.classList.add('lava-bg');
+    heavyHaptic();
     playSiren(659, 4, 1.0);
     setTimeout(
       () => speak(action.text.replace(/\n/g, ' '), { rate: 1.15, pitch: 1.0 }),
@@ -346,6 +348,7 @@ function endGame() {
   document.body.classList.remove('lava-bg');
   inLava = false;
   speak('Time is up! Great job!', { rate: 1.0 });
+  successHaptic();
   playSuccessJingle();
   show('actionEnd');
 }
