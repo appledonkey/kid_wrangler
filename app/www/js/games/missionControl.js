@@ -1,14 +1,32 @@
-/* Mission Control — phone is mission control giving pilot / fighter / astronaut
- * commands. Kids act them out: barrel rolls, takeoffs, dock with the space
- * station, eye of the tornado, etc.
+/* Mission Control — phone is mission control walking the kid through a
+ * coherent flight, NOT random commands.
  *
- * Same timer-based action-prompt rhythm as Floor Lava, no lava events.
+ * Every mission follows this phase machine:
+ *
+ *   1. Pre-flight   (1–2 commands, random pool)
+ *   2. Countdown    (forced sequence: 10 → 9 → ... → 1 → BLAST OFF, fast tempo)
+ *   3. Liftoff      (1–2 commands)
+ *   4. Atmosphere   (2–4 commands — banking, weaving, weather)
+ *   5. Space        (3–5 commands — orbit, warp, asteroids, aliens)
+ *   6. Mission      (2–4 commands — dock, repair, collect, plant flag)
+ *   7. Re-entry     (1–2 commands)
+ *   8. Landing      (1–2 commands)
+ *   ← loop back to phase 1 for the next mission until game time runs out.
+ *
+ * Between phases (after liftoff, before landing) there's a small chance of
+ * an emergency that interrupts the mission with a forced sequence: low fuel,
+ * meteor strike, engine glitch. Each emergency has its own resolution then
+ * play returns to the regular phase progression.
+ *
+ * STATE.pace controls the time between non-sequenced commands. The countdown
+ * and emergency sequences run on their own faster cadence so they feel tight.
  */
 
 import {
   ensureAudio,
   playChime,
   playTickSound,
+  playSiren,
   playSuccessJingle,
 } from '../audio.js';
 import {
@@ -23,11 +41,10 @@ import {
   setupOpts,
   isActiveScreen,
   retriggerAnim,
-  makeQueue,
 } from '../ui.js';
 import { load, save } from '../storage.js';
 import { isLocked, attemptPurchase } from '../featureFlags.js';
-import { successHaptic } from '../native.js';
+import { successHaptic, heavyHaptic } from '../native.js';
 
 const KEY = 'missionControl';
 
@@ -36,111 +53,6 @@ const STATE = {
   length: 120,
 };
 
-const COMMANDS = [
-  // Takeoff & landing (10)
-  { text: 'Blast off! Rocket up!', emoji: '🚀' },
-  { text: 'Engines on! Takeoff!', emoji: '✈️' },
-  { text: 'Pull back on the stick! Climb!', emoji: '🛩️' },
-  { text: 'Initiate landing approach!', emoji: '🪂' },
-  { text: 'Touch down — gear out!', emoji: '🛬' },
-  { text: 'Three, two, one... ignition!', emoji: '🚀' },
-  { text: 'Throttle up! Full power!', emoji: '🛫' },
-  { text: 'Smooth landing — flaps down!', emoji: '⬇️' },
-  { text: 'Liftoff! Reach for the stars!', emoji: '⭐' },
-  { text: 'Wheels up! We are flying!', emoji: '✈️' },
-
-  // Maneuvers (15)
-  { text: 'Barrel roll!', emoji: '🌀' },
-  { text: 'Bank left, hard!', emoji: '⬅️' },
-  { text: 'Bank right, hard!', emoji: '➡️' },
-  { text: 'Full loop-de-loop!', emoji: '🔄' },
-  { text: 'Nosedive! Pull up at the last second!', emoji: '🔻' },
-  { text: 'Climb steep!', emoji: '⬆️' },
-  { text: 'Spiral up!', emoji: '🔁' },
-  { text: 'Somersault through the air!', emoji: '🤸' },
-  { text: 'Corkscrew!', emoji: '🌪️' },
-  { text: 'Power dive!', emoji: '⤵️' },
-  { text: 'Wing wave — tilt side to side!', emoji: '🦋' },
-  { text: 'Inverted flight — upside down!', emoji: '🪂' },
-  { text: 'Sharp U-turn!', emoji: '↩️' },
-  { text: 'Pull up! Pull up!', emoji: '⤴️' },
-  { text: 'Weave through the canyon!', emoji: '〰️' },
-
-  // Boost & speed (8)
-  { text: 'Engage afterburner!', emoji: '⚡' },
-  { text: 'Boost forward!', emoji: '🚀' },
-  { text: 'Punch it! Full speed!', emoji: '💨' },
-  { text: 'Hyperdrive!', emoji: '🌟' },
-  { text: 'Throttle to max!', emoji: '⏩' },
-  { text: 'Sonic boom!', emoji: '💥' },
-  { text: 'Engage warp drive!', emoji: '✨' },
-  { text: 'Speed burst!', emoji: '🚦' },
-
-  // Combat / evasion (10)
-  { text: 'Target locked!', emoji: '🎯' },
-  { text: 'Raise shields!', emoji: '🛡️' },
-  { text: 'Fire torpedoes!', emoji: '💥' },
-  { text: 'Incoming! Dodge!', emoji: '🚨' },
-  { text: 'Lasers ready!', emoji: '🔫' },
-  { text: 'Eyes on the bandit!', emoji: '👀' },
-  { text: 'Evasive maneuvers!', emoji: '✋' },
-  { text: 'Drop chaff!', emoji: '🌠' },
-  { text: 'Aim for the target!', emoji: '🎯' },
-  { text: 'Brace for impact!', emoji: '🛡️' },
-
-  // Mission communication (8)
-  { text: 'Copy that, Mission Control!', emoji: '📡' },
-  { text: 'Mayday! Mayday!', emoji: '🆘' },
-  { text: 'Calling base!', emoji: '📞' },
-  { text: 'Mission accomplished!', emoji: '✅' },
-  { text: 'Abort! Abort!', emoji: '🛟' },
-  { text: 'Roger that!', emoji: '📡' },
-  { text: 'Red alert!', emoji: '🚨' },
-  { text: 'All systems go!', emoji: '📢' },
-
-  // Space scenarios (10)
-  { text: 'Dock with the space station!', emoji: '🛰️' },
-  { text: 'Asteroid field — weave!', emoji: '🌠' },
-  { text: 'Aliens spotted — wave hello!', emoji: '👽' },
-  { text: 'Orbit the Earth!', emoji: '🌍' },
-  { text: 'Land on the moon!', emoji: '🌕' },
-  { text: 'Plant the flag!', emoji: '🚩' },
-  { text: 'UFO at twelve o\'clock!', emoji: '🛸' },
-  { text: 'Make a wish on a shooting star!', emoji: '⭐' },
-  { text: 'Travel to another galaxy!', emoji: '🌌' },
-  { text: 'Slingshot around the planet!', emoji: '🪐' },
-
-  // Pilot / jet scenarios (10)
-  { text: 'Punch through the clouds!', emoji: '☁️' },
-  { text: 'Fly over the mountains!', emoji: '🏔️' },
-  { text: 'Skim across the ocean!', emoji: '🌊' },
-  { text: 'Race an eagle!', emoji: '🦅' },
-  { text: 'Fly through a rainbow!', emoji: '🌈' },
-  { text: 'Avoid the lightning storm!', emoji: '⚡' },
-  { text: 'Eye of the tornado!', emoji: '🌪️' },
-  { text: 'Dogfight!', emoji: '🛩️' },
-  { text: 'Glide silently!', emoji: '🪶' },
-  { text: 'Hover over the target!', emoji: '🚁' },
-
-  // Astronaut tasks (8)
-  { text: 'Spacewalk!', emoji: '👨‍🚀' },
-  { text: 'Float in zero gravity!', emoji: '🪐' },
-  { text: 'Repair the satellite!', emoji: '🔧' },
-  { text: 'Wave at Earth!', emoji: '🌍' },
-  { text: 'Bounce on the moon!', emoji: '🌙' },
-  { text: 'Collect moon rocks!', emoji: '🪨' },
-  { text: 'Adjust the antenna!', emoji: '📡' },
-  { text: 'Eat space food!', emoji: '🍱' },
-
-  // Funny / glitches (6)
-  { text: 'Engine glitch! Wiggle the whole ship!', emoji: '😱' },
-  { text: 'Butterfly in the cockpit — swat it!', emoji: '🦋' },
-  { text: 'Co-pilot is sleeping — shake them!', emoji: '💤' },
-  { text: 'Lunch break — chomp space pizza!', emoji: '🍕' },
-  { text: 'Sing the mission anthem!', emoji: '🎵' },
-  { text: 'Air-guitar solo at Mach 2!', emoji: '🎸' },
-];
-
 const PACE = {
   slow: [8, 15],
   normal: [3, 5],
@@ -148,7 +60,6 @@ const PACE = {
   chaos: [0.8, 1.5],
 };
 
-/** Old shape used quick/chill/long. Map to the new tier set. */
 function normalizePaceKey(k) {
   if (k === 'quick') return 'fast';
   if (k === 'chill') return 'slow';
@@ -156,7 +67,195 @@ function normalizePaceKey(k) {
   return k;
 }
 
-const queue = makeQueue(() => COMMANDS);
+const COUNTDOWN_TICK_MS = 800; // tighter cadence for the 10-9-8 sequence
+const EMERGENCY_TICK_MS = 1200;
+const EMERGENCY_PROBABILITY = 0.18; // ~1 in 5 missions has an emergency
+
+const PHASES = [
+  {
+    id: 'preflight',
+    minCommands: 1,
+    maxCommands: 2,
+    commands: [
+      { text: 'Run the pre-flight check!', emoji: '✅' },
+      { text: 'Strap into your seat!', emoji: '🪑' },
+      { text: 'Helmet on!', emoji: '👨‍🚀' },
+      { text: 'Power up the engines!', emoji: '🔋' },
+      { text: 'Mission Control: all systems go!', emoji: '📡' },
+      { text: 'Final checks complete!', emoji: '📋' },
+      { text: 'Crew, sound off!', emoji: '🫡' },
+    ],
+  },
+  {
+    id: 'countdown',
+    type: 'sequence',
+    commands: [
+      { text: 'Ten!', emoji: '🔟' },
+      { text: 'Nine!', emoji: '9️⃣' },
+      { text: 'Eight!', emoji: '8️⃣' },
+      { text: 'Seven!', emoji: '7️⃣' },
+      { text: 'Six!', emoji: '6️⃣' },
+      { text: 'Five!', emoji: '5️⃣' },
+      { text: 'Four!', emoji: '4️⃣' },
+      { text: 'Three!', emoji: '3️⃣' },
+      { text: 'Two!', emoji: '2️⃣' },
+      { text: 'One!', emoji: '1️⃣' },
+      { text: 'BLAST OFF!', emoji: '🚀' },
+    ],
+  },
+  {
+    id: 'liftoff',
+    minCommands: 1,
+    maxCommands: 2,
+    commands: [
+      { text: 'Liftoff! Reach for the stars!', emoji: '⭐' },
+      { text: 'Engines on full!', emoji: '🔥' },
+      { text: 'Throttle up!', emoji: '🛫' },
+      { text: 'Climb steep — through the clouds!', emoji: '☁️' },
+      { text: 'Punching through the atmosphere!', emoji: '🌤️' },
+    ],
+  },
+  {
+    id: 'atmosphere',
+    minCommands: 2,
+    maxCommands: 4,
+    commands: [
+      { text: 'Bank left, hard!', emoji: '⬅️' },
+      { text: 'Bank right, hard!', emoji: '➡️' },
+      { text: 'Punch through the clouds!', emoji: '☁️' },
+      { text: 'Avoid the lightning storm!', emoji: '⚡' },
+      { text: 'Fly over the mountains!', emoji: '🏔️' },
+      { text: 'Skim across the ocean!', emoji: '🌊' },
+      { text: 'Race an eagle!', emoji: '🦅' },
+      { text: 'Fly through a rainbow!', emoji: '🌈' },
+      { text: 'Eye of the tornado!', emoji: '🌪️' },
+      { text: 'Climb steep!', emoji: '⬆️' },
+      { text: 'Pull up! Pull up!', emoji: '⤴️' },
+      { text: 'Soar like an eagle!', emoji: '🌤️' },
+      { text: 'Engage afterburner!', emoji: '⚡' },
+      { text: 'Sonic boom!', emoji: '💥' },
+      { text: 'Barrel roll!', emoji: '🌀' },
+      { text: 'Loop-de-loop!', emoji: '🔄' },
+    ],
+  },
+  {
+    id: 'space',
+    minCommands: 3,
+    maxCommands: 5,
+    commands: [
+      { text: 'Entering orbit!', emoji: '🌍' },
+      { text: 'Engage warp drive!', emoji: '✨' },
+      { text: 'Hyperdrive!', emoji: '🌟' },
+      { text: 'Asteroid field — weave!', emoji: '🌠' },
+      { text: 'Aliens spotted — wave hello!', emoji: '👽' },
+      { text: 'UFO at twelve oclock!', emoji: '🛸' },
+      { text: 'Float in zero gravity!', emoji: '🪐' },
+      { text: 'Travel to another galaxy!', emoji: '🌌' },
+      { text: 'Slingshot around the planet!', emoji: '🪐' },
+      { text: 'Orbit the Earth!', emoji: '🌍' },
+      { text: 'Make a wish on a shooting star!', emoji: '⭐' },
+      { text: 'Open the cargo bay!', emoji: '🛸' },
+      { text: 'Inverted flight — upside down!', emoji: '🪂' },
+      { text: 'Corkscrew through the stars!', emoji: '🌪️' },
+    ],
+  },
+  {
+    id: 'mission',
+    minCommands: 2,
+    maxCommands: 4,
+    commands: [
+      { text: 'Dock with the space station!', emoji: '🛰️' },
+      { text: 'Repair the satellite!', emoji: '🔧' },
+      { text: 'Spacewalk!', emoji: '👨‍🚀' },
+      { text: 'Land on the moon!', emoji: '🌕' },
+      { text: 'Plant the flag!', emoji: '🚩' },
+      { text: 'Collect moon rocks!', emoji: '🪨' },
+      { text: 'Adjust the antenna!', emoji: '📡' },
+      { text: 'Bounce on the moon!', emoji: '🌙' },
+      { text: 'Wave at Earth!', emoji: '🌍' },
+      { text: 'Eat space food!', emoji: '🍱' },
+      { text: 'Take a selfie with the stars!', emoji: '📸' },
+      { text: 'Photograph a new planet!', emoji: '🪐' },
+      { text: 'Plant a seed in moon soil!', emoji: '🌱' },
+      { text: 'Send a message back to Earth!', emoji: '📨' },
+    ],
+  },
+  {
+    id: 'reentry',
+    minCommands: 1,
+    maxCommands: 2,
+    commands: [
+      { text: 'Begin re-entry sequence!', emoji: '🌍' },
+      { text: 'Heat shield engaged!', emoji: '🔥' },
+      { text: 'Brace for impact!', emoji: '🛡️' },
+      { text: 'Approach the landing zone!', emoji: '🎯' },
+      { text: 'Slow your descent!', emoji: '⬇️' },
+      { text: 'Deploy parachutes!', emoji: '🪂' },
+    ],
+  },
+  {
+    id: 'landing',
+    minCommands: 1,
+    maxCommands: 2,
+    commands: [
+      { text: 'Landing gear out!', emoji: '🛬' },
+      { text: 'Touch down — smooth landing!', emoji: '✅' },
+      { text: 'Power down the engines!', emoji: '🔌' },
+      { text: 'Mission accomplished!', emoji: '🎉' },
+      { text: 'Welcome back, pilot!', emoji: '🦸' },
+      { text: 'Take a bow for Mission Control!', emoji: '🙇' },
+    ],
+  },
+];
+
+const EMERGENCIES = [
+  {
+    id: 'fuel',
+    sequence: [
+      { text: 'FUEL CRITICAL!', emoji: '⛽' },
+      { text: 'Engine sputtering!', emoji: '😱' },
+      { text: 'EJECT! EJECT!', emoji: '🧨' },
+      { text: 'Pull the parachute!', emoji: '🪂' },
+      { text: 'Safe landing — phew!', emoji: '🌳' },
+    ],
+  },
+  {
+    id: 'meteor',
+    sequence: [
+      { text: 'METEOR INCOMING!', emoji: '☄️' },
+      { text: 'DODGE LEFT!', emoji: '⬅️' },
+      { text: 'DODGE RIGHT!', emoji: '➡️' },
+      { text: 'Brace for impact!', emoji: '🛡️' },
+      { text: 'Damage report — minor!', emoji: '✅' },
+    ],
+  },
+  {
+    id: 'glitch',
+    sequence: [
+      { text: 'Engine glitch! Wiggle the ship!', emoji: '😱' },
+      { text: 'Run the diagnostic!', emoji: '🔧' },
+      { text: 'Tap the dashboard hard!', emoji: '👊' },
+      { text: 'Engines back online!', emoji: '✅' },
+    ],
+  },
+  {
+    id: 'alien',
+    sequence: [
+      { text: 'UFO on the radar!', emoji: '🛸' },
+      { text: 'Hail them — wave hello!', emoji: '👋' },
+      { text: 'Friendly aliens — share a snack!', emoji: '🍪' },
+      { text: 'They wave goodbye!', emoji: '👽' },
+    ],
+  },
+];
+
+// Phases where an emergency is allowed to fire (between liftoff and landing
+// — never during pre-flight, countdown, re-entry or landing itself).
+const EMERGENCY_OK_PHASES = new Set(['atmosphere', 'space', 'mission']);
+
+// =============================================================
+// Runtime state
+// =============================================================
 
 let actionTimer = null;
 let endTimeout = null;
@@ -164,14 +263,129 @@ let endTime = 0;
 let timerInterval = null;
 let countdownTimer = null;
 
-function announce(cmd) {
+let phaseIndex = 0;
+let phaseCommandsFired = 0;
+let phaseTarget = 0; // for non-sequence phases, how many commands this run
+let phaseQueue = []; // shuffle queue per non-sequence phase
+let emergencyTriggeredThisMission = false;
+
+// For emergency injection: when truthy, fire that sequence in order before
+// returning to the normal phase progression.
+let activeEmergency = null;
+let emergencyIndex = 0;
+
+function pickRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function randInt(min, max) {
+  return min + Math.floor(Math.random() * (max - min + 1));
+}
+
+function shuffleArray(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function paceMs() {
+  const [min, max] = PACE[STATE.pace] || PACE.normal;
+  return (min + Math.random() * (max - min)) * 1000;
+}
+
+function announce(cmd, opts = {}) {
   const emojiEl = document.getElementById('missionEmoji');
   const textEl = document.getElementById('missionText');
   emojiEl.textContent = cmd.emoji;
   textEl.textContent = cmd.text;
   retriggerAnim(emojiEl, textEl);
-  playChime(659, 1, 0.55);
-  setTimeout(() => speak(cmd.text, { rate: 1.05, pitch: 1.0 }), 100);
+  if (opts.urgent) {
+    heavyHaptic();
+    playSiren(659, 2, 0.8);
+  } else {
+    playChime(784, 1, 0.55);
+  }
+  setTimeout(() => speak(cmd.text, { rate: opts.urgent ? 1.1 : 1.05, pitch: 1.0 }), 100);
+}
+
+function startNewMission() {
+  phaseIndex = 0;
+  phaseCommandsFired = 0;
+  phaseQueue = [];
+  emergencyTriggeredThisMission = false;
+  setupCurrentPhase();
+}
+
+function setupCurrentPhase() {
+  const phase = PHASES[phaseIndex];
+  phaseCommandsFired = 0;
+  if (phase.type === 'sequence') {
+    phaseTarget = phase.commands.length;
+    phaseQueue = phase.commands.slice(); // sequenced, in order
+  } else {
+    phaseTarget = randInt(phase.minCommands, phase.maxCommands);
+    phaseQueue = shuffleArray(phase.commands);
+  }
+}
+
+function maybeTriggerEmergency() {
+  if (emergencyTriggeredThisMission) return false;
+  const phase = PHASES[phaseIndex];
+  if (!EMERGENCY_OK_PHASES.has(phase.id)) return false;
+  if (Math.random() >= EMERGENCY_PROBABILITY) return false;
+  // Pick + arm an emergency.
+  activeEmergency = pickRandom(EMERGENCIES);
+  emergencyIndex = 0;
+  emergencyTriggeredThisMission = true;
+  return true;
+}
+
+function fire() {
+  if (!isActiveScreen('missionGame')) return;
+
+  // 1. If an emergency is active, walk through it first.
+  if (activeEmergency) {
+    const cmd = activeEmergency.sequence[emergencyIndex];
+    announce(cmd, { urgent: true });
+    emergencyIndex++;
+    const done = emergencyIndex >= activeEmergency.sequence.length;
+    if (done) {
+      activeEmergency = null;
+      emergencyIndex = 0;
+    }
+    actionTimer = setTimeout(fire, EMERGENCY_TICK_MS);
+    return;
+  }
+
+  // 2. Maybe arm an emergency before this command (only at "ok" phases).
+  if (maybeTriggerEmergency()) {
+    fire(); // re-enter, this time the emergency branch fires.
+    return;
+  }
+
+  // 3. Normal phase command.
+  const phase = PHASES[phaseIndex];
+  const cmd = phaseQueue[phaseCommandsFired] || phaseQueue[0];
+  announce(cmd);
+  phaseCommandsFired++;
+
+  const phaseDone = phaseCommandsFired >= phaseTarget;
+  if (phaseDone) {
+    phaseIndex++;
+    if (phaseIndex >= PHASES.length) {
+      // Mission complete — start a new one.
+      startNewMission();
+    } else {
+      setupCurrentPhase();
+    }
+  }
+
+  // 4. Schedule next.
+  const dur = phase.type === 'sequence' ? COUNTDOWN_TICK_MS : paceMs();
+  actionTimer = setTimeout(fire, dur);
 }
 
 function updateTimer() {
@@ -187,15 +401,7 @@ function updateTimer() {
 function startGame() {
   show('missionGame');
   document.body.classList.add('mission-bg');
-  queue.reset();
-
-  const fire = () => {
-    if (!isActiveScreen('missionGame')) return;
-    announce(queue.next());
-    const [min, max] = PACE[STATE.pace];
-    const dur = (min + Math.random() * (max - min)) * 1000;
-    actionTimer = setTimeout(fire, dur);
-  };
+  startNewMission();
   setTimeout(fire, 500);
 
   if (STATE.length > 0) {
@@ -247,12 +453,14 @@ function clearAll() {
   if (timerInterval) clearInterval(timerInterval);
   if (countdownTimer) clearInterval(countdownTimer);
   actionTimer = endTimeout = timerInterval = countdownTimer = null;
+  activeEmergency = null;
+  emergencyIndex = 0;
 }
 
 function updatePaceDisplay() {
   const el = document.getElementById('missionPaceDisplay');
   if (!el) return;
-  const [min, max] = PACE[STATE.pace];
+  const [min, max] = PACE[STATE.pace] || PACE.normal;
   el.textContent = `${min}–${max} seconds per command`;
 }
 
@@ -291,8 +499,8 @@ export function init() {
   document.getElementById('missionTestBtn').addEventListener('click', () => {
     ensureAudio();
     unlockSpeech();
-    playChime(659, 1, 0.55);
-    setTimeout(() => speak('Liftoff in three, two, one!', { rate: 1.05, pitch: 1.0 }), 150);
+    playChime(784, 1, 0.55);
+    setTimeout(() => speak('Mission Control: all systems go!', { rate: 1.05, pitch: 1.0 }), 150);
   });
 
   document.getElementById('missionStartBtn').addEventListener('click', async () => {

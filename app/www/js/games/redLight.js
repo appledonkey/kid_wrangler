@@ -155,14 +155,30 @@ function clearAll() {
 
 // ---------- Wiring ----------
 
+function updatePaceDisplay() {
+  const el = document.getElementById('rlglPaceDisplay');
+  if (!el) return;
+  const labels = {
+    slow: 'Long greens, long reds — chill',
+    normal: 'Lights flip every 2–7 seconds',
+    fast: 'Quick light changes, 1–4 seconds',
+    chaos: 'Both colors flip in under 2 seconds!',
+  };
+  el.textContent = labels[STATE.speed] || '';
+}
+
 async function loadSettings() {
   const saved = await load(KEY, null);
-  if (!saved) return;
+  if (!saved) {
+    updatePaceDisplay();
+    return;
+  }
   Object.assign(STATE, saved);
   STATE.speed = normalizePaceKey(STATE.speed);
   syncOpt('rlglSpeedOpts', STATE.speed);
   syncOpt('rlglLengthOpts', String(STATE.length));
   document.getElementById('voiceToggle').classList.toggle('on', !!STATE.voice);
+  updatePaceDisplay();
 }
 
 function syncOpt(containerId, value) {
@@ -178,6 +194,7 @@ const persist = () => save(KEY, STATE);
 export function init() {
   setupOpts('rlglSpeedOpts', (v) => {
     STATE.speed = v;
+    updatePaceDisplay();
     persist();
   });
   setupOpts('rlglLengthOpts', (v) => {

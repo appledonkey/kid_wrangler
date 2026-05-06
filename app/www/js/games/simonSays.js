@@ -237,6 +237,13 @@ function updateTrickyDisplay() {
   el.textContent = labels[STATE.tricky] || '';
 }
 
+function updatePaceDisplay() {
+  const el = document.getElementById('simonPaceDisplay');
+  if (!el) return;
+  const [min, max] = PACE[STATE.pace] || PACE.normal;
+  el.textContent = `${min}–${max} seconds between commands`;
+}
+
 async function loadSettings() {
   const saved = await load(KEY, null);
   if (!saved) return;
@@ -245,6 +252,7 @@ async function loadSettings() {
   syncOpt('simonPaceOpts', STATE.pace);
   syncOpt('simonLengthOpts', String(STATE.length));
   updateTrickyDisplay();
+  updatePaceDisplay();
 }
 
 function syncOpt(containerId, value) {
@@ -265,6 +273,7 @@ export function init() {
   });
   setupOpts('simonPaceOpts', (v) => {
     STATE.pace = v;
+    updatePaceDisplay();
     persist();
   });
   setupOpts('simonLengthOpts', (v) => {

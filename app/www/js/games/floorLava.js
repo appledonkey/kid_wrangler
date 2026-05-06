@@ -373,6 +373,17 @@ function updatePaceDisplay() {
   el.textContent = `${min}–${max} seconds per action`;
 }
 
+function updateDifficultyDisplay() {
+  const el = document.getElementById('actionDifficultyDisplay');
+  if (!el) return;
+  const labels = {
+    easy: 'Gentle moves — hops, finds, stretches, balance',
+    mixed: 'Everything — gentle and wild together',
+    wild: 'High energy — exercise, silly, skills',
+  };
+  el.textContent = labels[STATE.difficulty] || '';
+}
+
 function updateLavaDisplay() {
   const el = document.getElementById('lavaRangeDisplay');
   if (!el) return;
@@ -397,6 +408,7 @@ async function loadSettings() {
   syncOpt('actionLavaOpts', STATE.lavaFreq);
   syncOpt('actionLengthOpts', String(STATE.length));
   updatePaceDisplay();
+  updateDifficultyDisplay();
   updateLavaDisplay();
 }
 
@@ -420,6 +432,7 @@ export function init() {
   setupOpts('actionDifficultyOpts', (v) => {
     STATE.difficulty = v;
     actionQueue.reset();
+    updateDifficultyDisplay();
     persist();
   });
   setupOpts('actionLavaOpts', (v) => {
