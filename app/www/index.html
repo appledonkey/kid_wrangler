@@ -443,26 +443,32 @@
 
     <button class="big-btn test" id="guessTestBtn">🔊 Test Sound</button>
 
-    <div class="label">Difficulty</div>
-    <div class="options" id="guessDifficultyOpts">
-      <button class="opt selected" data-val="easy">Easy</button>
-      <button class="opt" data-val="medium">Medium</button>
-      <button class="opt" data-val="all">All</button>
+    <div class="setting-group">
+      <div class="label">Difficulty</div>
+      <div class="options" id="guessDifficultyOpts">
+        <button class="opt selected" data-val="easy">Easy</button>
+        <button class="opt" data-val="medium">Medium</button>
+        <button class="opt" data-val="all">All</button>
+      </div>
     </div>
 
-    <div class="label">Sound Repeats</div>
-    <div class="options" id="guessRepeatsOpts">
-      <button class="opt" data-val="2">2x</button>
-      <button class="opt selected" data-val="3">3x</button>
-      <button class="opt" data-val="4">4x</button>
+    <div class="setting-group">
+      <div class="label">Repeats</div>
+      <div class="options" id="guessRepeatsOpts">
+        <button class="opt" data-val="2">2x</button>
+        <button class="opt selected" data-val="3">3x</button>
+        <button class="opt" data-val="4">4x</button>
+      </div>
     </div>
 
-    <div class="toggle-wrap">
-      <span class="tlabel">Auto-advance after reveal</span>
-      <div class="toggle" id="guessAutoToggle"></div>
+    <div class="setting-group">
+      <div class="toggle-wrap">
+        <span class="tlabel">Auto-advance</span>
+        <div class="toggle" id="guessAutoToggle"></div>
+      </div>
     </div>
 
-    <button class="big-btn" id="guessStartBtn">First Sound!</button>
+    <button class="big-btn start" id="guessStartBtn">Start Game</button>
   </div>
 </div>
 
