@@ -32,9 +32,9 @@ const PHASE_DURATION = { easy: 25, medium: 45, hard: 70 };
 const NUM_PHASES = 5;
 
 const DIFFICULTY_LABELS = {
-  easy: 'About 2 min total · quick build',
-  medium: 'About 4 min total · slow build, frantic finish',
-  hard: 'About 6 min total · long, suspenseful hunt',
+  easy: 'Chirps speed up from every 22s → every 2s, over 2 min',
+  medium: 'Chirps speed up from every 22s → every 2s, over 4 min',
+  hard: 'Chirps speed up from every 22s → every 2s, over 6 min',
 };
 
 const PHASES = [
