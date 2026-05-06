@@ -99,6 +99,41 @@ export function preloadVoices(texts) {
   }
 }
 
+/**
+ * Estimate how long a TTS utterance will take. Callers use this to schedule
+ * the NEXT command after the current one's voice has finished — prevents
+ * commands from talking over each other.
+ *
+ * Calibrated against typical iOS / Android TTS at rate ~1.0:
+ *   - ~380ms per word
+ *   - 450ms minimum (very short utterances still need warmup time)
+ *   - rate scales inversely (rate=2 halves duration, rate=0.5 doubles)
+ */
+export function speechDurationMs(text, opts = {}) {
+  if (!text) return 0;
+  const rate = opts.rate || 1.0;
+  const words = String(text)
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length;
+  const baseMs = Math.max(450, words * 380);
+  return Math.round(baseMs / rate);
+}
+
+/**
+ * Cancel any in-flight TTS utterance. Call from game stop / end handlers
+ * so the previous announcement isn't still talking when the success
+ * jingle plays.
+ */
+export function cancelSpeech() {
+  if (!('speechSynthesis' in window)) return;
+  try {
+    window.speechSynthesis.cancel();
+  } catch {
+    /* swallow */
+  }
+}
+
 // =============================================================
 // TTS fallback
 // =============================================================

@@ -19,6 +19,8 @@ import {
   unlockSpeech,
   startSpeechKeepalive,
   stopSpeechKeepalive,
+  speechDurationMs,
+  cancelSpeech,
 } from '../speech.js';
 import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
 import {
@@ -305,9 +307,11 @@ function startGame() {
     const action = pickNextAction();
     announceAction(action);
     const [min, max] = ACTION_PACE[STATE.pace] || ACTION_PACE.normal;
-    const duration = action.isLava
-      ? LAVA_DURATION
-      : (min + Math.random() * (max - min)) * 1000;
+    // Wait for voice to finish, THEN apply the user's chosen gap. Prevents
+    // the next command's chime from cutting off the previous voice.
+    const speechMs = speechDurationMs(action.text, { rate: action.isLava ? 1.15 : 1.05 });
+    const gapMs = (min + Math.random() * (max - min)) * 1000;
+    const duration = action.isLava ? LAVA_DURATION : speechMs + gapMs;
     actionTimer = setTimeout(fire, duration);
   };
   setTimeout(fire, 500);
@@ -348,6 +352,7 @@ function endGame() {
   actionTimer = endTimeout = timerInterval = null;
   releaseWakeLock();
   stopSpeechKeepalive();
+  cancelSpeech();
   document.body.classList.remove('lava-bg');
   inLava = false;
   speak('Time is up! Great job!', { rate: 1.0 });

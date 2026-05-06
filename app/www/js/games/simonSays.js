@@ -16,6 +16,8 @@ import {
   unlockSpeech,
   startSpeechKeepalive,
   stopSpeechKeepalive,
+  speechDurationMs,
+  cancelSpeech,
 } from '../speech.js';
 import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
 import {
@@ -170,9 +172,13 @@ function startGame() {
   commandQueue.reset();
   const fire = () => {
     if (!isActiveScreen('simonGame')) return;
-    announce(pickNext());
+    const item = pickNext();
+    announce(item);
+    const spoken = item.isSimon ? 'Simon says ' + item.command : item.command;
     const [min, max] = PACE[STATE.pace];
-    simonTimer = setTimeout(fire, (min + Math.random() * (max - min)) * 1000);
+    const speechMs = speechDurationMs(spoken, { rate: 1.0 });
+    const gapMs = (min + Math.random() * (max - min)) * 1000;
+    simonTimer = setTimeout(fire, speechMs + gapMs);
   };
   setTimeout(fire, 600);
 
@@ -212,6 +218,7 @@ function endGame() {
   simonTimer = endTimeout = timerInterval = null;
   releaseWakeLock();
   stopSpeechKeepalive();
+  cancelSpeech();
   speak('Time is up! Great listening!', { rate: 1.0 });
   successHaptic();
   playSuccessJingle();

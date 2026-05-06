@@ -14,6 +14,8 @@ import {
   unlockSpeech,
   startSpeechKeepalive,
   stopSpeechKeepalive,
+  speechDurationMs,
+  cancelSpeech,
 } from '../speech.js';
 import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
 import { show, screens, setupOpts, setupToggle, isActiveScreen, retriggerAnim } from '../ui.js';
@@ -82,7 +84,13 @@ function setLight(newState) {
 function scheduleNext() {
   const cfg = SPEED_CONFIG[STATE.speed];
   const [min, max] = currentLight === 'green' ? [cfg[0], cfg[1]] : [cfg[2], cfg[3]];
-  const duration = (min + Math.random() * (max - min)) * 1000;
+  const gapMs = (min + Math.random() * (max - min)) * 1000;
+  // Wait for the "Green light!" / "Red light!" voice to finish before timing
+  // the next state. Otherwise CHAOS pace cuts the voice off and kids never
+  // hear which color is current.
+  const speechText = currentLight === 'green' ? 'Green light!' : 'Red light!';
+  const speechMs = STATE.voice ? speechDurationMs(speechText, { rate: 1.05 }) : 0;
+  const duration = speechMs + gapMs;
 
   if (stateTimeout) clearTimeout(stateTimeout);
   stateTimeout = setTimeout(() => {
@@ -138,6 +146,7 @@ function endGame() {
   stateTimeout = endTimeout = timerInterval = null;
   releaseWakeLock();
   stopSpeechKeepalive();
+  cancelSpeech();
   document.body.classList.remove('green-bg', 'red-bg');
   if (STATE.voice) speak('Time is up! Great job!', { rate: 1.0 });
   successHaptic();

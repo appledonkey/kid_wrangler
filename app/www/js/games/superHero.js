@@ -22,6 +22,8 @@ import {
   unlockSpeech,
   startSpeechKeepalive,
   stopSpeechKeepalive,
+  speechDurationMs,
+  cancelSpeech,
 } from '../speech.js';
 import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
 import {
@@ -417,10 +419,12 @@ function startGame() {
 
   const fire = () => {
     if (!isActiveScreen('heroGame')) return;
-    announce(queue.next());
+    const power = queue.next();
+    announce(power);
     const [min, max] = HERO_PACE[STATE.pace];
-    const dur = (min + Math.random() * (max - min)) * 1000;
-    actionTimer = setTimeout(fire, dur);
+    const speechMs = speechDurationMs(power.text, { rate: 1.0 });
+    const gapMs = (min + Math.random() * (max - min)) * 1000;
+    actionTimer = setTimeout(fire, speechMs + gapMs);
   };
   setTimeout(fire, 500);
 
@@ -460,6 +464,7 @@ function endGame() {
   actionTimer = endTimeout = timerInterval = null;
   releaseWakeLock();
   stopSpeechKeepalive();
+  cancelSpeech();
   document.body.classList.remove('hero-bg');
   successHaptic();
   const closingLine =

@@ -34,6 +34,8 @@ import {
   unlockSpeech,
   startSpeechKeepalive,
   stopSpeechKeepalive,
+  speechDurationMs,
+  cancelSpeech,
 } from '../speech.js';
 import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
 import {
@@ -356,7 +358,13 @@ function fire() {
       activeEmergency = null;
       emergencyIndex = 0;
     }
-    actionTimer = setTimeout(fire, EMERGENCY_TICK_MS);
+    // Tight emergency tempo, but never let the next utterance start before
+    // the current one has finished speaking.
+    const dur = Math.max(
+      EMERGENCY_TICK_MS,
+      speechDurationMs(cmd.text, { rate: 1.1 }) + 200
+    );
+    actionTimer = setTimeout(fire, dur);
     return;
   }
 
@@ -383,8 +391,15 @@ function fire() {
     }
   }
 
-  // 4. Schedule next.
-  const dur = phase.type === 'sequence' ? COUNTDOWN_TICK_MS : paceMs();
+  // 4. Schedule next. For non-sequenced phases, wait for the voice to finish
+  //    before adding the user's chosen gap. The countdown phase has its own
+  //    fixed tick so 10-9-8 stays tight.
+  let dur;
+  if (phase.type === 'sequence') {
+    dur = COUNTDOWN_TICK_MS;
+  } else {
+    dur = speechDurationMs(cmd.text, { rate: 1.05 }) + paceMs();
+  }
   actionTimer = setTimeout(fire, dur);
 }
 
@@ -440,6 +455,7 @@ function endGame() {
   actionTimer = endTimeout = timerInterval = null;
   releaseWakeLock();
   stopSpeechKeepalive();
+  cancelSpeech();
   document.body.classList.remove('mission-bg');
   speak('Mission accomplished! Great flying!', { rate: 1.0 });
   successHaptic();
