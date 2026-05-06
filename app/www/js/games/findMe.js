@@ -32,9 +32,9 @@ const PHASE_DURATION = { easy: 25, medium: 45, hard: 70 };
 const NUM_PHASES = 5;
 
 const DIFFICULTY_LABELS = {
-  easy: 'Chirps speed up from every 22s → every 2s, over 2 min',
-  medium: 'Chirps speed up from every 22s → every 2s, over 4 min',
-  hard: 'Chirps speed up from every 22s → every 2s, over 6 min',
+  easy: 'Fast escalation, ~2 min',
+  medium: 'Steady, ~4 min',
+  hard: 'Slow build, ~6 min',
 };
 
 const PHASES = [

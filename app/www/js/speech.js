@@ -104,9 +104,10 @@ export function preloadVoices(texts) {
  * the NEXT command after the current one's voice has finished — prevents
  * commands from talking over each other.
  *
- * Calibrated against typical iOS / Android TTS at rate ~1.0:
- *   - ~380ms per word
- *   - 450ms minimum (very short utterances still need warmup time)
+ * Calibrated to slightly OVER-estimate so kids have a real beat between
+ * commands rather than the next chime hitting the moment voice finishes:
+ *   - ~460ms per word
+ *   - 700ms minimum (covers warmup + tail)
  *   - rate scales inversely (rate=2 halves duration, rate=0.5 doubles)
  */
 export function speechDurationMs(text, opts = {}) {
@@ -116,7 +117,7 @@ export function speechDurationMs(text, opts = {}) {
     .trim()
     .split(/\s+/)
     .filter(Boolean).length;
-  const baseMs = Math.max(450, words * 380);
+  const baseMs = Math.max(700, words * 460);
   return Math.round(baseMs / rate);
 }
 

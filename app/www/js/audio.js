@@ -402,6 +402,29 @@ export function playGreenSound() {
   });
 }
 
+export function playYellowSound() {
+  if (!audioCtx) return;
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const now = audioCtx.currentTime;
+  // Mid-pitch descending three-note: A4 → G4 → E4 (caution motif).
+  const notes = [440, 392, 330];
+  notes.forEach((f, i) => {
+    const startT = now + i * 0.12;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = f;
+    gain.gain.setValueAtTime(0, startT);
+    gain.gain.linearRampToValueAtTime(0.5, startT + 0.01);
+    gain.gain.setValueAtTime(0.5, startT + 0.18);
+    gain.gain.exponentialRampToValueAtTime(0.001, startT + 0.32);
+    osc.connect(gain);
+    connectSource(gain);
+    osc.start(startT);
+    osc.stop(startT + 0.4);
+  });
+}
+
 export function playRedSound() {
   if (!audioCtx) return;
   if (audioCtx.state === 'suspended') audioCtx.resume();

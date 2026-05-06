@@ -42,9 +42,9 @@ const STATE = {
 };
 
 const REVEAL_LABELS = {
-  'show-and-speak': 'Phone shows + says it loud (party mode)',
-  'show-silent':    'Phone shows the name silently (older readers)',
-  'whisper':        'Phone hides + whispers (hold close to actor)',
+  'show-and-speak': 'Phone shows + says it loud',
+  'show-silent':    'Phone shows, no voice',
+  'whisper':        'Hidden, low volume only',
 };
 
 const WHISPER_VOLUME = 0.4;

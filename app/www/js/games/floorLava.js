@@ -314,7 +314,7 @@ function startGame() {
     const duration = action.isLava ? LAVA_DURATION : speechMs + gapMs;
     actionTimer = setTimeout(fire, duration);
   };
-  setTimeout(fire, 500);
+  setTimeout(fire, 900);
 
   if (STATE.length > 0) {
     endTime = Date.now() + STATE.length * 1000;

@@ -1,10 +1,15 @@
 /* Red Light / Green Light — phone calls "Green Light" / "Red Light" at random
  * intervals. Kids run on green, freeze on red.
+ *
+ * Optional Yellow Light mode: ~30% of greens transition to yellow ("slow
+ * motion") before red. Red ALWAYS follows yellow — yellow is just a
+ * teach-the-kid pause before the freeze.
  */
 
 import {
   ensureAudio,
   playGreenSound,
+  playYellowSound,
   playRedSound,
   playTickSound,
   playSuccessJingle,
@@ -20,7 +25,7 @@ import {
 import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
 import { show, screens, setupOpts, setupToggle, isActiveScreen, retriggerAnim } from '../ui.js';
 import { load, save } from '../storage.js';
-import { successHaptic, warningHaptic } from '../native.js';
+import { successHaptic, warningHaptic, tapHaptic } from '../native.js';
 
 const KEY = 'rlgl';
 
@@ -28,6 +33,7 @@ const STATE = {
   speed: 'normal',
   length: 120,
   voice: true,
+  yellowLight: false,
 };
 
 // [greenMin, greenMax, redMin, redMax] in seconds
@@ -38,8 +44,12 @@ const SPEED_CONFIG = {
   chaos: [0.8, 2.5, 0.8, 2.5],
 };
 
-/** Legacy key migration. Saved settings from older builds may use different
- *  keys for the pace tier. Normalize on load. */
+// Yellow phase always runs short — feels like a "slow motion" beat before red.
+const YELLOW_DURATION = [1.5, 2.5];
+// Probability that a green transitions to yellow (vs straight to red) when
+// the Yellow Light toggle is on.
+const YELLOW_PROBABILITY = 0.35;
+
 function normalizePaceKey(k) {
   return k === 'relaxed' ? 'slow' : k;
 }
@@ -58,7 +68,8 @@ function setLight(newState) {
   const stateText = document.getElementById('rlglStateText');
   const actionText = document.getElementById('rlglActionText');
 
-  body.classList.remove('green-bg', 'red-bg');
+  body.classList.remove('green-bg', 'red-bg', 'yellow-bg');
+
   if (newState === 'green') {
     body.classList.add('green-bg');
     emoji.textContent = '🟢';
@@ -67,6 +78,15 @@ function setLight(newState) {
     retriggerAnim(emoji, stateText);
     playGreenSound();
     if (STATE.voice) setTimeout(() => speak('Green light!', { rate: 1.05, pitch: 1.1 }), 100);
+  } else if (newState === 'yellow') {
+    body.classList.add('yellow-bg');
+    emoji.textContent = '🟡';
+    stateText.textContent = 'YELLOW LIGHT';
+    actionText.textContent = 'SLOW MO!';
+    retriggerAnim(emoji, stateText);
+    tapHaptic();
+    playYellowSound();
+    if (STATE.voice) setTimeout(() => speak('Yellow light!', { rate: 1.0, pitch: 1.0 }), 100);
   } else {
     body.classList.add('red-bg');
     emoji.textContent = '🔴';
@@ -83,19 +103,47 @@ function setLight(newState) {
 
 function scheduleNext() {
   const cfg = SPEED_CONFIG[STATE.speed];
-  const [min, max] = currentLight === 'green' ? [cfg[0], cfg[1]] : [cfg[2], cfg[3]];
-  const gapMs = (min + Math.random() * (max - min)) * 1000;
-  // Wait for the "Green light!" / "Red light!" voice to finish before timing
-  // the next state. Otherwise CHAOS pace cuts the voice off and kids never
-  // hear which color is current.
-  const speechText = currentLight === 'green' ? 'Green light!' : 'Red light!';
-  const speechMs = STATE.voice ? speechDurationMs(speechText, { rate: 1.05 }) : 0;
+
+  // How long does the CURRENT state last?
+  let gapMs;
+  if (currentLight === 'green') {
+    gapMs = (cfg[0] + Math.random() * (cfg[1] - cfg[0])) * 1000;
+  } else if (currentLight === 'yellow') {
+    gapMs = (YELLOW_DURATION[0] + Math.random() * (YELLOW_DURATION[1] - YELLOW_DURATION[0])) * 1000;
+  } else {
+    gapMs = (cfg[2] + Math.random() * (cfg[3] - cfg[2])) * 1000;
+  }
+
+  // Wait for voice to finish before timing the next state, so CHAOS pace
+  // doesn't cut "Green light!" off mid-word.
+  let speechMs = 0;
+  if (STATE.voice) {
+    const text =
+      currentLight === 'green' ? 'Green light!' :
+      currentLight === 'yellow' ? 'Yellow light!' :
+      'Red light!';
+    speechMs = speechDurationMs(text, { rate: 1.05 });
+  }
+
   const duration = speechMs + gapMs;
 
   if (stateTimeout) clearTimeout(stateTimeout);
   stateTimeout = setTimeout(() => {
     if (!isActiveScreen('rlglGame')) return;
-    setLight(currentLight === 'green' ? 'red' : 'green');
+
+    // Determine NEXT state.
+    let nextState;
+    if (currentLight === 'green') {
+      nextState = STATE.yellowLight && Math.random() < YELLOW_PROBABILITY
+        ? 'yellow'
+        : 'red';
+    } else if (currentLight === 'yellow') {
+      nextState = 'red'; // red ALWAYS follows yellow
+    } else {
+      nextState = 'green';
+    }
+
+    setLight(nextState);
   }, duration);
 }
 
@@ -147,7 +195,7 @@ function endGame() {
   releaseWakeLock();
   stopSpeechKeepalive();
   cancelSpeech();
-  document.body.classList.remove('green-bg', 'red-bg');
+  document.body.classList.remove('green-bg', 'red-bg', 'yellow-bg');
   if (STATE.voice) speak('Time is up! Great job!', { rate: 1.0 });
   successHaptic();
   playSuccessJingle();
@@ -164,30 +212,15 @@ function clearAll() {
 
 // ---------- Wiring ----------
 
-function updatePaceDisplay() {
-  const el = document.getElementById('rlglPaceDisplay');
-  if (!el) return;
-  const labels = {
-    slow: 'Long greens, long reds — chill',
-    normal: 'Lights flip every 2–7 seconds',
-    fast: 'Quick light changes, 1–4 seconds',
-    chaos: 'Both colors flip in under 2 seconds!',
-  };
-  el.textContent = labels[STATE.speed] || '';
-}
-
 async function loadSettings() {
   const saved = await load(KEY, null);
-  if (!saved) {
-    updatePaceDisplay();
-    return;
-  }
+  if (!saved) return;
   Object.assign(STATE, saved);
   STATE.speed = normalizePaceKey(STATE.speed);
   syncOpt('rlglSpeedOpts', STATE.speed);
   syncOpt('rlglLengthOpts', String(STATE.length));
   document.getElementById('voiceToggle').classList.toggle('on', !!STATE.voice);
-  updatePaceDisplay();
+  document.getElementById('yellowToggle').classList.toggle('on', !!STATE.yellowLight);
 }
 
 function syncOpt(containerId, value) {
@@ -203,7 +236,6 @@ const persist = () => save(KEY, STATE);
 export function init() {
   setupOpts('rlglSpeedOpts', (v) => {
     STATE.speed = v;
-    updatePaceDisplay();
     persist();
   });
   setupOpts('rlglLengthOpts', (v) => {
@@ -212,6 +244,10 @@ export function init() {
   });
   setupToggle('voiceToggle', (on) => {
     STATE.voice = on;
+    persist();
+  });
+  setupToggle('yellowToggle', (on) => {
+    STATE.yellowLight = on;
     persist();
   });
 
@@ -236,7 +272,7 @@ export function init() {
 
   document.getElementById('rlglAgainBtn').addEventListener('click', () => {
     clearAll();
-    document.body.classList.remove('green-bg', 'red-bg');
+    document.body.classList.remove('green-bg', 'red-bg', 'yellow-bg');
     show('setup');
   });
 

@@ -180,7 +180,7 @@ function startGame() {
     const gapMs = (min + Math.random() * (max - min)) * 1000;
     simonTimer = setTimeout(fire, speechMs + gapMs);
   };
-  setTimeout(fire, 600);
+  setTimeout(fire, 900);
 
   if (STATE.length > 0) {
     endTime = Date.now() + STATE.length * 1000;
@@ -237,9 +237,9 @@ function updateTrickyDisplay() {
   const el = document.getElementById('simonTrickyDisplay');
   if (!el) return;
   const labels = {
-    easy: '~ 1 in 7 commands skip "Simon Says"',
-    normal: '~ 1 in 3 commands skip "Simon Says"',
-    sneaky: '~ half the time, no "Simon Says"!',
+    easy: '~ 1 in 7 are tricks',
+    normal: '~ 1 in 3 are tricks',
+    sneaky: 'Half are tricks!',
   };
   el.textContent = labels[STATE.tricky] || '';
 }
