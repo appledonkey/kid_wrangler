@@ -8,6 +8,9 @@ body.green-bg {
 body.red-bg {
   background: radial-gradient(ellipse at center, #FF6B6B, var(--red) 50%, var(--red-deep));
 }
+body.yellow-bg {
+  background: radial-gradient(ellipse at center, #FFE08A, #F2C13B 50%, #B5860D);
+}
 body.action-bg {
   background: radial-gradient(ellipse at center, #BA68C8, var(--action) 50%, var(--action-deep));
 }
