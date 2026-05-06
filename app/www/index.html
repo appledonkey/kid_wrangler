@@ -307,34 +307,39 @@
 
     <button class="big-btn test" id="danceTestBtn">🔊 Test Beat</button>
 
-    <div class="label">Tempo</div>
-    <div class="options" id="danceTempoOpts">
-      <button class="opt" data-val="slow">Slow</button>
-      <button class="opt selected" data-val="normal">Normal</button>
-      <button class="opt" data-val="fast">Fast</button>
-      <button class="opt danger" data-val="party">PARTY</button>
-    </div>
-    <div class="range-display" id="danceTempoDisplay">110 BPM, moves every 4–7 sec</div>
-
-    <div class="toggle-wrap">
-      <span class="tlabel">Freeze breaks</span>
-      <div class="toggle on" id="danceFreezeToggle"></div>
+    <div class="setting-group">
+      <div class="label">Tempo</div>
+      <div class="options" id="danceTempoOpts">
+        <button class="opt" data-val="slow">Slow</button>
+        <button class="opt selected" data-val="normal">Normal</button>
+        <button class="opt" data-val="fast">Fast</button>
+        <button class="opt danger" data-val="party">PARTY</button>
+      </div>
+      <div class="range-display" id="danceTempoDisplay">110 BPM, moves every 4–7 sec</div>
     </div>
 
-    <div class="label">Game Length</div>
-    <div class="options" id="danceLengthOpts">
-      <button class="opt" data-val="60">1 min</button>
-      <button class="opt selected" data-val="180">3 min</button>
-      <button class="opt" data-val="300">5 min</button>
-      <button class="opt" data-val="0">Endless</button>
+    <div class="setting-group">
+      <div class="label">Duration</div>
+      <div class="options" id="danceLengthOpts">
+        <button class="opt" data-val="60">1 min</button>
+        <button class="opt selected" data-val="180">3 min</button>
+        <button class="opt" data-val="300">5 min</button>
+        <button class="opt" data-val="0">Endless</button>
+      </div>
     </div>
 
-    <div class="toggle-wrap">
-      <span class="tlabel">Voice (calls out moves)</span>
-      <div class="toggle on" id="danceVoiceToggle"></div>
+    <div class="setting-group">
+      <div class="toggle-wrap">
+        <span class="tlabel">Freeze breaks</span>
+        <div class="toggle on" id="danceFreezeToggle"></div>
+      </div>
+      <div class="toggle-wrap">
+        <span class="tlabel">Narrator</span>
+        <div class="toggle on" id="danceVoiceToggle"></div>
+      </div>
     </div>
 
-    <button class="big-btn" id="danceStartBtn">Drop the Beat!</button>
+    <button class="big-btn start" id="danceStartBtn">Start Game</button>
   </div>
 
   <!-- ============ ANIMAL CHARADES SETTINGS ============ -->
