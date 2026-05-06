@@ -121,17 +121,20 @@ p.tag {
 
 /* ----- Option pickers ----- */
 
+/* 4-column grid so buttons align vertically across setting groups. Rows
+ * with 3 buttons leave the 4th cell empty (acceptable); rows with 5+
+ * buttons wrap to a second row of 4. */
 .options {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 6px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-  max-width: 360px;
+  margin-bottom: 0;
+  width: 100%;
+  max-width: 380px;
 }
 
 .opt {
-  padding: 11px 16px;
+  padding: 11px 8px;
   min-height: 40px;
   border: 2.5px solid var(--navy);
   border-radius: 14px;
@@ -143,6 +146,7 @@ p.tag {
   cursor: pointer;
   transition: transform 0.15s, background 0.15s;
   box-shadow: 2px 2px 0 var(--navy);
+  min-width: 0;
 }
 .opt:active {
   transform: translate(2px, 2px);
@@ -154,6 +158,34 @@ p.tag {
 .opt.danger.selected {
   background: var(--coral);
   color: white;
+}
+
+/* ----- Setting cluster ----- */
+/* Subtle navy-tinted card around each related group of settings (a label
+ * + its options + an optional range-display, or a single toggle-wrap). */
+.setting-group {
+  background: rgba(43, 61, 92, 0.05);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 380px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+.setting-group > .label {
+  margin: 0;
+}
+.setting-group > .toggle-wrap {
+  margin: 0;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  padding: 0;
+  max-width: none;
 }
 
 /* ----- Game picker grid ----- */
@@ -174,7 +206,7 @@ p.tag {
 }
 .game-opt {
   flex: 1;
-  padding: 14px 6px;
+  padding: 11px 6px;
   border: 3px solid var(--navy);
   border-radius: 18px;
   background: var(--cream);
@@ -187,7 +219,7 @@ p.tag {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
   min-width: 0;
 }
 .game-opt:active {
@@ -234,14 +266,15 @@ p.tag {
   font-weight: 700;
 }
 .game-opt .icon {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   line-height: 1;
 }
 .game-opt .game-title {
-  font-size: 0.92rem;
+  font-size: 0.85rem;
+  line-height: 1.1;
 }
 .game-opt .game-sub {
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   font-weight: 500;
   opacity: 0.85;
   letter-spacing: 0.04em;
@@ -297,6 +330,7 @@ p.tag {
 .toggle-wrap {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
   margin-bottom: 14px;
   padding: 10px 16px;
@@ -304,10 +338,15 @@ p.tag {
   border-radius: 14px;
   background: var(--cream);
   box-shadow: 2px 2px 0 var(--navy);
+  width: 100%;
+  max-width: 360px;
+  box-sizing: border-box;
 }
 .toggle-wrap .tlabel {
   font-weight: 600;
   font-size: 0.95rem;
+  flex: 1;
+  text-align: left;
 }
 .toggle {
   width: 44px;
@@ -460,6 +499,11 @@ p.tag {
   font-size: 1.1rem;
   padding: 14px 28px;
   box-shadow: 4px 4px 0 var(--navy);
+}
+/* Always-bottom CTA on every settings panel. Heavy top margin guards
+ * against accidental taps while the user is still picking options. */
+.big-btn.start {
+  margin-top: 28px;
 }
 
 /* ----- Countdown ----- */

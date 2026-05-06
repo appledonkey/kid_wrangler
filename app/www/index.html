@@ -37,8 +37,8 @@
   <div class="game-options" id="gameOpts">
     <button class="game-opt selected" data-val="findMe">
       <span class="icon">🔍</span>
-      <span class="game-title">Find Me!</span>
-      <span class="game-sub">HIDE & SEEK</span>
+      <span class="game-title">Hide &amp; Seek</span>
+      <span class="game-sub">HUNT GAME</span>
     </button>
     <button class="game-opt" data-val="rlgl">
       <span class="icon">🚦</span>
@@ -53,7 +53,7 @@
     <button class="game-opt" data-val="hero">
       <span class="lock-badge">🔒</span>
       <span class="icon">🦸</span>
-      <span class="game-title">Super Hero</span>
+      <span class="game-title">Hero Poses</span>
       <span class="game-sub">PRETEND PLAY</span>
     </button>
     <button class="game-opt" data-val="simon">
@@ -65,13 +65,13 @@
     <button class="game-opt" data-val="charades">
       <span class="lock-badge">🔒</span>
       <span class="icon">🐘</span>
-      <span class="game-title">Animal Acts</span>
-      <span class="game-sub">CHARADES</span>
+      <span class="game-title">Animal Charades</span>
+      <span class="game-sub">ACT IT OUT</span>
     </button>
     <button class="game-opt" data-val="whatis">
       <span class="icon">❓</span>
-      <span class="game-title">What Is It?</span>
-      <span class="game-sub">EMOJI QUIZ</span>
+      <span class="game-title">Emoji Quiz</span>
+      <span class="game-sub">GUESS GAME</span>
     </button>
     <button class="game-opt" data-val="mission">
       <span class="lock-badge">🔒</span>
@@ -86,7 +86,7 @@
     </button>
     <button class="game-opt coming-soon" data-val="guess" disabled>
       <span class="icon">🔊</span>
-      <span class="game-title">Guess the Sound</span>
+      <span class="game-title">Sound Quiz</span>
       <span class="game-sub">COMING SOON</span>
     </button>
   </div>
@@ -97,34 +97,40 @@
 
     <button class="big-btn test" id="testBtn">🔊 Test Sound</button>
 
-    <div class="label">Sound</div>
-    <div class="options" id="soundOpts">
-      <button class="opt selected" data-val="chime">Chime</button>
-      <button class="opt" data-val="bell">Bell</button>
-      <button class="opt" data-val="siren">Siren</button>
-      <button class="opt" data-val="beep">Beep</button>
-      <button class="opt" data-val="cuckoo">Cuckoo</button>
-      <button class="opt" data-val="whistle">Whistle</button>
-      <button class="opt" data-val="boing">Boing</button>
-      <button class="opt" data-val="birdcall">Birdcall</button>
+    <div class="setting-group">
+      <div class="label">Sound</div>
+      <div class="options" id="soundOpts">
+        <button class="opt selected" data-val="chime">Chime</button>
+        <button class="opt" data-val="bell">Bell</button>
+        <button class="opt" data-val="siren">Siren</button>
+        <button class="opt" data-val="beep">Beep</button>
+        <button class="opt" data-val="cuckoo">Cuckoo</button>
+        <button class="opt" data-val="whistle">Whistle</button>
+        <button class="opt" data-val="boing">Boing</button>
+        <button class="opt" data-val="birdcall">Birdcall</button>
+      </div>
     </div>
 
-    <div class="label">Difficulty</div>
-    <div class="options" id="difficultyOpts">
-      <button class="opt" data-val="easy">Easy</button>
-      <button class="opt selected" data-val="medium">Medium</button>
-      <button class="opt" data-val="hard">Hard</button>
-    </div>
-    <div class="range-display" id="findMeDifficultyDisplay">About 4 min total · slow build, frantic finish</div>
-
-    <div class="label">Hide Time</div>
-    <div class="options" id="hideOpts">
-      <button class="opt" data-val="10">10s</button>
-      <button class="opt selected" data-val="20">20s</button>
-      <button class="opt" data-val="30">30s</button>
+    <div class="setting-group">
+      <div class="label">Difficulty</div>
+      <div class="options" id="difficultyOpts">
+        <button class="opt" data-val="easy">Easy</button>
+        <button class="opt selected" data-val="medium">Medium</button>
+        <button class="opt" data-val="hard">Hard</button>
+      </div>
+      <div class="range-display" id="findMeDifficultyDisplay">Chirps speed up from every 22s → every 2s, over 4 min</div>
     </div>
 
-    <button class="big-btn" id="startBtn">Start Hiding!</button>
+    <div class="setting-group">
+      <div class="label">Hiding</div>
+      <div class="options" id="hideOpts">
+        <button class="opt" data-val="10">10s</button>
+        <button class="opt selected" data-val="20">20s</button>
+        <button class="opt" data-val="30">30s</button>
+      </div>
+    </div>
+
+    <button class="big-btn start" id="startBtn">Start Game</button>
   </div>
 
   <!-- ============ RLGL SETTINGS ============ -->
@@ -133,29 +139,35 @@
 
     <button class="big-btn test" id="rlglTestBtn">🔊 Test Voice</button>
 
-    <div class="label">Pace</div>
-    <div class="options" id="rlglSpeedOpts">
-      <button class="opt" data-val="slow">Slow</button>
-      <button class="opt selected" data-val="normal">Normal</button>
-      <button class="opt" data-val="fast">Fast</button>
-      <button class="opt danger" data-val="chaos">CHAOS</button>
-    </div>
-    <div class="range-display" id="rlglPaceDisplay">Lights flip every 2–7 seconds</div>
-
-    <div class="label">Game Length</div>
-    <div class="options" id="rlglLengthOpts">
-      <button class="opt" data-val="60">1 min</button>
-      <button class="opt selected" data-val="120">2 min</button>
-      <button class="opt" data-val="300">5 min</button>
-      <button class="opt" data-val="0">Endless</button>
+    <div class="setting-group">
+      <div class="label">Speed</div>
+      <div class="options" id="rlglSpeedOpts">
+        <button class="opt" data-val="slow">Slow</button>
+        <button class="opt selected" data-val="normal">Normal</button>
+        <button class="opt" data-val="fast">Fast</button>
+        <button class="opt danger" data-val="chaos">CHAOS</button>
+      </div>
+      <div class="range-display" id="rlglPaceDisplay">Lights flip every 2–7 seconds</div>
     </div>
 
-    <div class="toggle-wrap">
-      <span class="tlabel">Voice (says the words)</span>
-      <div class="toggle on" id="voiceToggle"></div>
+    <div class="setting-group">
+      <div class="label">Duration</div>
+      <div class="options" id="rlglLengthOpts">
+        <button class="opt" data-val="60">1 min</button>
+        <button class="opt selected" data-val="120">2 min</button>
+        <button class="opt" data-val="300">5 min</button>
+        <button class="opt" data-val="0">Endless</button>
+      </div>
     </div>
 
-    <button class="big-btn" id="rlglStartBtn">Start Game!</button>
+    <div class="setting-group">
+      <div class="toggle-wrap">
+        <span class="tlabel">Narrator</span>
+        <div class="toggle on" id="voiceToggle"></div>
+      </div>
+    </div>
+
+    <button class="big-btn start" id="rlglStartBtn">Start Game</button>
   </div>
 
   <!-- ============ ACTION/LAVA SETTINGS ============ -->
@@ -164,41 +176,49 @@
 
     <button class="big-btn test" id="actionTestBtn">🔊 Test Voice</button>
 
-    <div class="label">Pace</div>
-    <div class="options" id="actionPaceOpts">
-      <button class="opt" data-val="slow">Slow</button>
-      <button class="opt selected" data-val="normal">Normal</button>
-      <button class="opt" data-val="fast">Fast</button>
-      <button class="opt danger" data-val="chaos">CHAOS</button>
-    </div>
-    <div class="range-display" id="paceRangeDisplay">3–5 seconds per action</div>
-
-    <div class="label">Action Mix</div>
-    <div class="options" id="actionDifficultyOpts">
-      <button class="opt" data-val="easy">Easy</button>
-      <button class="opt selected" data-val="mixed">Mixed</button>
-      <button class="opt" data-val="wild">Wild</button>
-    </div>
-    <div class="range-display" id="actionDifficultyDisplay">Mix of gentle and high-energy moves</div>
-
-    <div class="label">Floor Is Lava</div>
-    <div class="options" id="actionLavaOpts">
-      <button class="opt" data-val="never">Never</button>
-      <button class="opt selected" data-val="sometimes">Sometimes</button>
-      <button class="opt" data-val="often">Often</button>
-      <button class="opt danger" data-val="mayhem">MAYHEM</button>
-    </div>
-    <div class="range-display" id="lavaRangeDisplay">~ every 35–60 seconds</div>
-
-    <div class="label">Game Length</div>
-    <div class="options" id="actionLengthOpts">
-      <button class="opt" data-val="60">1 min</button>
-      <button class="opt selected" data-val="120">2 min</button>
-      <button class="opt" data-val="300">5 min</button>
-      <button class="opt" data-val="0">Endless</button>
+    <div class="setting-group">
+      <div class="label">Speed</div>
+      <div class="options" id="actionPaceOpts">
+        <button class="opt" data-val="slow">Slow</button>
+        <button class="opt selected" data-val="normal">Normal</button>
+        <button class="opt" data-val="fast">Fast</button>
+        <button class="opt danger" data-val="chaos">CHAOS</button>
+      </div>
+      <div class="range-display" id="paceRangeDisplay">3–5 seconds per action</div>
     </div>
 
-    <button class="big-btn" id="actionStartBtn">Start Game!</button>
+    <div class="setting-group">
+      <div class="label">Mix</div>
+      <div class="options" id="actionDifficultyOpts">
+        <button class="opt" data-val="easy">Easy</button>
+        <button class="opt selected" data-val="mixed">Mixed</button>
+        <button class="opt" data-val="wild">Wild</button>
+      </div>
+      <div class="range-display" id="actionDifficultyDisplay">Mix of gentle and high-energy moves</div>
+    </div>
+
+    <div class="setting-group">
+      <div class="label">Lava</div>
+      <div class="options" id="actionLavaOpts">
+        <button class="opt" data-val="never">Never</button>
+        <button class="opt selected" data-val="sometimes">Sometimes</button>
+        <button class="opt" data-val="often">Often</button>
+        <button class="opt danger" data-val="mayhem">MAYHEM</button>
+      </div>
+      <div class="range-display" id="lavaRangeDisplay">~ every 35–60 seconds</div>
+    </div>
+
+    <div class="setting-group">
+      <div class="label">Duration</div>
+      <div class="options" id="actionLengthOpts">
+        <button class="opt" data-val="60">1 min</button>
+        <button class="opt selected" data-val="120">2 min</button>
+        <button class="opt" data-val="300">5 min</button>
+        <button class="opt" data-val="0">Endless</button>
+      </div>
+    </div>
+
+    <button class="big-btn start" id="actionStartBtn">Start Game</button>
   </div>
 
   <!-- ============ SUPER HERO SETTINGS ============ -->
@@ -207,32 +227,38 @@
 
     <button class="big-btn test" id="heroTestBtn">🔊 Test Voice</button>
 
-    <div class="label">Role</div>
-    <div class="options" id="heroRoleOpts">
-      <button class="opt selected" data-val="hero">Hero</button>
-      <button class="opt" data-val="villain">Villain</button>
-      <button class="opt" data-val="both">Both</button>
-    </div>
-    <div class="range-display" id="heroRoleDisplay">130 hero powers</div>
-
-    <div class="label">Pace</div>
-    <div class="options" id="heroPaceOpts">
-      <button class="opt" data-val="slow">Slow</button>
-      <button class="opt selected" data-val="normal">Normal</button>
-      <button class="opt" data-val="fast">Fast</button>
-      <button class="opt danger" data-val="chaos">CHAOS</button>
-    </div>
-    <div class="range-display" id="heroPaceDisplay">3–6 seconds per power</div>
-
-    <div class="label">Game Length</div>
-    <div class="options" id="heroLengthOpts">
-      <button class="opt" data-val="60">1 min</button>
-      <button class="opt selected" data-val="120">2 min</button>
-      <button class="opt" data-val="300">5 min</button>
-      <button class="opt" data-val="0">Endless</button>
+    <div class="setting-group">
+      <div class="label">Role</div>
+      <div class="options" id="heroRoleOpts">
+        <button class="opt selected" data-val="hero">Hero</button>
+        <button class="opt" data-val="villain">Villain</button>
+        <button class="opt" data-val="both">Both</button>
+      </div>
+      <div class="range-display" id="heroRoleDisplay">130 hero powers</div>
     </div>
 
-    <button class="big-btn" id="heroStartBtn">Suit Up!</button>
+    <div class="setting-group">
+      <div class="label">Speed</div>
+      <div class="options" id="heroPaceOpts">
+        <button class="opt" data-val="slow">Slow</button>
+        <button class="opt selected" data-val="normal">Normal</button>
+        <button class="opt" data-val="fast">Fast</button>
+        <button class="opt danger" data-val="chaos">CHAOS</button>
+      </div>
+      <div class="range-display" id="heroPaceDisplay">3–6 seconds per power</div>
+    </div>
+
+    <div class="setting-group">
+      <div class="label">Duration</div>
+      <div class="options" id="heroLengthOpts">
+        <button class="opt" data-val="60">1 min</button>
+        <button class="opt selected" data-val="120">2 min</button>
+        <button class="opt" data-val="300">5 min</button>
+        <button class="opt" data-val="0">Endless</button>
+      </div>
+    </div>
+
+    <button class="big-btn start" id="heroStartBtn">Start Game</button>
   </div>
 
   <!-- ============ SIMON SAYS SETTINGS ============ -->
@@ -241,32 +267,38 @@
 
     <button class="big-btn test" id="simonTestBtn">🔊 Test Voice</button>
 
-    <div class="label">Trickiness</div>
-    <div class="options" id="simonTrickyOpts">
-      <button class="opt" data-val="easy">Easy</button>
-      <button class="opt selected" data-val="normal">Normal</button>
-      <button class="opt danger" data-val="sneaky">SNEAKY</button>
-    </div>
-    <div class="range-display" id="simonTrickyDisplay">~ 1 in 3 commands skip "Simon Says"</div>
-
-    <div class="label">Pace</div>
-    <div class="options" id="simonPaceOpts">
-      <button class="opt" data-val="slow">Slow</button>
-      <button class="opt selected" data-val="normal">Normal</button>
-      <button class="opt" data-val="fast">Fast</button>
-      <button class="opt danger" data-val="chaos">CHAOS</button>
-    </div>
-    <div class="range-display" id="simonPaceDisplay">2–4 seconds between commands</div>
-
-    <div class="label">Game Length</div>
-    <div class="options" id="simonLengthOpts">
-      <button class="opt" data-val="60">1 min</button>
-      <button class="opt selected" data-val="120">2 min</button>
-      <button class="opt" data-val="300">5 min</button>
-      <button class="opt" data-val="0">Endless</button>
+    <div class="setting-group">
+      <div class="label">Trickiness</div>
+      <div class="options" id="simonTrickyOpts">
+        <button class="opt" data-val="easy">Easy</button>
+        <button class="opt selected" data-val="normal">Normal</button>
+        <button class="opt danger" data-val="sneaky">SNEAKY</button>
+      </div>
+      <div class="range-display" id="simonTrickyDisplay">~ 1 in 3 commands skip "Simon Says"</div>
     </div>
 
-    <button class="big-btn" id="simonStartBtn">Start Game!</button>
+    <div class="setting-group">
+      <div class="label">Speed</div>
+      <div class="options" id="simonPaceOpts">
+        <button class="opt" data-val="slow">Slow</button>
+        <button class="opt selected" data-val="normal">Normal</button>
+        <button class="opt" data-val="fast">Fast</button>
+        <button class="opt danger" data-val="chaos">CHAOS</button>
+      </div>
+      <div class="range-display" id="simonPaceDisplay">2–4 seconds between commands</div>
+    </div>
+
+    <div class="setting-group">
+      <div class="label">Duration</div>
+      <div class="options" id="simonLengthOpts">
+        <button class="opt" data-val="60">1 min</button>
+        <button class="opt selected" data-val="120">2 min</button>
+        <button class="opt" data-val="300">5 min</button>
+        <button class="opt" data-val="0">Endless</button>
+      </div>
+    </div>
+
+    <button class="big-btn start" id="simonStartBtn">Start Game</button>
   </div>
 
   <!-- ============ DANCE PARTY SETTINGS ============ -->
@@ -311,33 +343,39 @@
 
     <button class="big-btn test" id="charadesTestBtn">🔊 Test Voice</button>
 
-    <div class="label">Pool</div>
-    <div class="options" id="charadesPoolOpts">
-      <button class="opt selected" data-val="all">All</button>
-      <button class="opt" data-val="farm">Farm</button>
-      <button class="opt" data-val="wild">Wild</button>
-      <button class="opt" data-val="ocean">Ocean</button>
-      <button class="opt" data-val="forest">Forest</button>
-      <button class="opt" data-val="arctic">Arctic</button>
-      <button class="opt" data-val="backyard">Backyard</button>
-      <button class="opt" data-val="dinosaurs">Dinosaurs</button>
-    </div>
-    <div class="range-display" id="charadesPoolDisplay">All habitats — 90 animals</div>
-
-    <div class="label">Reveal Mode</div>
-    <div class="options" id="charadesRevealOpts">
-      <button class="opt selected" data-val="show-and-speak">Show &amp; speak</button>
-      <button class="opt" data-val="show-silent">Show silent</button>
-      <button class="opt" data-val="whisper">Whisper</button>
-    </div>
-    <div class="range-display" id="charadesRevealDisplay">Phone shows + says it loud (party mode)</div>
-
-    <div class="toggle-wrap">
-      <span class="tlabel">Play the animal sound too</span>
-      <div class="toggle" id="charadesSoundToggle"></div>
+    <div class="setting-group">
+      <div class="label">Pool</div>
+      <div class="options" id="charadesPoolOpts">
+        <button class="opt selected" data-val="all">All</button>
+        <button class="opt" data-val="farm">Farm</button>
+        <button class="opt" data-val="wild">Wild</button>
+        <button class="opt" data-val="ocean">Ocean</button>
+        <button class="opt" data-val="forest">Forest</button>
+        <button class="opt" data-val="arctic">Arctic</button>
+        <button class="opt" data-val="backyard">Backyard</button>
+        <button class="opt" data-val="dinosaurs">Dinos</button>
+      </div>
+      <div class="range-display" id="charadesPoolDisplay">All habitats — 90 animals</div>
     </div>
 
-    <button class="big-btn" id="charadesStartBtn">First Animal!</button>
+    <div class="setting-group">
+      <div class="label">Reveal</div>
+      <div class="options" id="charadesRevealOpts">
+        <button class="opt selected" data-val="show-and-speak">Show &amp; speak</button>
+        <button class="opt" data-val="show-silent">Show silent</button>
+        <button class="opt" data-val="whisper">Whisper</button>
+      </div>
+      <div class="range-display" id="charadesRevealDisplay">Phone shows + says it loud (party mode)</div>
+    </div>
+
+    <div class="setting-group">
+      <div class="toggle-wrap">
+        <span class="tlabel">SFX</span>
+        <div class="toggle" id="charadesSoundToggle"></div>
+      </div>
+    </div>
+
+    <button class="big-btn start" id="charadesStartBtn">Start Game</button>
   </div>
 
   <!-- ============ WHAT IS IT? SETTINGS ============ -->
@@ -371,24 +409,28 @@
 
     <button class="big-btn test" id="missionTestBtn">🔊 Test Voice</button>
 
-    <div class="label">Pace</div>
-    <div class="options" id="missionPaceOpts">
-      <button class="opt" data-val="slow">Slow</button>
-      <button class="opt selected" data-val="normal">Normal</button>
-      <button class="opt" data-val="fast">Fast</button>
-      <button class="opt danger" data-val="chaos">CHAOS</button>
-    </div>
-    <div class="range-display" id="missionPaceDisplay">3–5 seconds per command</div>
-
-    <div class="label">Game Length</div>
-    <div class="options" id="missionLengthOpts">
-      <button class="opt" data-val="60">1 min</button>
-      <button class="opt selected" data-val="120">2 min</button>
-      <button class="opt" data-val="300">5 min</button>
-      <button class="opt" data-val="0">Endless</button>
+    <div class="setting-group">
+      <div class="label">Speed</div>
+      <div class="options" id="missionPaceOpts">
+        <button class="opt" data-val="slow">Slow</button>
+        <button class="opt selected" data-val="normal">Normal</button>
+        <button class="opt" data-val="fast">Fast</button>
+        <button class="opt danger" data-val="chaos">CHAOS</button>
+      </div>
+      <div class="range-display" id="missionPaceDisplay">3–5 seconds per command</div>
     </div>
 
-    <button class="big-btn" id="missionStartBtn">Liftoff!</button>
+    <div class="setting-group">
+      <div class="label">Duration</div>
+      <div class="options" id="missionLengthOpts">
+        <button class="opt" data-val="60">1 min</button>
+        <button class="opt selected" data-val="120">2 min</button>
+        <button class="opt" data-val="300">5 min</button>
+        <button class="opt" data-val="0">Endless</button>
+      </div>
+    </div>
+
+    <button class="big-btn start" id="missionStartBtn">Start Game</button>
   </div>
 
   <!-- ============ GUESS THE SOUND SETTINGS ============ -->
