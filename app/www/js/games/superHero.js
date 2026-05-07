@@ -576,6 +576,16 @@ export function init() {
 
   document.getElementById('heroStopBtn').addEventListener('click', endGame);
 
+  document.getElementById('heroCancelBtn').addEventListener('click', () => {
+    clearAll();
+    releaseWakeLock();
+    stopSpeechKeepalive();
+    document.body.classList.remove('hero-bg');
+    _starting = false;
+    _ended = false;
+    show('setup');
+  });
+
   document.getElementById('heroAgainBtn').addEventListener('click', () => {
     cancelSpeech();
     clearAll();

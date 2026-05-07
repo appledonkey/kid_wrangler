@@ -315,6 +315,15 @@ export function init() {
 
   document.getElementById('simonStopBtn').addEventListener('click', endGame);
 
+  document.getElementById('simonCancelBtn').addEventListener('click', () => {
+    clearAll();
+    releaseWakeLock();
+    stopSpeechKeepalive();
+    _starting = false;
+    _ended = false;
+    show('setup');
+  });
+
   document.getElementById('simonAgainBtn').addEventListener('click', () => {
     cancelSpeech();
     clearAll();

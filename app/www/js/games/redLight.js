@@ -275,6 +275,16 @@ export function init() {
 
   document.getElementById('rlglStopBtn').addEventListener('click', endGame);
 
+  document.getElementById('rlglCancelBtn').addEventListener('click', () => {
+    clearAll();
+    releaseWakeLock();
+    stopSpeechKeepalive();
+    document.body.classList.remove('green-bg', 'red-bg', 'yellow-bg');
+    _starting = false;
+    _ended = false;
+    show('setup');
+  });
+
   document.getElementById('rlglAgainBtn').addEventListener('click', () => {
     cancelSpeech();
     clearAll();

@@ -478,6 +478,17 @@ export function init() {
 
   document.getElementById('actionStopBtn').addEventListener('click', endGame);
 
+  document.getElementById('actionCancelBtn').addEventListener('click', () => {
+    clearAll();
+    releaseWakeLock();
+    stopSpeechKeepalive();
+    document.body.classList.remove('lava-bg');
+    inLava = false;
+    _starting = false;
+    _ended = false;
+    show('setup');
+  });
+
   document.getElementById('actionAgainBtn').addEventListener('click', () => {
     cancelSpeech();
     clearAll();

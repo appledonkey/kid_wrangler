@@ -260,6 +260,19 @@ export function init() {
     startHideCountdown();
   });
 
+  document.getElementById('findMeCancelBtn').addEventListener('click', () => {
+    clearAllPhaseTimers();
+    stopWatchdog();
+    releaseWakeLock();
+    const fill = document.getElementById('intensityFill');
+    if (fill) {
+      fill.style.transition = 'none';
+      fill.style.width = '0%';
+    }
+    _starting = false;
+    show('setup');
+  });
+
   document.getElementById('foundBtn').addEventListener('click', () => {
     // clearAllPhaseTimers now also clears countdownTimer, so tapping
     // Found during the hide phase doesn't leak a pending startSeeking().

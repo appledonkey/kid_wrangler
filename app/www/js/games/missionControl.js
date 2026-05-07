@@ -539,6 +539,16 @@ export function init() {
 
   document.getElementById('missionStopBtn').addEventListener('click', endGame);
 
+  document.getElementById('missionCancelBtn').addEventListener('click', () => {
+    clearAll();
+    releaseWakeLock();
+    stopSpeechKeepalive();
+    document.body.classList.remove('mission-bg');
+    _starting = false;
+    _ended = false;
+    show('setup');
+  });
+
   document.getElementById('missionAgainBtn').addEventListener('click', () => {
     cancelSpeech();
     clearAll();

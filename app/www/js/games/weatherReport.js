@@ -272,6 +272,16 @@ export function init() {
 
   document.getElementById('weatherStopBtn')?.addEventListener('click', endGame);
 
+  document.getElementById('weatherCancelBtn')?.addEventListener('click', () => {
+    clearAll();
+    releaseWakeLock();
+    stopSpeechKeepalive();
+    setBg(null);
+    _starting = false;
+    _ended = false;
+    show('setup');
+  });
+
   document.getElementById('weatherAgainBtn')?.addEventListener('click', () => {
     cancelSpeech();
     clearAll();
