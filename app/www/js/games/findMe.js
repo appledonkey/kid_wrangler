@@ -52,6 +52,7 @@ let seekStartTime = 0;
 let currentPhase = 0;
 let lastChirpAt = 0;
 let watchdog = null;
+let _starting = false;
 
 // ---------- Visual ----------
 
@@ -78,6 +79,10 @@ function clearAllPhaseTimers() {
   if (chirpTimer) {
     clearInterval(chirpTimer);
     chirpTimer = null;
+  }
+  if (countdownTimer) {
+    clearInterval(countdownTimer);
+    countdownTimer = null;
   }
 }
 
@@ -155,6 +160,15 @@ function startWatchdog() {
       visualChirp();
       playChirpSound(STATE.sound, cfg.baseFreq, cfg.notes, cfg.vol);
       lastChirpAt = Date.now();
+      // The main chirpTimer was clearly throttled — restart its interval
+      // from now so it doesn't double-fire right after this manual chirp.
+      if (chirpTimer) clearInterval(chirpTimer);
+      chirpTimer = setInterval(() => {
+        resumeIfSuspended();
+        visualChirp();
+        playChirpSound(STATE.sound, cfg.baseFreq, cfg.notes, cfg.vol);
+        lastChirpAt = Date.now();
+      }, cfg.interval);
     }
   }, 3000);
 }
@@ -238,6 +252,8 @@ export function init() {
   });
 
   document.getElementById('startBtn').addEventListener('click', () => {
+    if (_starting) return;
+    _starting = true;
     ensureAudio();
     requestWakeLock();
     startWatchdog();
@@ -245,6 +261,8 @@ export function init() {
   });
 
   document.getElementById('foundBtn').addEventListener('click', () => {
+    // clearAllPhaseTimers now also clears countdownTimer, so tapping
+    // Found during the hide phase doesn't leak a pending startSeeking().
     clearAllPhaseTimers();
     stopWatchdog();
     releaseWakeLock();
@@ -257,17 +275,16 @@ export function init() {
       .padStart(2, '0')}`;
     playSuccessJingle();
     show('found');
+    _starting = false;
   });
 
   document.getElementById('againBtn').addEventListener('click', () => {
     clearAllPhaseTimers();
-    if (countdownTimer) {
-      clearInterval(countdownTimer);
-      countdownTimer = null;
-    }
+    stopWatchdog();
     const fill = document.getElementById('intensityFill');
     fill.style.transition = 'none';
     fill.style.width = '0%';
+    _starting = false;
     show('setup');
   });
 

@@ -13,6 +13,7 @@ import {
   playSiren,
   playTickSound,
   playSuccessJingle,
+  silenceAll,
 } from '../audio.js';
 import {
   speak,
@@ -354,6 +355,11 @@ function endGame() {
   releaseWakeLock();
   stopSpeechKeepalive();
   cancelSpeech();
+  // If the user tapped Stop during a lava overlay, the siren oscillator
+  // would otherwise keep wailing for up to ~1s on the end screen. Silence
+  // the master briefly to cut it cleanly; closing speech + jingle play
+  // normally after the ~100ms restore.
+  silenceAll();
   document.body.classList.remove('lava-bg');
   inLava = false;
   speak('Time is up! Great job!', { rate: 1.0 });

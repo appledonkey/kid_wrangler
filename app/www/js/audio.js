@@ -119,6 +119,23 @@ export function connectSource(node) {
   if (_reverbWet) node.connect(convolver);
 }
 
+/**
+ * Quickly mute the master output for ~60ms, then restore. In-flight
+ * oscillators (e.g. a 0.5s lava siren still wailing when the user taps
+ * Stop) ramp to silence immediately, but anything scheduled afterwards
+ * (closing speech, success jingle) plays normally — by the time their
+ * envelopes warm up the master gain has been restored.
+ */
+export function silenceAll() {
+  if (!audioCtx || !masterGain) return;
+  const now = audioCtx.currentTime;
+  const restore = VOLUME_MULT.loud || 1.0;
+  masterGain.gain.cancelScheduledValues(now);
+  masterGain.gain.setValueAtTime(masterGain.gain.value, now);
+  masterGain.gain.linearRampToValueAtTime(0.0001, now + 0.06);
+  masterGain.gain.linearRampToValueAtTime(restore, now + 0.1);
+}
+
 // =============================================================
 // Find Me — Chirp voices
 // =============================================================
