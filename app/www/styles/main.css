@@ -145,9 +145,20 @@ p.tag {
   font-weight: 600;
   color: var(--navy);
   cursor: pointer;
-  transition: transform 0.15s, background 0.15s;
+  transition: transform 0.15s, background 0.15s, box-shadow 0.15s;
   box-shadow: 2px 2px 0 var(--navy);
   min-width: 0;
+}
+@media (hover: hover) {
+  .opt:hover:not(.selected) {
+    background: #FFF8E8;
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 var(--navy);
+  }
+}
+.opt:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 2px;
 }
 .opt:active {
   transform: translate(2px, 2px);
@@ -219,6 +230,17 @@ p.tag {
   gap: 2px;
   min-width: 0;
   position: relative;
+}
+@media (hover: hover) {
+  .game-opt:hover:not(.selected):not(.coming-soon):not(.locked) {
+    transform: translate(-1px, -1px);
+    box-shadow: 5px 5px 0 var(--navy);
+    background: #FFFBEB;
+  }
+}
+.game-opt:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
 }
 .game-opt:active {
   transform: translate(2px, 2px);
@@ -493,13 +515,33 @@ p.tag {
   font-weight: 700;
   cursor: pointer;
   box-shadow: 5px 5px 0 var(--navy);
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform 0.1s, box-shadow 0.1s, filter 0.15s;
   letter-spacing: 0.02em;
   margin-top: 6px;
+}
+@media (hover: hover) {
+  .big-btn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 6px 6px 0 var(--navy);
+    filter: brightness(1.05);
+  }
+}
+.big-btn:focus-visible {
+  outline: 3px solid var(--navy);
+  outline-offset: 4px;
 }
 .big-btn:active {
   transform: translate(4px, 4px);
   box-shadow: 1px 1px 0 var(--navy);
+  filter: none;
+}
+.big-btn:disabled,
+.big-btn[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.4);
+  transform: none;
+  box-shadow: 5px 5px 0 var(--navy);
 }
 .big-btn.found {
   background: var(--teal);
