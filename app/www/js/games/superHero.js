@@ -562,8 +562,12 @@ export function init() {
     if (_starting) return;
     _starting = true;
     if (await isLocked('hero')) {
+      // Hold _starting through the purchase flow so a rapid second tap
+      // can't fire a second prompt. featureFlags.attemptPurchase has its
+      // own single-flight guard as belt-and-suspenders for v1.1's async
+      // RevenueCat flow.
+      await attemptPurchase();
       _starting = false;
-      attemptPurchase();
       return;
     }
     _ended = false;

@@ -26,6 +26,7 @@ export const PAID_GAMES = new Set(['hero', 'simon', 'charades', 'mission']);
 const V1_FORCE_UNLOCKED = true;
 
 let _premiumCache = null;
+let _purchaseInFlight = false;
 
 export function isPaidGame(gameId) {
   return PAID_GAMES.has(gameId);
@@ -48,6 +49,13 @@ export async function isLocked(gameId) {
 /**
  * Triggered when a locked game's Start button is tapped.
  *
+ * Single-flight: if a purchase is already in progress, a second concurrent
+ * call short-circuits and returns immediately. This matters most in v1.1
+ * — when the alert() below is replaced with a real async RevenueCat flow,
+ * a rapid double-tap on Start could otherwise trigger two purchase prompts
+ * (and on Android, two charges). The per-game `_starting` flag in each
+ * Start handler is the first line of defense; this is belt-and-suspenders.
+ *
  * v1: shows a "coming soon" notice — never actually fires because the lock
  *     check above always passes when V1_FORCE_UNLOCKED is true.
  *
@@ -60,15 +68,21 @@ export async function isLocked(gameId) {
  *   if (customerInfo.entitlements.active.premium) await markPurchased();
  */
 export async function attemptPurchase() {
-  // Capacitor's WebView supports window.alert; on native iOS/Android it
-  // routes to a native dialog. Replace with @capacitor/dialog if you want
-  // tighter control over the look.
-  alert(
-    'Premium Unlock\n\n' +
-      'Unlocks Super Hero, Simon Says, and Animal Acts ' +
-      '(plus future premium games) with a one-time $4.99 purchase.\n\n' +
-      'Real purchase flow lands in version 1.1.'
-  );
+  if (_purchaseInFlight) return;
+  _purchaseInFlight = true;
+  try {
+    // Capacitor's WebView supports window.alert; on native iOS/Android it
+    // routes to a native dialog. Replace with @capacitor/dialog if you want
+    // tighter control over the look.
+    alert(
+      'Premium Unlock\n\n' +
+        'Unlocks Super Hero, Simon Says, and Animal Acts ' +
+        '(plus future premium games) with a one-time $4.99 purchase.\n\n' +
+        'Real purchase flow lands in version 1.1.'
+    );
+  } finally {
+    _purchaseInFlight = false;
+  }
 }
 
 /** Persist that the user has paid. v1.1 hooks this up after a successful purchase. */

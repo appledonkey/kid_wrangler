@@ -193,8 +193,8 @@ export function init() {
     if (_starting) return;
     _starting = true;
     if (await isLocked('charades')) {
+      await attemptPurchase();
       _starting = false;
-      attemptPurchase();
       return;
     }
     _ended = false;
