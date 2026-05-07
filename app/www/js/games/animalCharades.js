@@ -94,14 +94,21 @@ function updateScoreDisplay() {
   el.textContent = score + (score === 1 ? ' animal acted out' : ' animals acted out');
 }
 
+let _ended = false;
+let _starting = false;
+
 function endGame() {
+  if (_ended) return;
+  _ended = true;
   releaseWakeLock();
   stopSpeechKeepalive();
+  cancelSpeech();
   document.getElementById('charadesFinalScore').textContent =
     score + (score === 1 ? ' animal!' : ' animals!');
   successHaptic();
   playSuccessJingle();
   show('charadesEnd');
+  _starting = false;
 }
 
 // ---------- Display helpers ----------
@@ -183,10 +190,14 @@ export function init() {
   });
 
   document.getElementById('charadesStartBtn').addEventListener('click', async () => {
+    if (_starting) return;
+    _starting = true;
     if (await isLocked('charades')) {
+      _starting = false;
       attemptPurchase();
       return;
     }
+    _ended = false;
     ensureAudio();
     unlockSpeech();
     startSpeechKeepalive();
@@ -208,6 +219,9 @@ export function init() {
   document.getElementById('charadesStopBtn').addEventListener('click', endGame);
 
   document.getElementById('charadesAgainBtn').addEventListener('click', () => {
+    cancelSpeech();
+    _ended = false;
+    _starting = false;
     show('setup');
   });
 

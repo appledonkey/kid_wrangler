@@ -133,6 +133,8 @@ let endTimeout = null;
 let endTime = 0;
 let timerInterval = null;
 let countdownTimer = null;
+let _ended = false;
+let _starting = false;
 
 function pickNext() {
   const cmd = commandQueue.next();
@@ -212,10 +214,9 @@ function startCountdown() {
 }
 
 function endGame() {
-  if (simonTimer) clearTimeout(simonTimer);
-  if (endTimeout) clearTimeout(endTimeout);
-  if (timerInterval) clearInterval(timerInterval);
-  simonTimer = endTimeout = timerInterval = null;
+  if (_ended) return;
+  _ended = true;
+  clearAll();
   releaseWakeLock();
   stopSpeechKeepalive();
   cancelSpeech();
@@ -223,6 +224,7 @@ function endGame() {
   successHaptic();
   playSuccessJingle();
   show('simonEnd');
+  _starting = false;
 }
 
 function clearAll() {
@@ -296,10 +298,14 @@ export function init() {
   });
 
   document.getElementById('simonStartBtn').addEventListener('click', async () => {
+    if (_starting) return;
+    _starting = true;
     if (await isLocked('simon')) {
+      _starting = false;
       attemptPurchase();
       return;
     }
+    _ended = false;
     ensureAudio();
     unlockSpeech();
     startSpeechKeepalive();
@@ -310,7 +316,10 @@ export function init() {
   document.getElementById('simonStopBtn').addEventListener('click', endGame);
 
   document.getElementById('simonAgainBtn').addEventListener('click', () => {
+    cancelSpeech();
     clearAll();
+    _ended = false;
+    _starting = false;
     show('setup');
   });
 

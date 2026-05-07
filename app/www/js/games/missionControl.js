@@ -264,6 +264,8 @@ let endTimeout = null;
 let endTime = 0;
 let timerInterval = null;
 let countdownTimer = null;
+let _ended = false;
+let _starting = false;
 
 let phaseIndex = 0;
 let phaseCommandsFired = 0;
@@ -449,10 +451,9 @@ function startCountdown() {
 }
 
 function endGame() {
-  if (actionTimer) clearTimeout(actionTimer);
-  if (endTimeout) clearTimeout(endTimeout);
-  if (timerInterval) clearInterval(timerInterval);
-  actionTimer = endTimeout = timerInterval = null;
+  if (_ended) return;
+  _ended = true;
+  clearAll();
   releaseWakeLock();
   stopSpeechKeepalive();
   cancelSpeech();
@@ -461,6 +462,7 @@ function endGame() {
   successHaptic();
   playSuccessJingle();
   show('missionEnd');
+  _starting = false;
 }
 
 function clearAll() {
@@ -520,10 +522,14 @@ export function init() {
   });
 
   document.getElementById('missionStartBtn').addEventListener('click', async () => {
+    if (_starting) return;
+    _starting = true;
     if (await isLocked('mission')) {
+      _starting = false;
       attemptPurchase();
       return;
     }
+    _ended = false;
     ensureAudio();
     unlockSpeech();
     startSpeechKeepalive();
@@ -534,8 +540,11 @@ export function init() {
   document.getElementById('missionStopBtn').addEventListener('click', endGame);
 
   document.getElementById('missionAgainBtn').addEventListener('click', () => {
+    cancelSpeech();
     clearAll();
     document.body.classList.remove('mission-bg');
+    _ended = false;
+    _starting = false;
     show('setup');
   });
 

@@ -60,6 +60,8 @@ let endTime = 0;
 let timerInterval = null;
 let countdownTimer = null;
 let currentLight = 'green';
+let _ended = false;
+let _starting = false;
 
 function setLight(newState) {
   currentLight = newState;
@@ -188,10 +190,9 @@ function startCountdown() {
 }
 
 function endGame() {
-  if (stateTimeout) clearTimeout(stateTimeout);
-  if (endTimeout) clearTimeout(endTimeout);
-  if (timerInterval) clearInterval(timerInterval);
-  stateTimeout = endTimeout = timerInterval = null;
+  if (_ended) return;
+  _ended = true;
+  clearAll();
   releaseWakeLock();
   stopSpeechKeepalive();
   cancelSpeech();
@@ -200,6 +201,7 @@ function endGame() {
   successHaptic();
   playSuccessJingle();
   show('rlglEnd');
+  _starting = false;
 }
 
 function clearAll() {
@@ -261,6 +263,9 @@ export function init() {
   });
 
   document.getElementById('rlglStartBtn').addEventListener('click', () => {
+    if (_starting) return;
+    _starting = true;
+    _ended = false;
     ensureAudio();
     unlockSpeech();
     startSpeechKeepalive();
@@ -271,8 +276,11 @@ export function init() {
   document.getElementById('rlglStopBtn').addEventListener('click', endGame);
 
   document.getElementById('rlglAgainBtn').addEventListener('click', () => {
+    cancelSpeech();
     clearAll();
     document.body.classList.remove('green-bg', 'red-bg', 'yellow-bg');
+    _ended = false;
+    _starting = false;
     show('setup');
   });
 

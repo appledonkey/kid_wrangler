@@ -244,6 +244,8 @@ let timerInterval = null;
 let countdownTimer = null;
 let inLava = false;
 let lastLavaTime = 0;
+let _ended = false;
+let _starting = false;
 
 function pickNextAction() {
   // Lava roll first: probability AND cooldown gate.
@@ -346,10 +348,9 @@ function startCountdown() {
 }
 
 function endGame() {
-  if (actionTimer) clearTimeout(actionTimer);
-  if (endTimeout) clearTimeout(endTimeout);
-  if (timerInterval) clearInterval(timerInterval);
-  actionTimer = endTimeout = timerInterval = null;
+  if (_ended) return;
+  _ended = true;
+  clearAll();
   releaseWakeLock();
   stopSpeechKeepalive();
   cancelSpeech();
@@ -359,6 +360,7 @@ function endGame() {
   successHaptic();
   playSuccessJingle();
   show('actionEnd');
+  _starting = false;
 }
 
 function clearAll() {
@@ -458,6 +460,9 @@ export function init() {
   });
 
   document.getElementById('actionStartBtn').addEventListener('click', () => {
+    if (_starting) return;
+    _starting = true;
+    _ended = false;
     ensureAudio();
     unlockSpeech();
     startSpeechKeepalive();
@@ -468,8 +473,12 @@ export function init() {
   document.getElementById('actionStopBtn').addEventListener('click', endGame);
 
   document.getElementById('actionAgainBtn').addEventListener('click', () => {
+    cancelSpeech();
     clearAll();
     document.body.classList.remove('lava-bg');
+    inLava = false;
+    _ended = false;
+    _starting = false;
     show('setup');
   });
 

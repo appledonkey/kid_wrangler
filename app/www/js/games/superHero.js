@@ -391,6 +391,8 @@ let endTimeout = null;
 let endTime = 0;
 let timerInterval = null;
 let countdownTimer = null;
+let _ended = false;
+let _starting = false;
 
 function announce(power) {
   const emojiEl = document.getElementById('heroEmoji');
@@ -458,10 +460,9 @@ function startCountdown() {
 }
 
 function endGame() {
-  if (actionTimer) clearTimeout(actionTimer);
-  if (endTimeout) clearTimeout(endTimeout);
-  if (timerInterval) clearInterval(timerInterval);
-  actionTimer = endTimeout = timerInterval = null;
+  if (_ended) return;
+  _ended = true;
+  clearAll();
   releaseWakeLock();
   stopSpeechKeepalive();
   cancelSpeech();
@@ -476,6 +477,7 @@ function endGame() {
   speak(closingLine, { rate: 1.0 });
   playSuccessJingle();
   show('heroEnd');
+  _starting = false;
 }
 
 function clearAll() {
@@ -557,10 +559,14 @@ export function init() {
   });
 
   document.getElementById('heroStartBtn').addEventListener('click', async () => {
+    if (_starting) return;
+    _starting = true;
     if (await isLocked('hero')) {
+      _starting = false;
       attemptPurchase();
       return;
     }
+    _ended = false;
     ensureAudio();
     unlockSpeech();
     startSpeechKeepalive();
@@ -571,8 +577,11 @@ export function init() {
   document.getElementById('heroStopBtn').addEventListener('click', endGame);
 
   document.getElementById('heroAgainBtn').addEventListener('click', () => {
+    cancelSpeech();
     clearAll();
     document.body.classList.remove('hero-bg');
+    _ended = false;
+    _starting = false;
     show('setup');
   });
 

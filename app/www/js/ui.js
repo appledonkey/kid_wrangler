@@ -97,27 +97,31 @@ export function shuffleArray(arr) {
 
 /**
  * Returns a queue object that yields each item in `getPool()` exactly
- * once before reshuffling. If the pool changes (different reference),
- * the queue resets.
+ * once before reshuffling.
+ *
+ * `getPool()` is called once per shuffle (on first `next()`, after
+ * exhaustion, or on `reset()`) — NOT on every `next()`. Callers that
+ * want a fresh shuffle when settings change must call `.reset()`
+ * explicitly. (Earlier versions detected pool changes by reference
+ * identity, but `getActionPool()` style callers rebuild the array via
+ * spread on every call, so reference identity changed every tick and
+ * the queue silently reshuffled, breaking the "no repeats until
+ * exhausted" guarantee.)
  *
  * Usage:
  *   const q = makeQueue(() => HERO_POWERS.classic);
  *   q.next();   // -> some power
  *   q.next();   // -> a different power, until exhausted
+ *   q.reset();  // call this when the underlying pool semantics change
  */
 export function makeQueue(getPool) {
   let queue = [];
   let lastPick = null;
-  let lastPoolRef = null;
   return {
     next() {
-      const pool = getPool();
-      if (!pool || pool.length === 0) return null;
-      if (pool !== lastPoolRef) {
-        lastPoolRef = pool;
-        queue = [];
-      }
       if (queue.length === 0) {
+        const pool = getPool();
+        if (!pool || pool.length === 0) return null;
         queue = shuffleArray(pool);
         // Avoid the new first item being the same as the last picked,
         // when the pool is big enough to swap.
@@ -132,7 +136,6 @@ export function makeQueue(getPool) {
     reset() {
       queue = [];
       lastPick = null;
-      lastPoolRef = null;
     },
   };
 }

@@ -11,6 +11,7 @@ import {
   unlockSpeech,
   startSpeechKeepalive,
   stopSpeechKeepalive,
+  cancelSpeech,
 } from '../speech.js';
 import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
 import { show, setupOpts, setupToggle, isActiveScreen, makeQueue } from '../ui.js';
@@ -29,6 +30,8 @@ let round = 0;
 let currentItem = null;
 let revealed = false;
 let autoTimeout = null;
+let _ended = false;
+let _starting = false;
 
 const itemQueue = makeQueue(() => itemsIn(STATE.category));
 
@@ -64,14 +67,19 @@ function reveal() {
 }
 
 function endGame() {
+  if (_ended) return;
+  _ended = true;
   if (autoTimeout) clearTimeout(autoTimeout);
+  autoTimeout = null;
   releaseWakeLock();
   stopSpeechKeepalive();
+  cancelSpeech();
   document.getElementById('whatIsItFinalScore').textContent =
     round + (round === 1 ? ' emoji shown!' : ' emojis shown!');
   successHaptic();
   playSuccessJingle();
   show('whatIsItEnd');
+  _starting = false;
 }
 
 function updatePoolDisplay() {
@@ -124,6 +132,9 @@ export function init() {
   });
 
   document.getElementById('whatIsItStartBtn').addEventListener('click', () => {
+    if (_starting) return;
+    _starting = true;
+    _ended = false;
     ensureAudio();
     unlockSpeech();
     startSpeechKeepalive();
@@ -147,7 +158,11 @@ export function init() {
   document.getElementById('whatIsItStopBtn').addEventListener('click', endGame);
 
   document.getElementById('whatIsItAgainBtn').addEventListener('click', () => {
+    cancelSpeech();
     if (autoTimeout) clearTimeout(autoTimeout);
+    autoTimeout = null;
+    _ended = false;
+    _starting = false;
     show('setup');
   });
 

@@ -67,6 +67,8 @@ let endTimeout = null;
 let endTime = 0;
 let timerInterval = null;
 let countdownTimer = null;
+let _ended = false;
+let _starting = false;
 
 function setBg(category) {
   document.body.classList.remove(...BG_CLASSES);
@@ -164,11 +166,9 @@ function startCountdown() {
 }
 
 function endGame() {
-  if (actionTimer) clearTimeout(actionTimer);
-  if (reactionTimer) clearTimeout(reactionTimer);
-  if (endTimeout) clearTimeout(endTimeout);
-  if (timerInterval) clearInterval(timerInterval);
-  actionTimer = reactionTimer = endTimeout = timerInterval = null;
+  if (_ended) return;
+  _ended = true;
+  clearAll();
   releaseWakeLock();
   stopSpeechKeepalive();
   cancelSpeech();
@@ -177,6 +177,7 @@ function endGame() {
   successHaptic();
   playSuccessJingle();
   show('weatherEnd');
+  _starting = false;
 }
 
 function clearAll() {
@@ -258,6 +259,9 @@ export function init() {
   });
 
   document.getElementById('weatherStartBtn')?.addEventListener('click', () => {
+    if (_starting) return;
+    _starting = true;
+    _ended = false;
     ensureAudio();
     unlockSpeech();
     startSpeechKeepalive();
@@ -269,8 +273,11 @@ export function init() {
   document.getElementById('weatherStopBtn')?.addEventListener('click', endGame);
 
   document.getElementById('weatherAgainBtn')?.addEventListener('click', () => {
+    cancelSpeech();
     clearAll();
     setBg(null);
+    _ended = false;
+    _starting = false;
     show('setup');
   });
 
