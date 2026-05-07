@@ -1,0 +1,1155 @@
+# KidWrangler — voice recording checklist
+
+_Generated 2026-05-07 · 1063 lines · 1056 unique MP3 files_
+
+## How to record
+
+1. For each line below, record an MP3 with the **exact filename shown**.
+2. Drop the file into `app/www/audio/voice/`.
+3. The runtime auto-detects it — no code changes. The TTS fallback
+   plays for any line without an MP3 yet, so you can ship partials.
+
+### Recording tips
+
+- **Format:** MP3, mono, 44.1kHz, ~96-128kbps. Bigger is wasted.
+- **Tone:** chirpy / playful for prompts; firm for "Red light!"; warm for closing lines.
+- **Silence:** trim leading silence aggressively. The runtime adds its own gap.
+- **Levels:** record peaking around -6dB. The compressor brings it up.
+- **Lines marked _(shared)_** appear in more than one game — record once.
+
+### Tier strategy
+
+- **System** lines (per-game subsection top) are the highest-impact: every
+  game start/end + Test Voice button. Knock these out first — ~25 files.
+- **Content** lines are the bulk prompts. Tackle game-by-game; partial
+  recordings are fine because TTS fills in the gaps.
+
+---
+
+## Hide & Seek
+
+_No voice lines — game uses procedural chirps only._
+
+## Red Light / Green Light (4)
+
+### System / framing (4)
+
+- [ ] `red-light.mp3` — "Red light!"
+- [ ] `green-light.mp3` — "Green light!"
+- [ ] `yellow-light.mp3` — "Yellow light!" — _only spoken when Yellow Light toggle is ON_
+- [ ] `time-is-up-great-job.mp3` — "Time is up! Great job!" _(shared)_ — _closing line_
+
+## Floor is Lava (111)
+
+### System / framing (2)
+
+- [ ] `hop-on-one-foot.mp3` — "Hop on one foot!" — _Test Voice button line_
+- [ ] `time-is-up-great-job.mp3` — "Time is up! Great job!" _(shared)_ — _closing line (shared filename with Red Light)_
+
+### Content / prompts (109)
+
+- [ ] `find-a-hat.mp3` — "Find a hat!"
+- [ ] `find-a-book.mp3` — "Find a book!"
+- [ ] `find-a-shoe.mp3` — "Find a shoe!"
+- [ ] `run-in-place.mp3` — "Run in place!"
+- [ ] `skip-in-place.mp3` — "Skip in place!"
+- [ ] `tiptoe-slowly.mp3` — "Tiptoe slowly!"
+- [ ] `find-a-pillow.mp3` — "Find a pillow!"
+- [ ] `walk-backwards.mp3` — "Walk backwards!"
+- [ ] `do-five-squats.mp3` — "Do five squats!"
+- [ ] `do-five-lunges.mp3` — "Do five lunges!"
+- [ ] `pretend-to-fly.mp3` — "Pretend to fly!"
+- [ ] `clap-five-times.mp3` — "Clap five times!"
+- [ ] `spin-like-a-top.mp3` — "Spin like a top!"
+- [ ] `bark-like-a-dog.mp3` — "Bark like a dog!"
+- [ ] `buzz-like-a-bee.mp3` — "Buzz like a bee!"
+- [ ] `do-five-situps.mp3` — "Do five sit-ups!"
+- [ ] `touch-your-toes.mp3` — "Touch your toes!" _(shared)_
+- [ ] `touch-the-floor.mp3` — "Touch the floor!"
+- [ ] `pretend-to-swim.mp3` — "Pretend to swim!"
+- [ ] `spin-in-a-circle.mp3` — "Spin in a circle!"
+- [ ] `jump-up-and-down.mp3` — "Jump up and down!"
+- [ ] `stand-on-tiptoes.mp3` — "Stand on tiptoes!"
+- [ ] `roar-like-a-lion.mp3` — "Roar like a lion!"
+- [ ] `hop-like-a-bunny.mp3` — "Hop like a bunny!"
+- [ ] `flap-like-a-bird.mp3` — "Flap like a bird!"
+- [ ] `jump-like-a-frog.mp3` — "Jump like a frog!"
+- [ ] `howl-like-a-wolf.mp3` — "Howl like a wolf!"
+- [ ] `do-five-pushups.mp3` — "Do five push-ups!"
+- [ ] `hold-a-tree-pose.mp3` — "Hold a tree pose!"
+- [ ] `do-a-silly-dance.mp3` — "Do a silly dance!"
+- [ ] `crawl-like-a-crab.mp3` — "Crawl like a crab!"
+- [ ] `do-five-leg-lifts.mp3` — "Do five leg lifts!"
+- [ ] `reach-for-the-sky.mp3` — "Reach for the sky!" _(shared)_
+- [ ] `talk-like-a-robot.mp3` — "Talk like a robot!"
+- [ ] `crawl-like-a-baby.mp3` — "Crawl like a baby!"
+- [ ] `stretch-like-a-cat.mp3` — "Stretch like a cat!"
+- [ ] `hold-a-karate-pose.mp3` — "Hold a karate pose!"
+- [ ] `twist-side-to-side.mp3` — "Twist side to side!"
+- [ ] `find-something-red.mp3` — "Find something RED!"
+- [ ] `walk-like-a-zombie.mp3` — "Walk like a zombie!"
+- [ ] `wiggle-like-a-worm.mp3` — "Wiggle like a worm!"
+- [ ] `bounce-on-your-toes.mp3` — "Bounce on your toes!"
+- [ ] `gallop-like-a-horse.mp3` — "Gallop like a horse!"
+- [ ] `swing-like-a-monkey.mp3` — "Swing like a monkey!"
+- [ ] `do-five-toe-touches.mp3` — "Do five toe touches!"
+- [ ] `balance-on-one-foot.mp3` — "Balance on one foot!" _(shared)_
+- [ ] `find-something-blue.mp3` — "Find something BLUE!"
+- [ ] `find-something-soft.mp3` — "Find something soft!"
+- [ ] `do-a-superhero-pose.mp3` — "Do a superhero pose!"
+- [ ] `tiptoe-like-a-ninja.mp3` — "Tiptoe like a ninja!" _(shared)_
+- [ ] `slither-like-a-snake.mp3` — "Slither like a snake!"
+- [ ] `roar-like-a-dinosaur.mp3` — "Roar like a dinosaur!"
+- [ ] `big-yawn-and-stretch.mp3` — "Big yawn and stretch!"
+- [ ] `find-something-green.mp3` — "Find something GREEN!"
+- [ ] `find-something-round.mp3` — "Find something round!"
+- [ ] `find-something-shiny.mp3` — "Find something shiny!"
+- [ ] `pretend-to-be-a-tree.mp3` — "Pretend to be a tree!" _(shared)_
+- [ ] `pretend-to-be-asleep.mp3` — "Pretend to be asleep!"
+- [ ] `march-around-the-room.mp3` — "March around the room!"
+- [ ] `waddle-like-a-penguin.mp3` — "Waddle like a penguin!"
+- [ ] `do-five-jumping-jacks.mp3` — "Do five jumping jacks!"
+- [ ] `find-something-fluffy.mp3` — "Find something fluffy!"
+- [ ] `find-a-stuffed-animal.mp3` — "Find a stuffed animal!"
+- [ ] `hop-forward-five-times.mp3` — "Hop forward five times!"
+- [ ] `wiggle-your-whole-body.mp3` — "Wiggle your whole body!"
+- [ ] `stomp-like-an-elephant.mp3` — "Stomp like an elephant!"
+- [ ] `bounce-like-a-kangaroo.mp3` — "Bounce like a kangaroo!"
+- [ ] `freeze-like-a-popsicle.mp3` — "Freeze like a popsicle!"
+- [ ] `hop-backward-five-times.mp3` — "Hop backward five times!"
+- [ ] `sing-your-name-out-loud.mp3` — "Sing your name out loud!"
+- [ ] `pretend-to-be-a-snowman.mp3` — "Pretend to be a snowman!"
+- [ ] `pretend-to-ride-a-horse.mp3` — "Pretend to ride a horse!"
+- [ ] `spin-around-three-times.mp3` — "Spin around three times!"
+- [ ] `crawl-on-hands-and-knees.mp3` — "Crawl on hands and knees!"
+- [ ] `roll-your-shoulders-back.mp3` — "Roll your shoulders back!"
+- [ ] `sidebend-left-and-right.mp3` — "Side-bend left and right!"
+- [ ] `do-five-mountain-climbers.mp3` — "Do five mountain climbers!"
+- [ ] `walk-backwards-five-steps.mp3` — "Walk backwards five steps!"
+- [ ] `lava-river-get-to-safety.mp3` — "LAVA RIVER! Get to safety!"
+- [ ] `stretch-your-arms-out-wide.mp3` — "Stretch your arms out wide!"
+- [ ] `pretend-you-are-underwater.mp3` — "Pretend you are underwater!"
+- [ ] `volcano-erupting-get-high.mp3` — "VOLCANO ERUPTING! Get high!"
+- [ ] `high-knees-for-five-seconds.mp3` — "High knees for five seconds!"
+- [ ] `snap-your-fingers-ten-times.mp3` — "Snap your fingers ten times!"
+- [ ] `pretend-to-brush-your-teeth.mp3` — "Pretend to brush your teeth!"
+- [ ] `hot-lava-jump-on-the-couch.mp3` — "HOT LAVA! Jump on the couch!"
+- [ ] `be-a-statue-for-five-seconds.mp3` — "Be a statue for five seconds!"
+- [ ] `pretend-to-be-a-chef-cooking.mp3` — "Pretend to be a chef cooking!"
+- [ ] `pretend-you-are-stuck-in-mud.mp3` — "Pretend you are stuck in mud!"
+- [ ] `the-floor-is-burning-get-up.mp3` — "THE FLOOR IS BURNING! Get up!"
+- [ ] `hold-a-plank-for-five-seconds.mp3` — "Hold a plank for five seconds!"
+- [ ] `tap-each-finger-to-your-thumb.mp3` — "Tap each finger to your thumb!"
+- [ ] `pretend-to-be-a-bouncing-ball.mp3` — "Pretend to be a bouncing ball!"
+- [ ] `pretend-to-be-popcorn-popping.mp3` — "Pretend to be popcorn popping!"
+- [ ] `molten-rock-everywhere-climb.mp3` — "MOLTEN ROCK EVERYWHERE! Climb!"
+- [ ] `stomp-left-right-left-right.mp3` — "Stomp left, right, left, right!"
+- [ ] `hop-on-one-foot-then-the-other.mp3` — "Hop on one foot, then the other!"
+- [ ] `scorching-ground-off-the-floor.mp3` — "SCORCHING GROUND! Off the floor!"
+- [ ] `pat-your-head-and-rub-your-tummy.mp3` — "Pat your head and rub your tummy!"
+- [ ] `stand-on-one-leg-with-eyes-closed.mp3` — "Stand on one leg with eyes closed!"
+- [ ] `wink-with-one-eye-then-the-other.mp3` — "Wink with one eye, then the other!"
+- [ ] `floor-is-lava-climb-on-something.mp3` — "FLOOR IS LAVA! Climb on something!"
+- [ ] `lava-lava-lava-get-up-high-now.mp3` — "LAVA! LAVA! LAVA! Get up high NOW!"
+- [ ] `lava-everywhere-get-off-the-floor.mp3` — "LAVA EVERYWHERE! Get off the floor!"
+- [ ] `balance-on-tiptoes-for-five-seconds.mp3` — "Balance on tiptoes for five seconds!"
+- [ ] `wiggle-your-fingers-like-piano-keys.mp3` — "Wiggle your fingers like piano keys!"
+- [ ] `stand-like-a-flamingo-for-five-seconds.mp3` — "Stand like a flamingo for five seconds!"
+- [ ] `clap-a-fast-pattern-clapclappauseclap.mp3` — "Clap a fast pattern: clap-clap-pause-clap!"
+- [ ] `the-ground-is-melting-find-higher-ground.mp3` — "The ground is melting! Find higher ground!"
+
+## Heroes & Villains (263)
+
+### System / framing (3)
+
+- [ ] `mwa-ha-ha-great-evildoing.mp3` — "Mwa ha ha! Great evil-doing!" — _closing line — Villain role_
+- [ ] `great-work-hero-or-villain.mp3` — "Great work, hero or villain!" — _closing line — Both role_
+- [ ] `you-saved-the-day-great-job-hero.mp3` — "You saved the day! Great job hero!" — _closing line — Hero role_
+
+### Content / prompts (260)
+
+- [ ] `read-minds.mp3` — "Read minds!"
+- [ ] `grow-giant.mp3` — "Grow giant!"
+- [ ] `catch-fire.mp3` — "Catch fire!"
+- [ ] `rob-a-vault.mp3` — "Rob a vault!"
+- [ ] `pick-up-a-car.mp3` — "Pick up a car!"
+- [ ] `turn-to-stone.mp3` — "Turn to stone!"
+- [ ] `defuse-a-bomb.mp3` — "Defuse a bomb!"
+- [ ] `cackle-evilly.mp3` — "Cackle evilly!"
+- [ ] `swing-on-a-web.mp3` — "Swing on a web!"
+- [ ] `slow-down-time.mp3` — "Slow down time!"
+- [ ] `steal-a-cookie.mp3` — "Steal a cookie!"
+- [ ] `rewind-history.mp3` — "Rewind history!"
+- [ ] `talk-to-animals.mp3` — "Talk to animals!"
+- [ ] `hover-in-midair.mp3` — "Hover in mid-air!"
+- [ ] `bend-a-steel-bar.mp3` — "Bend a steel bar!"
+- [ ] `control-the-wind.mp3` — "Control the wind!"
+- [ ] `control-the-rain.mp3` — "Control the rain!"
+- [ ] `brainwave-attack.mp3` — "Brainwave attack!"
+- [ ] `shrink-down-tiny.mp3` — "Shrink down tiny!"
+- [ ] `turn-into-a-wolf.mp3` — "Turn into a wolf!"
+- [ ] `rewind-a-mistake.mp3` — "Rewind a mistake!"
+- [ ] `aim-a-freeze-ray.mp3` — "Aim a freeze ray!"
+- [ ] `turn-off-the-sun.mp3` — "Turn off the sun!"
+- [ ] `wield-twin-swords.mp3` — "Wield twin swords!"
+- [ ] `crumple-a-tin-can.mp3` — "Crumple a tin can!"
+- [ ] `mindtrick-a-hero.mp3` — "Mind-trick a hero!"
+- [ ] `pet-your-evil-cat.mp3` — "Pet your evil cat!"
+- [ ] `sprout-extra-arms.mp3` — "Sprout extra arms!"
+- [ ] `snarl-like-a-wolf.mp3` — "Snarl like a wolf!"
+- [ ] `hiss-like-a-cobra.mp3` — "Hiss like a cobra!"
+- [ ] `soar-like-an-eagle.mp3` — "Soar like an eagle!" _(shared)_
+- [ ] `do-a-hulking-smash.mp3` — "Do a hulking SMASH!"
+- [ ] `summon-a-sandstorm.mp3` — "Summon a sandstorm!"
+- [ ] `cast-a-magic-spell.mp3` — "Cast a magic spell!"
+- [ ] `strike-a-hero-pose.mp3` — "Strike a hero pose!"
+- [ ] `bounce-like-rubber.mp3` — "Bounce like rubber!"
+- [ ] `sprout-giant-wings.mp3` — "Sprout giant wings!"
+- [ ] `drop-a-giant-anvil.mp3` — "Drop a giant anvil!"
+- [ ] `wield-a-dark-sword.mp3` — "Wield a dark sword!"
+- [ ] `throw-a-smoke-bomb.mp3` — "Throw a smoke bomb!"
+- [ ] `open-a-dark-portal.mp3` — "Open a dark portal!"
+- [ ] `fly-through-the-sky.mp3` — "Fly through the sky!"
+- [ ] `danger-sense-dodge.mp3` — "Danger sense! Dodge!"
+- [ ] `cape-twirl-and-pose.mp3` — "Cape twirl and pose!"
+- [ ] `pounce-like-a-tiger.mp3` — "Pounce like a tiger!"
+- [ ] `sting-like-a-hornet.mp3` — "Sting like a hornet!"
+- [ ] `cast-a-wicked-curse.mp3` — "Cast a wicked curse!"
+- [ ] `brainwash-a-citizen.mp3` — "Brainwash a citizen!"
+- [ ] `sneak-into-the-bank.mp3` — "Sneak into the bank!"
+- [ ] `shift-into-a-shadow.mp3` — "Shift into a shadow!"
+- [ ] `cackle-like-a-hyena.mp3` — "Cackle like a hyena!"
+- [ ] `phase-through-a-wall.mp3` — "Phase through a wall!"
+- [ ] `punch-a-bad-guy-bam.mp3` — "Punch a bad guy! Bam!"
+- [ ] `flip-a-giant-boulder.mp3` — "Flip a giant boulder!"
+- [ ] `make-the-earth-shake.mp3` — "Make the earth shake!"
+- [ ] `put-up-a-force-field.mp3` — "Put up a force field!"
+- [ ] `stop-a-runaway-train.mp3` — "Stop a runaway train!"
+- [ ] `free-trapped-friends.mp3` — "Free trapped friends!"
+- [ ] `soar-on-dragon-wings.mp3` — "Soar on dragon wings!"
+- [ ] `hypnotize-a-passerby.mp3` — "Hypnotize a passerby!"
+- [ ] `tap-a-venomous-staff.mp3` — "Tap a venomous staff!"
+- [ ] `swirl-your-evil-cape.mp3` — "Swirl your evil cape!"
+- [ ] `glide-through-the-air.mp3` — "Glide through the air!"
+- [ ] `dash-so-fast-you-blur.mp3` — "Dash so fast you blur!"
+- [ ] `skid-to-a-heroic-stop.mp3` — "Skid to a heroic stop!"
+- [ ] `spin-your-magic-lasso.mp3` — "Spin your magic lasso!"
+- [ ] `bulk-up-and-get-angry.mp3` — "BULK UP and get angry!"
+- [ ] `grow-a-tail-and-fangs.mp3` — "Grow a tail and fangs!"
+- [ ] `bite-with-snake-fangs.mp3` — "Bite with snake fangs!"
+- [ ] `raise-a-magic-barrier.mp3` — "Raise a magic barrier!"
+- [ ] `stomp-on-a-toy-castle.mp3` — "Stomp on a toy castle!"
+- [ ] `summon-a-thunderstorm.mp3` — "Summon a thunderstorm!"
+- [ ] `throw-a-confetti-bomb.mp3` — "Throw a confetti bomb!"
+- [ ] `demand-a-giant-ransom.mp3` — "Demand a giant ransom!"
+- [ ] `take-all-the-trophies.mp3` — "Take all the trophies!"
+- [ ] `run-at-lightning-speed.mp3` — "Run at lightning speed!"
+- [ ] `send-out-a-thunderclap.mp3` — "Send out a thunderclap!"
+- [ ] `throw-a-lightning-bolt.mp3` — "Throw a lightning bolt!"
+- [ ] `throw-your-hero-shield.mp3` — "Throw your hero shield!"
+- [ ] `slash-with-metal-claws.mp3` — "Slash with metal claws!"
+- [ ] `summon-your-iron-armor.mp3` — "Summon your iron armor!"
+- [ ] `aim-your-bow-and-arrow.mp3` — "Aim your bow and arrow!"
+- [ ] `roar-like-a-hero-beast.mp3` — "Roar like a hero beast!"
+- [ ] `catch-a-falling-person.mp3` — "Catch a falling person!"
+- [ ] `spam-glowing-ki-blasts.mp3` — "Spam glowing ki blasts!"
+- [ ] `cloak-yourself-in-mist.mp3` — "Cloak yourself in mist!"
+- [ ] `crack-an-electric-whip.mp3` — "Crack an electric whip!"
+- [ ] `grow-scales-and-a-tail.mp3` — "Grow scales and a tail!"
+- [ ] `tie-a-hero-to-a-rocket.mp3` — "Tie a hero to a rocket!"
+- [ ] `make-a-giant-tidal-wave.mp3` — "Make a giant tidal wave!"
+- [ ] `save-someone-in-trouble.mp3` — "Save someone in trouble!"
+- [ ] `save-a-baby-from-danger.mp3` — "Save a baby from danger!"
+- [ ] `plant-a-flag-of-victory.mp3` — "Plant a flag of victory!"
+- [ ] `conjure-poisonous-vines.mp3` — "Conjure poisonous vines!"
+- [ ] `press-a-doomsday-button.mp3` — "Press a doomsday button!"
+- [ ] `sprout-poisonous-spikes.mp3` — "Sprout poisonous spikes!"
+- [ ] `pop-up-a-wall-of-spikes.mp3` — "Pop up a wall of spikes!"
+- [ ] `make-your-eyes-glow-red.mp3` — "Make your eyes glow red!"
+- [ ] `teleport-across-the-room.mp3` — "Teleport across the room!"
+- [ ] `catch-a-falling-building.mp3` — "Catch a falling building!"
+- [ ] `plant-powers-grow-vines.mp3` — "Plant powers! Grow vines!"
+- [ ] `cloak-yourself-in-shadow.mp3` — "Cloak yourself in shadow!"
+- [ ] `light-up-your-power-ring.mp3` — "Light up your power ring!"
+- [ ] `skitter-into-the-shadows.mp3` — "Skitter into the shadows!"
+- [ ] `hover-above-your-minions.mp3` — "Hover above your minions!"
+- [ ] `shoot-evil-purple-lasers.mp3` — "Shoot evil purple lasers!"
+- [ ] `twirl-your-evil-mustache.mp3` — "Twirl your evil mustache!"
+- [ ] `snap-your-alligator-jaws.mp3` — "Snap your alligator jaws!"
+- [ ] `activate-the-laser-fence.mp3` — "Activate the laser fence!"
+- [ ] `kidnap-the-mayors-puppy.mp3` — "Kidnap the mayor's puppy!"
+- [ ] `steal-everyones-bedtime.mp3` — "Steal everyone's bedtime!"
+- [ ] `hover-in-place-and-smirk.mp3` — "Hover in place and smirk!"
+- [ ] `shoot-laser-eyes-pew-pew.mp3` — "Shoot laser eyes! Pew pew!"
+- [ ] `shoot-ice-from-your-hands.mp3` — "Shoot ice from your hands!"
+- [ ] `send-a-telepathic-message.mp3` — "Send a telepathic message!"
+- [ ] `crack-a-whip-of-lightning.mp3` — "Crack a whip of lightning!"
+- [ ] `lead-the-team-into-battle.mp3` — "Lead the team into battle!"
+- [ ] `pop-into-a-parallel-world.mp3` — "Pop into a parallel world!"
+- [ ] `dash-away-from-the-heroes.mp3` — "Dash away from the heroes!"
+- [ ] `flip-a-table-dramatically.mp3` — "Flip a table dramatically!"
+- [ ] `light-a-sinister-fireball.mp3` — "Light a sinister fireball!"
+- [ ] `pose-with-your-skull-mask.mp3` — "Pose with your skull mask!"
+- [ ] `melt-into-a-puddle-of-goo.mp3` — "Melt into a puddle of goo!"
+- [ ] `turn-into-a-swarm-of-bats.mp3` — "Turn into a swarm of bats!"
+- [ ] `push-a-giant-domino-chain.mp3` — "Push a giant domino chain!"
+- [ ] `trap-the-heroes-in-a-cage.mp3` — "Trap the heroes in a cage!"
+- [ ] `switch-all-the-road-signs.mp3` — "Switch all the road signs!"
+- [ ] `pop-into-the-heroes-base.mp3` — "Pop into the heroes' base!"
+- [ ] `skitter-as-a-giant-beetle.mp3` — "Skitter as a giant beetle!"
+- [ ] `reanimate-as-a-bone-golem.mp3` — "Reanimate as a bone golem!"
+- [ ] `shoot-fire-from-your-hands.mp3` — "Shoot fire from your hands!"
+- [ ] `throw-spinning-star-blades.mp3` — "Throw spinning star blades!"
+- [ ] `stretch-your-arms-out-long.mp3` — "Stretch your arms out long!"
+- [ ] `climb-a-wall-like-a-spider.mp3` — "Climb a wall like a spider!"
+- [ ] `phase-through-a-vault-wall.mp3` — "Phase through a vault wall!"
+- [ ] `zoom-away-on-a-hoverboard.mp3` — "Zoom away on a hover-board!"
+- [ ] `punch-through-a-steel-wall.mp3` — "Punch through a steel wall!"
+- [ ] `pick-up-a-car-and-shake-it.mp3` — "Pick up a car and shake it!"
+- [ ] `bend-prison-bars-to-escape.mp3` — "Bend prison bars to escape!"
+- [ ] `flood-the-streets-with-goo.mp3` — "Flood the streets with goo!"
+- [ ] `make-the-ground-split-open.mp3` — "Make the ground split open!"
+- [ ] `hide-behind-a-giant-pillar.mp3` — "Hide behind a giant pillar!"
+- [ ] `turn-into-a-slithery-snake.mp3` — "Turn into a slithery snake!"
+- [ ] `stomp-like-a-trex-villain.mp3` — "Stomp like a T-rex villain!"
+- [ ] `trap-heroes-in-a-time-loop.mp3` — "Trap heroes in a time loop!"
+- [ ] `rise-as-a-shambling-zombie.mp3` — "Rise as a shambling zombie!"
+- [ ] `rise-as-a-skeleton-warlord.mp3` — "Rise as a skeleton warlord!"
+- [ ] `shapeshift-into-a-rat-king.mp3` — "Shapeshift into a rat king!"
+- [ ] `lift-a-hippo-over-your-head.mp3` — "Lift a hippo over your head!"
+- [ ] `throw-a-glowing-energy-ball.mp3` — "Throw a glowing energy ball!"
+- [ ] `erupt-into-a-roaring-dragon.mp3` — "Erupt into a roaring dragon!"
+- [ ] `rescue-a-kitten-from-a-tree.mp3` — "Rescue a kitten from a tree!"
+- [ ] `crackle-with-dark-lightning.mp3` — "Crackle with dark lightning!"
+- [ ] `freeze-the-whole-city-solid.mp3` — "Freeze the whole city solid!"
+- [ ] `mindlink-with-your-minions.mp3` — "Mind-link with your minions!"
+- [ ] `ignite-your-sword-in-flames.mp3` — "Ignite your sword in flames!"
+- [ ] `pounce-like-an-evil-panther.mp3` — "Pounce like an evil panther!"
+- [ ] `plot-to-take-over-the-world.mp3` — "Plot to take over the world!"
+- [ ] `steal-everyones-left-socks.mp3` — "Steal everyone's left socks!"
+- [ ] `phase-into-a-haunting-ghost.mp3` — "Phase into a haunting ghost!"
+- [ ] `strike-a-brooding-hero-glare.mp3` — "Strike a brooding hero glare!"
+- [ ] `throw-a-spinning-energy-disk.mp3` — "Throw a spinning energy disk!"
+- [ ] `eat-a-magic-bean-and-heal-up.mp3` — "Eat a magic bean and heal up!"
+- [ ] `swing-on-an-evil-web-of-lies.mp3` — "Swing on an evil web of lies!"
+- [ ] `send-out-a-shockwave-of-doom.mp3` — "Send out a shockwave of doom!"
+- [ ] `tiptoe-past-a-sleeping-guard.mp3` — "Tiptoe past a sleeping guard!"
+- [ ] `transform-into-a-vampire-bat.mp3` — "Transform into a vampire bat!"
+- [ ] `erupt-as-an-evil-dark-dragon.mp3` — "Erupt as an evil dark dragon!"
+- [ ] `wrap-yourself-in-golden-light.mp3` — "Wrap yourself in golden light!"
+- [ ] `use-mind-control-on-a-villain.mp3` — "Use mind control on a villain!"
+- [ ] `see-the-future-for-one-second.mp3` — "See the future for one second!"
+- [ ] `swing-a-mighty-thunder-hammer.mp3` — "Swing a mighty thunder hammer!"
+- [ ] `root-into-a-living-tree-giant.mp3` — "Root into a living tree giant!"
+- [ ] `time-travel-back-five-seconds.mp3` — "Time travel back five seconds!"
+- [ ] `smash-a-building-just-because.mp3` — "SMASH a building just because!"
+- [ ] `eavesdrop-on-a-secret-meeting.mp3` — "Eavesdrop on a secret meeting!"
+- [ ] `encase-yourself-in-dark-armor.mp3` — "Encase yourself in dark armor!"
+- [ ] `steal-the-citys-pizza-supply.mp3` — "Steal the city's pizza supply!"
+- [ ] `become-a-hairy-spider-monster.mp3` — "Become a hairy spider monster!"
+- [ ] `reveal-your-true-monster-form.mp3` — "Reveal your true monster form!"
+- [ ] `heat-vision-melt-the-bad-guys.mp3` — "Heat vision! Melt the bad guys!"
+- [ ] `become-invisible-sneak-around.mp3` — "Become invisible! Sneak around!"
+- [ ] `super-hearing-listen-far-away.mp3` — "Super hearing! Listen far away!"
+- [ ] `blast-a-twohanded-energy-beam.mp3` — "BLAST a two-handed energy beam!"
+- [ ] `charge-a-giant-onehanded-beam.mp3` — "Charge a giant one-handed beam!"
+- [ ] `glow-red-and-double-your-power.mp3` — "Glow red and double your power!"
+- [ ] `teleport-into-your-secret-lair.mp3` — "Teleport into your secret lair!"
+- [ ] `transform-into-a-giant-monster.mp3` — "Transform into a giant monster!"
+- [ ] `transform-into-a-hulking-beast.mp3` — "Transform into a hulking beast!"
+- [ ] `glue-everything-to-the-ceiling.mp3` — "Glue everything to the ceiling!"
+- [ ] `become-a-tentacled-sea-monster.mp3` — "Become a tentacled sea monster!"
+- [ ] `become-a-swamp-crocodile-beast.mp3` — "Become a swamp crocodile beast!"
+- [ ] `stretch-your-arm-like-pink-goo.mp3` — "Stretch your arm like pink goo!"
+- [ ] `crack-a-sidewalk-with-your-fist.mp3` — "Crack a sidewalk with your fist!"
+- [ ] `freeze-breath-frost-everything.mp3` — "Freeze breath! Frost everything!"
+- [ ] `xray-vision-see-through-walls.mp3` — "X-ray vision! See through walls!"
+- [ ] `pull-out-a-glowing-battle-staff.mp3` — "Pull out a glowing battle staff!"
+- [ ] `shapeshift-into-something-cool.mp3` — "Shape-shift into something cool!"
+- [ ] `grow-dolphin-fins-and-dive-deep.mp3` — "Grow dolphin fins and dive deep!"
+- [ ] `take-a-heroic-bow-for-the-crowd.mp3` — "Take a heroic bow for the crowd!"
+- [ ] `shrink-and-crawl-through-a-vent.mp3` — "Shrink and crawl through a vent!"
+- [ ] `replace-the-candy-with-broccoli.mp3` — "Replace the candy with broccoli!"
+- [ ] `write-your-name-across-the-moon.mp3` — "Write your name across the moon!"
+- [ ] `become-a-komodo-dragon-predator.mp3` — "Become a Komodo dragon predator!"
+- [ ] `become-a-spiked-hedgehog-warrior.mp3` — "Become a spiked hedgehog warrior!"
+- [ ] `roll-a-giant-boulder-down-a-hill.mp3` — "Roll a giant boulder down a hill!"
+- [ ] `whisper-bad-ideas-into-their-ear.mp3` — "Whisper bad ideas into their ear!"
+- [ ] `spy-on-the-heroes-from-a-rooftop.mp3` — "Spy on the heroes from a rooftop!"
+- [ ] `cancel-saturday-morning-cartoons.mp3` — "Cancel Saturday morning cartoons!"
+- [ ] `freeze-time-for-everyone-but-you.mp3` — "Freeze time for everyone but you!"
+- [ ] `wiggle-your-fingers-to-brainwash.mp3` — "Wiggle your fingers to brainwash!"
+- [ ] `throw-a-flurry-of-evil-ki-blasts.mp3` — "Throw a flurry of evil ki blasts!"
+- [ ] `crush-a-rock-with-your-bare-hands.mp3` — "Crush a rock with your bare hands!"
+- [ ] `transform-into-a-charging-unicorn.mp3` — "Transform into a charging unicorn!"
+- [ ] `deflect-a-punch-with-your-forearm.mp3` — "Deflect a punch with your forearm!"
+- [ ] `help-an-old-lady-cross-the-street.mp3` — "Help an old lady cross the street!"
+- [ ] `speed-up-time-make-flowers-bloom.mp3` — "Speed up time! Make flowers bloom!"
+- [ ] `cackle-and-fly-off-into-the-night.mp3` — "Cackle and fly off into the night!"
+- [ ] `crush-the-hero-plans-in-your-fist.mp3` — "Crush the hero plans in your fist!"
+- [ ] `open-a-portal-to-another-dimension.mp3` — "Open a portal to another dimension!"
+- [ ] `move-so-fast-you-leave-afterimages.mp3` — "Move so fast you leave afterimages!"
+- [ ] `split-into-four-copies-of-yourself.mp3` — "Split into four copies of yourself!"
+- [ ] `do-a-fusion-dance-with-your-friend.mp3` — "Do a fusion dance with your friend!"
+- [ ] `release-a-horde-of-rubber-chickens.mp3` — "Release a horde of rubber chickens!"
+- [ ] `travel-back-to-undo-a-hero-victory.mp3` — "Travel back to undo a hero victory!"
+- [ ] `charge-a-dark-ki-ball-in-your-palm.mp3` — "Charge a dark ki ball in your palm!"
+- [ ] `burst-into-flames-as-a-fire-phoenix.mp3` — "Burst into flames as a fire phoenix!"
+- [ ] `scatter-into-a-swarm-of-butterflies.mp3` — "Scatter into a swarm of butterflies!"
+- [ ] `shapeshift-into-a-galloping-centaur.mp3` — "Shapeshift into a galloping centaur!"
+- [ ] `become-a-glowing-jellyfish-creature.mp3` — "Become a glowing jellyfish creature!"
+- [ ] `two-fingers-to-your-head-teleport.mp3` — "Two fingers to your head — teleport!"
+- [ ] `absorb-your-minion-to-grow-stronger.mp3` — "Absorb your minion to grow stronger!"
+- [ ] `super-strength-lift-something-heavy.mp3` — "Super strength! Lift something heavy!"
+- [ ] `tracker-mode-sniff-out-the-bad-guys.mp3` — "Tracker mode! Sniff out the bad guys!"
+- [ ] `become-a-kraken-with-eight-tentacles.mp3` — "Become a kraken with eight tentacles!"
+- [ ] `block-bullets-with-your-wrist-guards.mp3` — "Block bullets with your wrist guards!"
+- [ ] `flash-blinding-light-from-your-hands.mp3` — "Flash blinding light from your hands!"
+- [ ] `power-up-to-your-golden-warrior-form.mp3` — "Power up to your golden warrior form!"
+- [ ] `wave-your-scorpion-tail-and-pinchers.mp3` — "Wave your scorpion tail and pinchers!"
+- [ ] `yell-selfdestruct-and-strike-a-pose.mp3` — "Yell SELF-DESTRUCT and strike a pose!"
+- [ ] `spread-purple-darkness-over-the-city.mp3` — "Spread purple darkness over the city!"
+- [ ] `pull-into-your-turtle-shell-to-defend.mp3` — "Pull into your turtle shell to defend!"
+- [ ] `glide-above-the-city-looking-menacing.mp3` — "Glide above the city looking menacing!"
+- [ ] `surround-your-lair-with-a-force-field.mp3` — "Surround your lair with a force field!"
+- [ ] `slither-as-a-giant-python-and-squeeze.mp3` — "Slither as a giant python and squeeze!"
+- [ ] `tailwhip-a-hero-with-your-monkey-tail.mp3` — "Tail-whip a hero with your monkey tail!"
+- [ ] `cackle-while-charging-up-your-dark-aura.mp3` — "Cackle while charging up your dark aura!"
+- [ ] `charge-up-with-rocks-floating-around-you.mp3` — "Charge up with rocks floating around you!"
+- [ ] `click-a-remote-that-controls-all-gadgets.mp3` — "Click a remote that controls all gadgets!"
+- [ ] `two-fingers-to-your-forehead-drill-beam.mp3` — "Two fingers to your forehead — drill beam!"
+- [ ] `use-telekinesis-move-stuff-with-your-mind.mp3` — "Use telekinesis! Move stuff with your mind!"
+- [ ] `transform-into-your-darkest-scariest-form.mp3` — "Transform into your darkest, scariest form!"
+- [ ] `howl-as-a-feral-werewolf-under-a-blood-moon.mp3` — "Howl as a feral werewolf under a blood moon!"
+- [ ] `pound-your-chest-as-a-giant-gorilla-guardian.mp3` — "Pound your chest as a giant gorilla guardian!"
+- [ ] `sprout-fangs-and-turn-into-a-friendly-vampire.mp3` — "Sprout fangs and turn into a friendly vampire!"
+- [ ] `yell-as-your-hair-stands-up-and-changes-color.mp3` — "Yell as your hair stands up and changes color!"
+- [ ] `howl-at-the-full-moon-and-turn-into-a-werewolf.mp3` — "Howl at the full moon and turn into a werewolf!"
+- [ ] `gather-universe-energy-into-a-giant-spirit-ball.mp3` — "Gather universe energy into a giant spirit ball!"
+- [ ] `yell-that-your-power-level-is-over-nine-thousand.mp3` — "Yell that your power level is OVER NINE THOUSAND!"
+- [ ] `transform-into-a-thunder-eagle-with-lightning-wings.mp3` — "Transform into a thunder eagle with lightning wings!"
+
+## Simon Says (121)
+
+### System / framing (2)
+
+- [ ] `simon-says-touch-your-nose.mp3` — "Simon says touch your nose" — _Test Voice button line_
+- [ ] `time-is-up-great-listening.mp3` — "Time is up! Great listening!" — _closing line_
+
+### Content / prompts (119)
+
+- [ ] `bow.mp3` — "bow" — _"trick" form (no "Simon says" prefix)_
+- [ ] `dance.mp3` — "dance" — _"trick" form (no "Simon says" prefix)_
+- [ ] `freeze.mp3` — "freeze" — _"trick" form (no "Simon says" prefix)_
+- [ ] `sit-down.mp3` — "sit down" — _"trick" form (no "Simon says" prefix)_
+- [ ] `stand-up.mp3` — "stand up" — _"trick" form (no "Simon says" prefix)_
+- [ ] `tippy-toe.mp3` — "tippy toe" — _"trick" form (no "Simon says" prefix)_
+- [ ] `crouch-low.mp3` — "crouch low" — _"trick" form (no "Simon says" prefix)_
+- [ ] `wave-hello.mp3` — "wave hello" — _"trick" form (no "Simon says" prefix)_
+- [ ] `jump-twice.mp3` — "jump twice" — _"trick" form (no "Simon says" prefix)_
+- [ ] `spin-twice.mp3` — "spin twice" — _"trick" form (no "Simon says" prefix)_
+- [ ] `spin-around.mp3` — "spin around" — _"trick" form (no "Simon says" prefix)_
+- [ ] `turn-around.mp3` — "turn around" — _"trick" form (no "Simon says" prefix)_
+- [ ] `blow-a-kiss.mp3` — "blow a kiss" — _"trick" form (no "Simon says" prefix)_
+- [ ] `jump-up-high.mp3` — "jump up high" — _"trick" form (no "Simon says" prefix)_
+- [ ] `lean-forward.mp3` — "lean forward" — _"trick" form (no "Simon says" prefix)_
+- [ ] `wink-one-eye.mp3` — "wink one eye" — _"trick" form (no "Simon says" prefix)_
+- [ ] `nod-your-head.mp3` — "nod your head" — _"trick" form (no "Simon says" prefix)_
+- [ ] `simon-says-bow.mp3` — "Simon says bow" — _"Simon says" form_
+- [ ] `march-in-place.mp3` — "march in place" — _"trick" form (no "Simon says" prefix)_
+- [ ] `touch-your-nose.mp3` — "touch your nose" — _"trick" form (no "Simon says" prefix)_
+- [ ] `touch-your-toes.mp3` — "touch your toes" _(shared)_ — _"trick" form (no "Simon says" prefix)_
+- [ ] `touch-your-ears.mp3` — "touch your ears" — _"trick" form (no "Simon says" prefix)_
+- [ ] `touch-your-eyes.mp3` — "touch your eyes" — _"trick" form (no "Simon says" prefix)_
+- [ ] `touch-your-chin.mp3` — "touch your chin" — _"trick" form (no "Simon says" prefix)_
+- [ ] `touch-your-hair.mp3` — "touch your hair" — _"trick" form (no "Simon says" prefix)_
+- [ ] `shake-your-head.mp3` — "shake your head" — _"trick" form (no "Simon says" prefix)_
+- [ ] `clap-your-hands.mp3` — "clap your hands" — _"trick" form (no "Simon says" prefix)_
+- [ ] `stomp-your-feet.mp3` — "stomp your feet" — _"trick" form (no "Simon says" prefix)_
+- [ ] `cross-your-arms.mp3` — "cross your arms" — _"trick" form (no "Simon says" prefix)_
+- [ ] `touch-your-knees.mp3` — "touch your knees" — _"trick" form (no "Simon says" prefix)_
+- [ ] `touch-your-mouth.mp3` — "touch your mouth" — _"trick" form (no "Simon says" prefix)_
+- [ ] `touch-your-tummy.mp3` — "touch your tummy" — _"trick" form (no "Simon says" prefix)_
+- [ ] `touch-your-wrist.mp3` — "touch your wrist" — _"trick" form (no "Simon says" prefix)_
+- [ ] `touch-your-ankle.mp3` — "touch your ankle" — _"trick" form (no "Simon says" prefix)_
+- [ ] `simon-says-dance.mp3` — "Simon says dance" — _"Simon says" form_
+- [ ] `give-a-thumbs-up.mp3` — "give a thumbs up" — _"trick" form (no "Simon says" prefix)_
+- [ ] `clap-three-times.mp3` — "clap three times" — _"trick" form (no "Simon says" prefix)_
+- [ ] `take-a-step-back.mp3` — "take a step back" — _"trick" form (no "Simon says" prefix)_
+- [ ] `take-a-step-left.mp3` — "take a step left" — _"trick" form (no "Simon says" prefix)_
+- [ ] `touch-your-elbows.mp3` — "touch your elbows" — _"trick" form (no "Simon says" prefix)_
+- [ ] `simon-says-freeze.mp3` — "Simon says freeze" — _"Simon says" form_
+- [ ] `blink-three-times.mp3` — "blink three times" — _"trick" form (no "Simon says" prefix)_
+- [ ] `stomp-three-times.mp3` — "stomp three times" — _"trick" form (no "Simon says" prefix)_
+- [ ] `snap-your-fingers.mp3` — "snap your fingers" — _"trick" form (no "Simon says" prefix)_
+- [ ] `take-a-step-right.mp3` — "take a step right" — _"trick" form (no "Simon says" prefix)_
+- [ ] `reach-for-the-sky.mp3` — "reach for the sky" _(shared)_ — _"trick" form (no "Simon says" prefix)_
+- [ ] `make-a-silly-face.mp3` — "make a silly face" — _"trick" form (no "Simon says" prefix)_
+- [ ] `hop-while-clapping.mp3` — "hop while clapping" — _"trick" form (no "Simon says" prefix)_
+- [ ] `touch-your-forehead.mp3` — "touch your forehead" — _"trick" form (no "Simon says" prefix)_
+- [ ] `touch-your-eyebrows.mp3` — "touch your eyebrows" — _"trick" form (no "Simon says" prefix)_
+- [ ] `simon-says-sit-down.mp3` — "Simon says sit down" — _"Simon says" form_
+- [ ] `simon-says-stand-up.mp3` — "Simon says stand up" — _"Simon says" form_
+- [ ] `wiggle-your-fingers.mp3` — "wiggle your fingers" — _"trick" form (no "Simon says" prefix)_
+- [ ] `take-a-step-forward.mp3` — "take a step forward" — _"trick" form (no "Simon says" prefix)_
+- [ ] `touch-elbow-to-knee.mp3` — "touch elbow to knee" — _"trick" form (no "Simon says" prefix)_
+- [ ] `spin-while-clapping.mp3` — "spin while clapping" — _"trick" form (no "Simon says" prefix)_
+- [ ] `balance-on-one-foot.mp3` — "balance on one foot" _(shared)_ — _"trick" form (no "Simon says" prefix)_
+- [ ] `tiptoe-like-a-ninja.mp3` — "tiptoe like a ninja" _(shared)_ — _"trick" form (no "Simon says" prefix)_
+- [ ] `touch-your-shoulders.mp3` — "touch your shoulders" — _"trick" form (no "Simon says" prefix)_
+- [ ] `shrug-your-shoulders.mp3` — "shrug your shoulders" — _"trick" form (no "Simon says" prefix)_
+- [ ] `point-at-the-ceiling.mp3` — "point at the ceiling" — _"trick" form (no "Simon says" prefix)_
+- [ ] `simon-says-tippy-toe.mp3` — "Simon says tippy toe" — _"Simon says" form_
+- [ ] `open-your-mouth-wide.mp3` — "open your mouth wide" — _"trick" form (no "Simon says" prefix)_
+- [ ] `pretend-to-be-a-tree.mp3` — "pretend to be a tree" _(shared)_ — _"trick" form (no "Simon says" prefix)_
+- [ ] `simon-says-crouch-low.mp3` — "Simon says crouch low" — _"Simon says" form_
+- [ ] `simon-says-wave-hello.mp3` — "Simon says wave hello" — _"Simon says" form_
+- [ ] `stick-out-your-tongue.mp3` — "stick out your tongue" — _"trick" form (no "Simon says" prefix)_
+- [ ] `simon-says-jump-twice.mp3` — "Simon says jump twice" — _"Simon says" form_
+- [ ] `simon-says-spin-twice.mp3` — "Simon says spin twice" — _"Simon says" form_
+- [ ] `simon-says-spin-around.mp3` — "Simon says spin around" — _"Simon says" form_
+- [ ] `simon-says-turn-around.mp3` — "Simon says turn around" — _"Simon says" form_
+- [ ] `simon-says-blow-a-kiss.mp3` — "Simon says blow a kiss" — _"Simon says" form_
+- [ ] `simon-says-jump-up-high.mp3` — "Simon says jump up high" — _"Simon says" form_
+- [ ] `simon-says-lean-forward.mp3` — "Simon says lean forward" — _"Simon says" form_
+- [ ] `simon-says-wink-one-eye.mp3` — "Simon says wink one eye" — _"Simon says" form_
+- [ ] `simon-says-nod-your-head.mp3` — "Simon says nod your head" — _"Simon says" form_
+- [ ] `simon-says-march-in-place.mp3` — "Simon says march in place" — _"Simon says" form_
+- [ ] `simon-says-touch-your-toes.mp3` — "Simon says touch your toes" — _"Simon says" form_
+- [ ] `simon-says-touch-your-ears.mp3` — "Simon says touch your ears" — _"Simon says" form_
+- [ ] `simon-says-touch-your-eyes.mp3` — "Simon says touch your eyes" — _"Simon says" form_
+- [ ] `simon-says-touch-your-chin.mp3` — "Simon says touch your chin" — _"Simon says" form_
+- [ ] `simon-says-touch-your-hair.mp3` — "Simon says touch your hair" — _"Simon says" form_
+- [ ] `simon-says-shake-your-head.mp3` — "Simon says shake your head" — _"Simon says" form_
+- [ ] `simon-says-clap-your-hands.mp3` — "Simon says clap your hands" — _"Simon says" form_
+- [ ] `simon-says-stomp-your-feet.mp3` — "Simon says stomp your feet" — _"Simon says" form_
+- [ ] `simon-says-cross-your-arms.mp3` — "Simon says cross your arms" — _"Simon says" form_
+- [ ] `stand-on-one-foot-and-wave.mp3` — "stand on one foot and wave" — _"trick" form (no "Simon says" prefix)_
+- [ ] `simon-says-touch-your-knees.mp3` — "Simon says touch your knees" — _"Simon says" form_
+- [ ] `simon-says-touch-your-mouth.mp3` — "Simon says touch your mouth" — _"Simon says" form_
+- [ ] `simon-says-touch-your-tummy.mp3` — "Simon says touch your tummy" — _"Simon says" form_
+- [ ] `simon-says-touch-your-wrist.mp3` — "Simon says touch your wrist" — _"Simon says" form_
+- [ ] `simon-says-touch-your-ankle.mp3` — "Simon says touch your ankle" — _"Simon says" form_
+- [ ] `simon-says-give-a-thumbs-up.mp3` — "Simon says give a thumbs up" — _"Simon says" form_
+- [ ] `simon-says-clap-three-times.mp3` — "Simon says clap three times" — _"Simon says" form_
+- [ ] `simon-says-take-a-step-back.mp3` — "Simon says take a step back" — _"Simon says" form_
+- [ ] `simon-says-take-a-step-left.mp3` — "Simon says take a step left" — _"Simon says" form_
+- [ ] `simon-says-touch-your-elbows.mp3` — "Simon says touch your elbows" — _"Simon says" form_
+- [ ] `simon-says-blink-three-times.mp3` — "Simon says blink three times" — _"Simon says" form_
+- [ ] `simon-says-stomp-three-times.mp3` — "Simon says stomp three times" — _"Simon says" form_
+- [ ] `simon-says-snap-your-fingers.mp3` — "Simon says snap your fingers" — _"Simon says" form_
+- [ ] `simon-says-take-a-step-right.mp3` — "Simon says take a step right" — _"Simon says" form_
+- [ ] `simon-says-reach-for-the-sky.mp3` — "Simon says reach for the sky" — _"Simon says" form_
+- [ ] `simon-says-make-a-silly-face.mp3` — "Simon says make a silly face" — _"Simon says" form_
+- [ ] `simon-says-hop-while-clapping.mp3` — "Simon says hop while clapping" — _"Simon says" form_
+- [ ] `simon-says-touch-your-forehead.mp3` — "Simon says touch your forehead" — _"Simon says" form_
+- [ ] `simon-says-touch-your-eyebrows.mp3` — "Simon says touch your eyebrows" — _"Simon says" form_
+- [ ] `simon-says-wiggle-your-fingers.mp3` — "Simon says wiggle your fingers" — _"Simon says" form_
+- [ ] `simon-says-take-a-step-forward.mp3` — "Simon says take a step forward" — _"Simon says" form_
+- [ ] `simon-says-touch-elbow-to-knee.mp3` — "Simon says touch elbow to knee" — _"Simon says" form_
+- [ ] `simon-says-spin-while-clapping.mp3` — "Simon says spin while clapping" — _"Simon says" form_
+- [ ] `simon-says-balance-on-one-foot.mp3` — "Simon says balance on one foot" — _"Simon says" form_
+- [ ] `simon-says-tiptoe-like-a-ninja.mp3` — "Simon says tiptoe like a ninja" — _"Simon says" form_
+- [ ] `simon-says-touch-your-shoulders.mp3` — "Simon says touch your shoulders" — _"Simon says" form_
+- [ ] `simon-says-shrug-your-shoulders.mp3` — "Simon says shrug your shoulders" — _"Simon says" form_
+- [ ] `simon-says-point-at-the-ceiling.mp3` — "Simon says point at the ceiling" — _"Simon says" form_
+- [ ] `simon-says-open-your-mouth-wide.mp3` — "Simon says open your mouth wide" — _"Simon says" form_
+- [ ] `simon-says-pretend-to-be-a-tree.mp3` — "Simon says pretend to be a tree" — _"Simon says" form_
+- [ ] `simon-says-stick-out-your-tongue.mp3` — "Simon says stick out your tongue" — _"Simon says" form_
+- [ ] `simon-says-stand-on-one-foot-and-wave.mp3` — "Simon says stand on one foot and wave" — _"Simon says" form_
+
+## Animal Antics (77)
+
+### System / framing (1)
+
+- [ ] `act-like-a-kangaroo.mp3` — "Act like a kangaroo" — _Test Voice button line_
+
+### Content / prompts (76)
+
+- [ ] `act-like-a-cow.mp3` — "Act like a cow"
+- [ ] `act-like-a-pig.mp3` — "Act like a pig"
+- [ ] `act-like-a-fox.mp3` — "Act like a fox"
+- [ ] `act-like-a-owl.mp3` — "Act like a owl"
+- [ ] `act-like-a-cat.mp3` — "Act like a cat"
+- [ ] `act-like-a-dog.mp3` — "Act like a dog"
+- [ ] `act-like-a-ant.mp3` — "Act like a ant"
+- [ ] `act-like-a-bee.mp3` — "Act like a bee"
+- [ ] `act-like-a-duck.mp3` — "Act like a duck"
+- [ ] `act-like-a-goat.mp3` — "Act like a goat"
+- [ ] `act-like-a-bull.mp3` — "Act like a bull"
+- [ ] `act-like-a-lion.mp3` — "Act like a lion"
+- [ ] `act-like-a-crab.mp3` — "Act like a crab"
+- [ ] `act-like-a-wolf.mp3` — "Act like a wolf"
+- [ ] `act-like-a-bear.mp3` — "Act like a bear"
+- [ ] `act-like-a-deer.mp3` — "Act like a deer"
+- [ ] `act-like-a-frog.mp3` — "Act like a frog"
+- [ ] `act-like-a-seal.mp3` — "Act like a seal"
+- [ ] `act-like-a-swan.mp3` — "Act like a swan"
+- [ ] `act-like-a-crow.mp3` — "Act like a crow"
+- [ ] `act-like-a-sheep.mp3` — "Act like a sheep"
+- [ ] `act-like-a-horse.mp3` — "Act like a horse"
+- [ ] `act-like-a-llama.mp3` — "Act like a llama"
+- [ ] `act-like-a-tiger.mp3` — "Act like a tiger"
+- [ ] `act-like-a-sloth.mp3` — "Act like a sloth"
+- [ ] `act-like-a-panda.mp3` — "Act like a panda"
+- [ ] `act-like-a-hippo.mp3` — "Act like a hippo"
+- [ ] `act-like-a-rhino.mp3` — "Act like a rhino"
+- [ ] `act-like-a-zebra.mp3` — "Act like a zebra"
+- [ ] `act-like-a-eagle.mp3` — "Act like a eagle"
+- [ ] `act-like-a-bison.mp3` — "Act like a bison"
+- [ ] `act-like-a-shark.mp3` — "Act like a shark"
+- [ ] `act-like-a-whale.mp3` — "Act like a whale"
+- [ ] `act-like-a-mouse.mp3` — "Act like a mouse"
+- [ ] `act-like-a-snake.mp3` — "Act like a snake"
+- [ ] `act-like-a-skunk.mp3` — "Act like a skunk"
+- [ ] `act-like-a-snail.mp3` — "Act like a snail"
+- [ ] `act-like-a-trex.mp3` — "Act like a T-rex"
+- [ ] `act-like-a-donkey.mp3` — "Act like a donkey"
+- [ ] `act-like-a-turkey.mp3` — "Act like a turkey"
+- [ ] `act-like-a-monkey.mp3` — "Act like a monkey"
+- [ ] `act-like-a-jaguar.mp3` — "Act like a jaguar"
+- [ ] `act-like-a-parrot.mp3` — "Act like a parrot"
+- [ ] `act-like-a-shrimp.mp3` — "Act like a shrimp"
+- [ ] `act-like-a-oyster.mp3` — "Act like a oyster"
+- [ ] `act-like-a-beaver.mp3` — "Act like a beaver"
+- [ ] `act-like-a-badger.mp3` — "Act like a badger"
+- [ ] `act-like-a-rabbit.mp3` — "Act like a rabbit"
+- [ ] `act-like-a-spider.mp3` — "Act like a spider"
+- [ ] `act-like-a-chicken.mp3` — "Act like a chicken"
+- [ ] `act-like-a-rooster.mp3` — "Act like a rooster"
+- [ ] `act-like-a-gorilla.mp3` — "Act like a gorilla"
+- [ ] `act-like-a-giraffe.mp3` — "Act like a giraffe"
+- [ ] `act-like-a-peacock.mp3` — "Act like a peacock"
+- [ ] `act-like-a-octopus.mp3` — "Act like a octopus"
+- [ ] `act-like-a-dolphin.mp3` — "Act like a dolphin"
+- [ ] `act-like-a-lobster.mp3` — "Act like a lobster"
+- [ ] `act-like-a-raccoon.mp3` — "Act like a raccoon"
+- [ ] `act-like-a-penguin.mp3` — "Act like a penguin"
+- [ ] `act-like-a-mammoth.mp3` — "Act like a mammoth"
+- [ ] `act-like-a-hamster.mp3` — "Act like a hamster"
+- [ ] `act-like-a-ladybug.mp3` — "Act like a ladybug"
+- [ ] `act-like-a-elephant.mp3` — "Act like a elephant"
+- [ ] `act-like-a-flamingo.mp3` — "Act like a flamingo"
+- [ ] `act-like-a-squirrel.mp3` — "Act like a squirrel"
+- [ ] `act-like-a-hedgehog.mp3` — "Act like a hedgehog"
+- [ ] `act-like-a-mosquito.mp3` — "Act like a mosquito"
+- [ ] `act-like-a-orangutan.mp3` — "Act like a orangutan"
+- [ ] `act-like-a-crocodile.mp3` — "Act like a crocodile"
+- [ ] `act-like-a-jellyfish.mp3` — "Act like a jellyfish"
+- [ ] `act-like-a-butterfly.mp3` — "Act like a butterfly"
+- [ ] `act-like-a-sea-turtle.mp3` — "Act like a sea turtle"
+- [ ] `act-like-a-pufferfish.mp3` — "Act like a pufferfish"
+- [ ] `act-like-a-polar-bear.mp3` — "Act like a polar bear"
+- [ ] `act-like-a-brontosaurus.mp3` — "Act like a brontosaurus"
+- [ ] `act-like-a-tropical-fish.mp3` — "Act like a tropical fish"
+
+## What is it? (284)
+
+### System / framing (1)
+
+- [ ] `its-an-apple.mp3` — "It's an apple" — _Test Voice button line — uses "an"_
+
+### Content / prompts (283)
+
+- [ ] `its-a-tv.mp3` — "It's a TV"
+- [ ] `its-a-cow.mp3` — "It's a cow"
+- [ ] `its-a-pig.mp3` — "It's a pig"
+- [ ] `its-a-fox.mp3` — "It's a fox"
+- [ ] `its-a-owl.mp3` — "It's a owl"
+- [ ] `its-a-cat.mp3` — "It's a cat"
+- [ ] `its-a-dog.mp3` — "It's a dog"
+- [ ] `its-a-ant.mp3` — "It's a ant"
+- [ ] `its-a-bee.mp3` — "It's a bee"
+- [ ] `its-a-egg.mp3` — "It's a egg"
+- [ ] `its-a-pie.mp3` — "It's a pie"
+- [ ] `its-a-tea.mp3` — "It's a tea"
+- [ ] `its-a-bed.mp3` — "It's a bed"
+- [ ] `its-a-key.mp3` — "It's a key"
+- [ ] `its-a-saw.mp3` — "It's a saw"
+- [ ] `its-a-axe.mp3` — "It's a axe"
+- [ ] `its-a-map.mp3` — "It's a map"
+- [ ] `its-a-cap.mp3` — "It's a cap"
+- [ ] `its-a-car.mp3` — "It's a car"
+- [ ] `its-a-bus.mp3` — "It's a bus"
+- [ ] `its-a-ufo.mp3` — "It's a UFO"
+- [ ] `its-a-sun.mp3` — "It's a sun"
+- [ ] `its-a-duck.mp3` — "It's a duck"
+- [ ] `its-a-goat.mp3` — "It's a goat"
+- [ ] `its-a-bull.mp3` — "It's a bull"
+- [ ] `its-a-lion.mp3` — "It's a lion"
+- [ ] `its-a-crab.mp3` — "It's a crab"
+- [ ] `its-a-wolf.mp3` — "It's a wolf"
+- [ ] `its-a-bear.mp3` — "It's a bear"
+- [ ] `its-a-deer.mp3` — "It's a deer"
+- [ ] `its-a-frog.mp3` — "It's a frog"
+- [ ] `its-a-seal.mp3` — "It's a seal"
+- [ ] `its-a-swan.mp3` — "It's a swan"
+- [ ] `its-a-crow.mp3` — "It's a crow"
+- [ ] `its-a-pear.mp3` — "It's a pear"
+- [ ] `its-a-kiwi.mp3` — "It's a kiwi"
+- [ ] `its-a-corn.mp3` — "It's a corn"
+- [ ] `its-a-taco.mp3` — "It's a taco"
+- [ ] `its-a-cake.mp3` — "It's a cake"
+- [ ] `its-a-milk.mp3` — "It's a milk"
+- [ ] `its-a-tent.mp3` — "It's a tent"
+- [ ] `its-a-door.mp3` — "It's a door"
+- [ ] `its-a-soap.mp3` — "It's a soap"
+- [ ] `its-a-book.mp3` — "It's a book"
+- [ ] `its-a-drum.mp3` — "It's a drum"
+- [ ] `its-a-boot.mp3` — "It's a boot"
+- [ ] `its-a-kite.mp3` — "It's a kite"
+- [ ] `its-a-gift.mp3` — "It's a gift"
+- [ ] `its-a-dice.mp3` — "It's a dice"
+- [ ] `its-a-ring.mp3` — "It's a ring"
+- [ ] `its-a-coin.mp3` — "It's a coin"
+- [ ] `its-a-taxi.mp3` — "It's a taxi"
+- [ ] `its-a-sled.mp3` — "It's a sled"
+- [ ] `its-a-ship.mp3` — "It's a ship"
+- [ ] `its-a-moon.mp3` — "It's a moon"
+- [ ] `its-a-star.mp3` — "It's a star"
+- [ ] `its-a-fire.mp3` — "It's a fire"
+- [ ] `its-a-tree.mp3` — "It's a tree"
+- [ ] `its-a-rose.mp3` — "It's a rose"
+- [ ] `its-a-leaf.mp3` — "It's a leaf"
+- [ ] `its-a-rock.mp3` — "It's a rock"
+- [ ] `its-a-golf.mp3` — "It's a golf"
+- [ ] `its-a-sheep.mp3` — "It's a sheep"
+- [ ] `its-a-horse.mp3` — "It's a horse"
+- [ ] `its-a-llama.mp3` — "It's a llama"
+- [ ] `its-a-tiger.mp3` — "It's a tiger"
+- [ ] `its-a-sloth.mp3` — "It's a sloth"
+- [ ] `its-a-panda.mp3` — "It's a panda"
+- [ ] `its-a-hippo.mp3` — "It's a hippo"
+- [ ] `its-a-rhino.mp3` — "It's a rhino"
+- [ ] `its-a-zebra.mp3` — "It's a zebra"
+- [ ] `its-a-eagle.mp3` — "It's a eagle"
+- [ ] `its-a-bison.mp3` — "It's a bison"
+- [ ] `its-a-shark.mp3` — "It's a shark"
+- [ ] `its-a-whale.mp3` — "It's a whale"
+- [ ] `its-a-mouse.mp3` — "It's a mouse"
+- [ ] `its-a-snake.mp3` — "It's a snake"
+- [ ] `its-a-skunk.mp3` — "It's a skunk"
+- [ ] `its-a-snail.mp3` — "It's a snail"
+- [ ] `its-a-trex.mp3` — "It's a T-rex"
+- [ ] `its-a-apple.mp3` — "It's a apple"
+- [ ] `its-a-lemon.mp3` — "It's a lemon"
+- [ ] `its-a-peach.mp3` — "It's a peach"
+- [ ] `its-a-mango.mp3` — "It's a mango"
+- [ ] `its-a-onion.mp3` — "It's a onion"
+- [ ] `its-a-pizza.mp3` — "It's a pizza"
+- [ ] `its-a-sushi.mp3` — "It's a sushi"
+- [ ] `its-a-ramen.mp3` — "It's a ramen"
+- [ ] `its-a-salad.mp3` — "It's a salad"
+- [ ] `its-a-fries.mp3` — "It's a fries"
+- [ ] `its-a-steak.mp3` — "It's a steak"
+- [ ] `its-a-bacon.mp3` — "It's a bacon"
+- [ ] `its-a-bread.mp3` — "It's a bread"
+- [ ] `its-a-bagel.mp3` — "It's a bagel"
+- [ ] `its-a-donut.mp3` — "It's a donut"
+- [ ] `its-a-juice.mp3` — "It's a juice"
+- [ ] `its-a-house.mp3` — "It's a house"
+- [ ] `its-a-chair.mp3` — "It's a chair"
+- [ ] `its-a-clock.mp3` — "It's a clock"
+- [ ] `its-a-broom.mp3` — "It's a broom"
+- [ ] `its-a-ruler.mp3` — "It's a ruler"
+- [ ] `its-a-piano.mp3` — "It's a piano"
+- [ ] `its-a-crown.mp3` — "It's a crown"
+- [ ] `its-a-socks.mp3` — "It's a socks"
+- [ ] `its-a-scarf.mp3` — "It's a scarf"
+- [ ] `its-a-phone.mp3` — "It's a phone"
+- [ ] `its-a-watch.mp3` — "It's a watch"
+- [ ] `its-a-yoyo.mp3` — "It's a yo-yo"
+- [ ] `its-a-truck.mp3` — "It's a truck"
+- [ ] `its-a-train.mp3` — "It's a train"
+- [ ] `its-a-canoe.mp3` — "It's a canoe"
+- [ ] `its-a-cloud.mp3` — "It's a cloud"
+- [ ] `its-a-earth.mp3` — "It's a earth"
+- [ ] `its-a-comet.mp3` — "It's a comet"
+- [ ] `its-a-tulip.mp3` — "It's a tulip"
+- [ ] `its-a-wheat.mp3` — "It's a wheat"
+- [ ] `its-a-donkey.mp3` — "It's a donkey"
+- [ ] `its-a-turkey.mp3` — "It's a turkey"
+- [ ] `its-a-monkey.mp3` — "It's a monkey"
+- [ ] `its-a-jaguar.mp3` — "It's a jaguar"
+- [ ] `its-a-parrot.mp3` — "It's a parrot"
+- [ ] `its-a-shrimp.mp3` — "It's a shrimp"
+- [ ] `its-a-oyster.mp3` — "It's a oyster"
+- [ ] `its-a-beaver.mp3` — "It's a beaver"
+- [ ] `its-a-badger.mp3` — "It's a badger"
+- [ ] `its-a-rabbit.mp3` — "It's a rabbit"
+- [ ] `its-a-spider.mp3` — "It's a spider"
+- [ ] `its-a-banana.mp3` — "It's a banana"
+- [ ] `its-a-grapes.mp3` — "It's a grapes"
+- [ ] `its-a-orange.mp3` — "It's a orange"
+- [ ] `its-a-cherry.mp3` — "It's a cherry"
+- [ ] `its-a-tomato.mp3` — "It's a tomato"
+- [ ] `its-a-carrot.mp3` — "It's a carrot"
+- [ ] `its-a-potato.mp3` — "It's a potato"
+- [ ] `its-a-garlic.mp3` — "It's a garlic"
+- [ ] `its-a-waffle.mp3` — "It's a waffle"
+- [ ] `its-a-cheese.mp3` — "It's a cheese"
+- [ ] `its-a-cookie.mp3` — "It's a cookie"
+- [ ] `its-a-castle.mp3` — "It's a castle"
+- [ ] `its-a-window.mp3` — "It's a window"
+- [ ] `its-a-bucket.mp3` — "It's a bucket"
+- [ ] `its-a-pencil.mp3` — "It's a pencil"
+- [ ] `its-a-crayon.mp3` — "It's a crayon"
+- [ ] `its-a-hammer.mp3` — "It's a hammer"
+- [ ] `its-a-wrench.mp3` — "It's a wrench"
+- [ ] `its-a-ladder.mp3` — "It's a ladder"
+- [ ] `its-a-magnet.mp3` — "It's a magnet"
+- [ ] `its-a-guitar.mp3` — "It's a guitar"
+- [ ] `its-a-violin.mp3` — "It's a violin"
+- [ ] `its-a-helmet.mp3` — "It's a helmet"
+- [ ] `its-a-gloves.mp3` — "It's a gloves"
+- [ ] `its-a-camera.mp3` — "It's a camera"
+- [ ] `its-a-laptop.mp3` — "It's a laptop"
+- [ ] `its-a-piata.mp3` — "It's a piñata"
+- [ ] `its-a-ribbon.mp3` — "It's a ribbon"
+- [ ] `its-a-pickup.mp3` — "It's a pickup"
+- [ ] `its-a-rocket.mp3` — "It's a rocket"
+- [ ] `its-a-planet.mp3` — "It's a planet"
+- [ ] `its-a-cactus.mp3` — "It's a cactus"
+- [ ] `its-a-flower.mp3` — "It's a flower"
+- [ ] `its-a-clover.mp3` — "It's a clover"
+- [ ] `its-a-hockey.mp3` — "It's a hockey"
+- [ ] `its-a-chicken.mp3` — "It's a chicken"
+- [ ] `its-a-rooster.mp3` — "It's a rooster"
+- [ ] `its-a-gorilla.mp3` — "It's a gorilla"
+- [ ] `its-a-giraffe.mp3` — "It's a giraffe"
+- [ ] `its-a-peacock.mp3` — "It's a peacock"
+- [ ] `its-a-octopus.mp3` — "It's a octopus"
+- [ ] `its-a-dolphin.mp3` — "It's a dolphin"
+- [ ] `its-a-lobster.mp3` — "It's a lobster"
+- [ ] `its-a-raccoon.mp3` — "It's a raccoon"
+- [ ] `its-a-penguin.mp3` — "It's a penguin"
+- [ ] `its-a-mammoth.mp3` — "It's a mammoth"
+- [ ] `its-a-hamster.mp3` — "It's a hamster"
+- [ ] `its-a-ladybug.mp3` — "It's a ladybug"
+- [ ] `its-a-coconut.mp3` — "It's a coconut"
+- [ ] `its-a-avocado.mp3` — "It's a avocado"
+- [ ] `its-a-burrito.mp3` — "It's a burrito"
+- [ ] `its-a-hot-dog.mp3` — "It's a hot dog"
+- [ ] `its-a-cupcake.mp3` — "It's a cupcake"
+- [ ] `its-a-popcorn.mp3` — "It's a popcorn"
+- [ ] `its-a-bathtub.mp3` — "It's a bathtub"
+- [ ] `its-a-compass.mp3` — "It's a compass"
+- [ ] `its-a-trumpet.mp3` — "It's a trumpet"
+- [ ] `its-a-top-hat.mp3` — "It's a top hat"
+- [ ] `its-a-sun-hat.mp3` — "It's a sun hat"
+- [ ] `its-a-glasses.mp3` — "It's a glasses"
+- [ ] `its-a-sneaker.mp3` — "It's a sneaker"
+- [ ] `its-a-balloon.mp3` — "It's a balloon"
+- [ ] `its-a-diamond.mp3` — "It's a diamond"
+- [ ] `its-a-minivan.mp3` — "It's a minivan"
+- [ ] `its-a-tractor.mp3` — "It's a tractor"
+- [ ] `its-a-bicycle.mp3` — "It's a bicycle"
+- [ ] `its-a-scooter.mp3` — "It's a scooter"
+- [ ] `its-a-rainbow.mp3` — "It's a rainbow"
+- [ ] `its-a-sunrise.mp3` — "It's a sunrise"
+- [ ] `its-a-volcano.mp3` — "It's a volcano"
+- [ ] `its-a-frisbee.mp3` — "It's a frisbee"
+- [ ] `its-a-bowling.mp3` — "It's a bowling"
+- [ ] `its-a-elephant.mp3` — "It's a elephant"
+- [ ] `its-a-kangaroo.mp3` — "It's a kangaroo"
+- [ ] `its-a-flamingo.mp3` — "It's a flamingo"
+- [ ] `its-a-squirrel.mp3` — "It's a squirrel"
+- [ ] `its-a-hedgehog.mp3` — "It's a hedgehog"
+- [ ] `its-a-mosquito.mp3` — "It's a mosquito"
+- [ ] `its-a-broccoli.mp3` — "It's a broccoli"
+- [ ] `its-a-cucumber.mp3` — "It's a cucumber"
+- [ ] `its-a-eggplant.mp3` — "It's a eggplant"
+- [ ] `its-a-mushroom.mp3` — "It's a mushroom"
+- [ ] `its-a-sandwich.mp3` — "It's a sandwich"
+- [ ] `its-a-dumpling.mp3` — "It's a dumpling"
+- [ ] `its-a-pancakes.mp3` — "It's a pancakes"
+- [ ] `its-a-lollipop.mp3` — "It's a lollipop"
+- [ ] `its-a-scissors.mp3` — "It's a scissors"
+- [ ] `its-a-backpack.mp3` — "It's a backpack"
+- [ ] `its-a-umbrella.mp3` — "It's a umbrella"
+- [ ] `its-a-race-car.mp3` — "It's a race car"
+- [ ] `its-a-airplane.mp3` — "It's a airplane"
+- [ ] `its-a-sailboat.mp3` — "It's a sailboat"
+- [ ] `its-a-seedling.mp3` — "It's a seedling"
+- [ ] `its-a-mountain.mp3` — "It's a mountain"
+- [ ] `its-a-baseball.mp3` — "It's a baseball"
+- [ ] `its-a-football.mp3` — "It's a football"
+- [ ] `its-a-orangutan.mp3` — "It's a orangutan"
+- [ ] `its-a-crocodile.mp3` — "It's a crocodile"
+- [ ] `its-a-jellyfish.mp3` — "It's a jellyfish"
+- [ ] `its-a-butterfly.mp3` — "It's a butterfly"
+- [ ] `its-a-pineapple.mp3` — "It's a pineapple"
+- [ ] `its-a-hamburger.mp3` — "It's a hamburger"
+- [ ] `its-a-spaghetti.mp3` — "It's a spaghetti"
+- [ ] `its-a-rice-ball.mp3` — "It's a rice ball"
+- [ ] `its-a-fried-egg.mp3` — "It's a fried egg"
+- [ ] `its-a-croissant.mp3` — "It's a croissant"
+- [ ] `its-a-ice-cream.mp3` — "It's a ice cream"
+- [ ] `its-a-chocolate.mp3` — "It's a chocolate"
+- [ ] `its-a-telescope.mp3` — "It's a telescope"
+- [ ] `its-a-saxophone.mp3` — "It's a saxophone"
+- [ ] `its-a-ambulance.mp3` — "It's a ambulance"
+- [ ] `its-a-speedboat.mp3` — "It's a speedboat"
+- [ ] `its-a-snowflake.mp3` — "It's a snowflake"
+- [ ] `its-a-lightning.mp3` — "It's a lightning"
+- [ ] `its-a-palm-tree.mp3` — "It's a palm tree"
+- [ ] `its-a-sunflower.mp3` — "It's a sunflower"
+- [ ] `its-a-ping-pong.mp3` — "It's a ping pong"
+- [ ] `its-a-badminton.mp3` — "It's a badminton"
+- [ ] `its-a-ice-skate.mp3` — "It's a ice skate"
+- [ ] `its-a-sea-turtle.mp3` — "It's a sea turtle"
+- [ ] `its-a-pufferfish.mp3` — "It's a pufferfish"
+- [ ] `its-a-polar-bear.mp3` — "It's a polar bear"
+- [ ] `its-a-strawberry.mp3` — "It's a strawberry"
+- [ ] `its-a-watermelon.mp3` — "It's a watermelon"
+- [ ] `its-a-light-bulb.mp3` — "It's a light bulb"
+- [ ] `its-a-toothbrush.mp3` — "It's a toothbrush"
+- [ ] `its-a-microscope.mp3` — "It's a microscope"
+- [ ] `its-a-microphone.mp3` — "It's a microphone"
+- [ ] `its-a-headphones.mp3` — "It's a headphones"
+- [ ] `its-a-sunglasses.mp3` — "It's a sunglasses"
+- [ ] `its-a-teddy-bear.mp3` — "It's a teddy bear"
+- [ ] `its-a-police-car.mp3` — "It's a police car"
+- [ ] `its-a-fire-truck.mp3` — "It's a fire truck"
+- [ ] `its-a-motorcycle.mp3` — "It's a motorcycle"
+- [ ] `its-a-helicopter.mp3` — "It's a helicopter"
+- [ ] `its-a-water-drop.mp3` — "It's a water drop"
+- [ ] `its-a-rain-cloud.mp3` — "It's a rain cloud"
+- [ ] `its-a-maple-leaf.mp3` — "It's a maple leaf"
+- [ ] `its-a-ocean-wave.mp3` — "It's a ocean wave"
+- [ ] `its-a-basketball.mp3` — "It's a basketball"
+- [ ] `its-a-volleyball.mp3` — "It's a volleyball"
+- [ ] `its-a-blueberries.mp3` — "It's a blueberries"
+- [ ] `its-a-bell-pepper.mp3` — "It's a bell pepper"
+- [ ] `its-a-chicken-leg.mp3` — "It's a chicken leg"
+- [ ] `its-a-screwdriver.mp3` — "It's a screwdriver"
+- [ ] `its-a-soccer-ball.mp3` — "It's a soccer ball"
+- [ ] `its-a-tennis-ball.mp3` — "It's a tennis ball"
+- [ ] `its-a-brontosaurus.mp3` — "It's a brontosaurus"
+- [ ] `its-a-chili-pepper.mp3` — "It's a chili pepper"
+- [ ] `its-a-puzzle-piece.mp3` — "It's a puzzle piece"
+- [ ] `its-a-tropical-fish.mp3` — "It's a tropical fish"
+- [ ] `its-a-birthday-cake.mp3` — "It's a birthday cake"
+- [ ] `its-a-paint-palette.mp3` — "It's a paint palette"
+- [ ] `its-a-fallen-leaves.mp3` — "It's a fallen leaves"
+- [ ] `its-a-game-controller.mp3` — "It's a game controller"
+- [ ] `its-a-fire-extinguisher.mp3` — "It's a fire extinguisher"
+
+## Mission Control (97)
+
+### System / framing (2)
+
+- [ ] `mission-control-all-systems-go.mp3` — "Mission Control: all systems go!" — _Test Voice button line_
+- [ ] `mission-accomplished-great-flying.mp3` — "Mission accomplished! Great flying!" — _closing line_
+
+### Content / prompts (95)
+
+- [ ] `ten.mp3` — "Ten!"
+- [ ] `six.mp3` — "Six!"
+- [ ] `two.mp3` — "Two!"
+- [ ] `one.mp3` — "One!"
+- [ ] `nine.mp3` — "Nine!"
+- [ ] `five.mp3` — "Five!"
+- [ ] `four.mp3` — "Four!"
+- [ ] `eight.mp3` — "Eight!"
+- [ ] `seven.mp3` — "Seven!"
+- [ ] `three.mp3` — "Three!"
+- [ ] `helmet-on.mp3` — "Helmet on!"
+- [ ] `blast-off.mp3` — "BLAST OFF!"
+- [ ] `spacewalk.mp3` — "Spacewalk!"
+- [ ] `sonic-boom.mp3` — "Sonic boom!"
+- [ ] `hyperdrive.mp3` — "Hyperdrive!"
+- [ ] `dodge-left.mp3` — "DODGE LEFT!"
+- [ ] `throttle-up.mp3` — "Throttle up!"
+- [ ] `climb-steep.mp3` — "Climb steep!"
+- [ ] `barrel-roll.mp3` — "Barrel roll!"
+- [ ] `dodge-right.mp3` — "DODGE RIGHT!"
+- [ ] `loopdeloop.mp3` — "Loop-de-loop!"
+- [ ] `eject-eject.mp3` — "EJECT! EJECT!"
+- [ ] `race-an-eagle.mp3` — "Race an eagle!"
+- [ ] `wave-at-earth.mp3` — "Wave at Earth!"
+- [ ] `fuel-critical.mp3` — "FUEL CRITICAL!"
+- [ ] `entering-orbit.mp3` — "Entering orbit!"
+- [ ] `plant-the-flag.mp3` — "Plant the flag!"
+- [ ] `eat-space-food.mp3` — "Eat space food!"
+- [ ] `crew-sound-off.mp3` — "Crew, sound off!"
+- [ ] `engines-on-full.mp3` — "Engines on full!"
+- [ ] `bank-left-hard.mp3` — "Bank left, hard!"
+- [ ] `orbit-the-earth.mp3` — "Orbit the Earth!"
+- [ ] `meteor-incoming.mp3` — "METEOR INCOMING!"
+- [ ] `bank-right-hard.mp3` — "Bank right, hard!"
+- [ ] `pull-up-pull-up.mp3` — "Pull up! Pull up!"
+- [ ] `land-on-the-moon.mp3` — "Land on the moon!"
+- [ ] `brace-for-impact.mp3` — "Brace for impact!"
+- [ ] `landing-gear-out.mp3` — "Landing gear out!"
+- [ ] `ufo-on-the-radar.mp3` — "UFO on the radar!"
+- [ ] `engage-warp-drive.mp3` — "Engage warp drive!"
+- [ ] `slow-your-descent.mp3` — "Slow your descent!"
+- [ ] `deploy-parachutes.mp3` — "Deploy parachutes!"
+- [ ] `engine-sputtering.mp3` — "Engine sputtering!"
+- [ ] `they-wave-goodbye.mp3` — "They wave goodbye!"
+- [ ] `eye-of-the-tornado.mp3` — "Eye of the tornado!"
+- [ ] `soar-like-an-eagle.mp3` — "Soar like an eagle!" _(shared)_
+- [ ] `engage-afterburner.mp3` — "Engage afterburner!"
+- [ ] `open-the-cargo-bay.mp3` — "Open the cargo bay!"
+- [ ] `collect-moon-rocks.mp3` — "Collect moon rocks!"
+- [ ] `adjust-the-antenna.mp3` — "Adjust the antenna!"
+- [ ] `bounce-on-the-moon.mp3` — "Bounce on the moon!"
+- [ ] `pull-the-parachute.mp3` — "Pull the parachute!"
+- [ ] `run-the-diagnostic.mp3` — "Run the diagnostic!"
+- [ ] `heat-shield-engaged.mp3` — "Heat shield engaged!"
+- [ ] `welcome-back-pilot.mp3` — "Welcome back, pilot!"
+- [ ] `safe-landing-phew.mp3` — "Safe landing — phew!"
+- [ ] `engines-back-online.mp3` — "Engines back online!"
+- [ ] `strap-into-your-seat.mp3` — "Strap into your seat!"
+- [ ] `power-up-the-engines.mp3` — "Power up the engines!"
+- [ ] `ufo-at-twelve-oclock.mp3` — "UFO at twelve oclock!"
+- [ ] `repair-the-satellite.mp3` — "Repair the satellite!"
+- [ ] `mission-accomplished.mp3` — "Mission accomplished!"
+- [ ] `final-checks-complete.mp3` — "Final checks complete!"
+- [ ] `skim-across-the-ocean.mp3` — "Skim across the ocean!"
+- [ ] `fly-through-a-rainbow.mp3` — "Fly through a rainbow!"
+- [ ] `float-in-zero-gravity.mp3` — "Float in zero gravity!"
+- [ ] `damage-report-minor.mp3` — "Damage report — minor!"
+- [ ] `fly-over-the-mountains.mp3` — "Fly over the mountains!"
+- [ ] `asteroid-field-weave.mp3` — "Asteroid field — weave!"
+- [ ] `power-down-the-engines.mp3` — "Power down the engines!"
+- [ ] `tap-the-dashboard-hard.mp3` — "Tap the dashboard hard!"
+- [ ] `hail-them-wave-hello.mp3` — "Hail them — wave hello!"
+- [ ] `photograph-a-new-planet.mp3` — "Photograph a new planet!"
+- [ ] `begin-reentry-sequence.mp3` — "Begin re-entry sequence!"
+- [ ] `run-the-preflight-check.mp3` — "Run the pre-flight check!"
+- [ ] `punch-through-the-clouds.mp3` — "Punch through the clouds!"
+- [ ] `travel-to-another-galaxy.mp3` — "Travel to another galaxy!"
+- [ ] `avoid-the-lightning-storm.mp3` — "Avoid the lightning storm!"
+- [ ] `plant-a-seed-in-moon-soil.mp3` — "Plant a seed in moon soil!"
+- [ ] `approach-the-landing-zone.mp3` — "Approach the landing zone!"
+- [ ] `aliens-spotted-wave-hello.mp3` — "Aliens spotted — wave hello!"
+- [ ] `slingshot-around-the-planet.mp3` — "Slingshot around the planet!"
+- [ ] `corkscrew-through-the-stars.mp3` — "Corkscrew through the stars!"
+- [ ] `dock-with-the-space-station.mp3` — "Dock with the space station!"
+- [ ] `touch-down-smooth-landing.mp3` — "Touch down — smooth landing!"
+- [ ] `liftoff-reach-for-the-stars.mp3` — "Liftoff! Reach for the stars!"
+- [ ] `take-a-selfie-with-the-stars.mp3` — "Take a selfie with the stars!"
+- [ ] `send-a-message-back-to-earth.mp3` — "Send a message back to Earth!"
+- [ ] `inverted-flight-upside-down.mp3` — "Inverted flight — upside down!"
+- [ ] `make-a-wish-on-a-shooting-star.mp3` — "Make a wish on a shooting star!"
+- [ ] `take-a-bow-for-mission-control.mp3` — "Take a bow for Mission Control!"
+- [ ] `engine-glitch-wiggle-the-ship.mp3` — "Engine glitch! Wiggle the ship!"
+- [ ] `punching-through-the-atmosphere.mp3` — "Punching through the atmosphere!"
+- [ ] `friendly-aliens-share-a-snack.mp3` — "Friendly aliens — share a snack!"
+- [ ] `climb-steep-through-the-clouds.mp3` — "Climb steep — through the clouds!"
+
+## Weather Report (106)
+
+### System / framing (2)
+
+- [ ] `its-pouring-rain.mp3` — "It's pouring rain!" — _Test Voice button line — overlaps with weather pool_
+- [ ] `thats-all-for-todays-weather.mp3` — "That's all for today's weather!" — _closing line_
+
+### Content / prompts (104)
+
+- [ ] `heatwave.mp3` — "Heatwave!"
+- [ ] `hazy-day.mp3` — "Hazy day!"
+- [ ] `sunny-day.mp3` — "Sunny day!"
+- [ ] `windy-day.mp3` — "Windy day!"
+- [ ] `whirlwind.mp3` — "Whirlwind!"
+- [ ] `a-rainbow.mp3` — "A rainbow!"
+- [ ] `sun-shower.mp3` — "Sun shower!"
+- [ ] `cloudburst.mp3` — "Cloudburst!"
+- [ ] `hailstones.mp3` — "Hailstones!"
+- [ ] `gusty-wind.mp3` — "Gusty wind!"
+- [ ] `steamy-air.mp3` — "Steamy air!"
+- [ ] `humid-heat.mp3` — "Humid heat!"
+- [ ] `boiling-hot.mp3` — "Boiling hot!"
+- [ ] `make-a-wish.mp3` — "Make a wish!"
+- [ ] `its-raining.mp3` — "It's raining!"
+- [ ] `its-pouring.mp3` — "It's pouring!"
+- [ ] `wind-howling.mp3` — "Wind howling!"
+- [ ] `misty-meadow.mp3` — "Misty meadow!"
+- [ ] `peasoup-fog.mp3` — "Pea-soup fog!"
+- [ ] `fan-yourself.mp3` — "Fan yourself!"
+- [ ] `storm-warning.mp3` — "Storm warning!"
+- [ ] `freezing-rain.mp3` — "Freezing rain!"
+- [ ] `scorching-sun.mp3` — "Scorching sun!"
+- [ ] `beach-weather.mp3` — "Beach weather!"
+- [ ] `strong-breeze.mp3` — "Strong breeze!"
+- [ ] `foggy-morning.mp3` — "Foggy morning!"
+- [ ] `solar-eclipse.mp3` — "Solar eclipse!"
+- [ ] `meteor-shower.mp3` — "Meteor shower!"
+- [ ] `run-for-cover.mp3` — "Run for cover!"
+- [ ] `just-a-drizzle.mp3` — "Just a drizzle."
+- [ ] `heavy-downpour.mp3` — "Heavy downpour!"
+- [ ] `light-sprinkle.mp3` — "Light sprinkle."
+- [ ] `frosty-morning.mp3` — "Frosty morning!"
+- [ ] `ice-everywhere.mp3` — "Ice everywhere!"
+- [ ] `sweltering-hot.mp3` — "Sweltering hot!"
+- [ ] `double-rainbow.mp3` — "Double rainbow!"
+- [ ] `snow-is-falling.mp3` — "Snow is falling!"
+- [ ] `tornado-warning.mp3` — "Tornado warning!"
+- [ ] `hurricane-winds.mp3` — "Hurricane winds!"
+- [ ] `leaves-swirling.mp3` — "Leaves swirling!"
+- [ ] `aurora-borealis.mp3` — "Aurora borealis!"
+- [ ] `build-a-snowman.mp3` — "Build a snowman!"
+- [ ] `find-some-shade.mp3` — "Find some shade!"
+- [ ] `fly-like-a-kite.mp3` — "Fly like a kite!"
+- [ ] `stargaze-in-awe.mp3` — "Stargaze in awe!"
+- [ ] `brrr-bundle-up.mp3` — "Brrr — bundle up!"
+- [ ] `big-puff-of-wind.mp3` — "Big puff of wind!"
+- [ ] `muggy-and-sticky.mp3` — "Muggy and sticky!"
+- [ ] `eye-of-the-storm.mp3` — "Eye of the storm!"
+- [ ] `lightning-strike.mp3` — "Lightning strike!"
+- [ ] `golden-hour-glow.mp3` — "Golden hour glow."
+- [ ] `throw-a-snowball.mp3` — "Throw a snowball!"
+- [ ] `slide-on-the-ice.mp3` — "Slide on the ice!"
+- [ ] `jump-in-the-pool.mp3` — "Jump in the pool!"
+- [ ] `lay-in-the-grass.mp3` — "Lay in the grass!"
+- [ ] `spin-like-a-leaf.mp3` — "Spin like a leaf!"
+- [ ] `count-the-colors.mp3` — "Count the colors!"
+- [ ] `shield-your-eyes.mp3` — "Shield your eyes!"
+- [ ] `blizzard-incoming.mp3` — "Blizzard incoming!"
+- [ ] `big-fluffy-flakes.mp3` — "Big fluffy flakes!"
+- [ ] `sizzling-sidewalk.mp3` — "Sizzling sidewalk!"
+- [ ] `tropical-sunshine.mp3` — "Tropical sunshine!"
+- [ ] `dance-in-the-rain.mp3` — "Dance in the rain!"
+- [ ] `make-a-snow-angel.mp3` — "Make a snow angel!"
+- [ ] `skate-skate-skate.mp3` — "Skate skate skate!"
+- [ ] `sweat-sweat-sweat.mp3` — "Sweat sweat sweat!"
+- [ ] `sip-some-lemonade.mp3` — "Sip some lemonade!"
+- [ ] `twirl-in-the-glow.mp3` — "Twirl in the glow!"
+- [ ] `sparkle-and-shine.mp3` — "Sparkle and shine!"
+- [ ] `pitterpatter-rain.mp3` — "Pitter-patter rain."
+- [ ] `squelch-in-the-mud.mp3` — "Squelch in the mud!"
+- [ ] `look-for-a-rainbow.mp3` — "Look for a rainbow!"
+- [ ] `hold-onto-your-hat.mp3` — "Hold onto your hat!"
+- [ ] `lean-into-the-wind.mp3` — "Lean into the wind!"
+- [ ] `walk-veeery-slowly.mp3` — "Walk veeery slowly!"
+- [ ] `wave-away-the-mist.mp3` — "Wave away the mist!"
+- [ ] `steady-rain-all-day.mp3` — "Steady rain all day."
+- [ ] `shiver-shiver-shake.mp3` — "Shiver shiver shake!"
+- [ ] `melt-like-ice-cream.mp3` — "Melt like ice cream!"
+- [ ] `wobble-side-to-side.mp3` — "Wobble side to side!"
+- [ ] `swat-the-mosquitoes.mp3` — "Swat the mosquitoes!"
+- [ ] `its-snowing-buckets.mp3` — "It's snowing buckets!"
+- [ ] `suns-out-funs-out.mp3` — "Sun's out, fun's out!"
+- [ ] `splash-splash-splash.mp3` — "Splash splash splash!"
+- [ ] `hop-over-the-puddles.mp3` — "Hop over the puddles!"
+- [ ] `hold-tight-to-a-tree.mp3` — "Hold tight to a tree!"
+- [ ] `dark-clouds-gathering.mp3` — "Dark clouds gathering."
+- [ ] `jump-in-muddy-puddles.mp3` — "Jump in muddy puddles!"
+- [ ] `get-out-your-umbrella.mp3` — "Get out your umbrella!"
+- [ ] `wiggle-like-a-wet-dog.mp3` — "Wiggle like a wet dog!"
+- [ ] `dont-slip-on-the-ice.mp3` — "Don't slip on the ice!"
+- [ ] `slap-on-the-sunscreen.mp3` — "Slap on the sunscreen!"
+- [ ] `tippytoe-cant-see.mp3` — "Tippy-toe — can't see!"
+- [ ] `stomp-through-the-snow.mp3` — "Stomp through the snow!"
+- [ ] `drink-a-big-cold-drink.mp3` — "Drink a big cold drink!"
+- [ ] `hair-flying-everywhere.mp3` — "Hair flying everywhere!"
+- [ ] `thunderstorm-rolling-in.mp3` — "Thunderstorm rolling in!"
+- [ ] `spread-your-arms-soar.mp3` — "Spread your arms — soar!"
+- [ ] `wipe-your-foggy-glasses.mp3` — "Wipe your foggy glasses!"
+- [ ] `snowflakes-drifting-down.mp3` — "Snowflakes drifting down."
+- [ ] `take-a-deep-humid-breath.mp3` — "Take a deep humid breath!"
+- [ ] `cover-your-ears-for-the-boom.mp3` — "Cover your ears for the BOOM!"
+- [ ] `catch-raindrops-on-your-tongue.mp3` — "Catch raindrops on your tongue!"
+- [ ] `catch-snowflakes-on-your-tongue.mp3` — "Catch snowflakes on your tongue!"

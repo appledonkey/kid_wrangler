@@ -42,7 +42,7 @@ const STATE = {
 // 60 commands focused on what Simon Says does best: precise body-target
 // and quick-reaction commands that test listening. "Act like X" prompts
 // belong in Floor Lava and have been moved out of this list.
-const SIMON_COMMANDS = [
+export const SIMON_COMMANDS = [
   // Body parts (15)
   'touch your nose',
   'touch your toes',
