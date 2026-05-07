@@ -1,8 +1,8 @@
 /* Shared animal data, used by Animal Charades and Guess the Sound.
  *
- * Flat array of 90 animals. Each entry has:
+ * Flat array of animals, each with a UNIQUE emoji. Each entry has:
  *   name      — display name and the slug used in voice ("Act like a <name>")
- *   emoji     — visual icon
+ *   emoji     — visual icon (no duplicates across the pool)
  *   category  — one of CATEGORIES (used by Charades' habitat picker)
  *   sound     — (optional) key into animalSounds.js — only animals with a
  *               procedural sound effect are eligible for Guess the Sound
@@ -40,7 +40,7 @@ export const ANIMALS = [
   { name: 'llama',   emoji: '🦙', category: 'farm' },
   { name: 'bull',    emoji: '🐂', category: 'farm' },
 
-  // Wild & jungle (17) — includes savanna and tropical wetlands
+  // Wild & jungle (20)
   { name: 'lion',      emoji: '🦁', category: 'wild', sound: 'lion', guessTier: 'easy' },
   { name: 'tiger',     emoji: '🐅', category: 'wild' },
   { name: 'elephant',  emoji: '🐘', category: 'wild', sound: 'elephant', guessTier: 'medium' },
@@ -58,6 +58,9 @@ export const ANIMALS = [
   { name: 'kangaroo',  emoji: '🦘', category: 'wild' },
   { name: 'crocodile', emoji: '🐊', category: 'wild' },
   { name: 'flamingo',  emoji: '🦩', category: 'wild' },
+  { name: 'eagle',     emoji: '🦅', category: 'wild' },
+  { name: 'bison',     emoji: '🦬', category: 'wild' },
+  { name: 'peacock',   emoji: '🦚', category: 'wild' },
 
   // Ocean (12)
   { name: 'shark',         emoji: '🦈', category: 'ocean' },
@@ -89,24 +92,18 @@ export const ANIMALS = [
   { name: 'snake',    emoji: '🐍', category: 'forest', sound: 'snake', guessTier: 'medium' },
   { name: 'skunk',    emoji: '🦨', category: 'forest' },
 
-  // Arctic (10)
+  // Arctic (4) — Unicode is poor here; only entries with their own emoji
   { name: 'penguin',     emoji: '🐧',     category: 'arctic' },
   { name: 'polar bear',  emoji: '🐻‍❄️', category: 'arctic' },
   { name: 'seal',        emoji: '🦭',     category: 'arctic' },
-  { name: 'husky',       emoji: '🐶',     category: 'arctic' },
-  { name: 'walrus',      emoji: '🦷',     category: 'arctic' },
-  { name: 'narwhal',     emoji: '🦄',     category: 'arctic' },
-  { name: 'reindeer',    emoji: '🦌',     category: 'arctic' },
-  { name: 'arctic fox',  emoji: '🦊',     category: 'arctic' },
-  { name: 'snowy owl',   emoji: '🦉',     category: 'arctic' },
-  { name: 'moose',       emoji: '🦌',     category: 'arctic' },
+  { name: 'mammoth',     emoji: '🦣',     category: 'arctic' },
 
   // Backyard & bugs (13)
   { name: 'cat',       emoji: '🐱',     category: 'backyard', sound: 'cat', guessTier: 'easy' },
   { name: 'dog',       emoji: '🐶',     category: 'backyard', sound: 'dog', guessTier: 'easy' },
   { name: 'rabbit',    emoji: '🐰',     category: 'backyard' },
   { name: 'hamster',   emoji: '🐹',     category: 'backyard' },
-  { name: 'parakeet',  emoji: '🦜',     category: 'backyard' },
+  { name: 'swan',      emoji: '🦢',     category: 'backyard' },
   { name: 'butterfly', emoji: '🦋',     category: 'backyard' },
   { name: 'ladybug',   emoji: '🐞',     category: 'backyard' },
   { name: 'ant',       emoji: '🐜',     category: 'backyard' },
@@ -116,19 +113,9 @@ export const ANIMALS = [
   { name: 'mosquito',  emoji: '🦟',     category: 'backyard' },
   { name: 'crow',      emoji: '🐦‍⬛', category: 'backyard', sound: 'crow', guessTier: 'medium' },
 
-  // Dinosaurs (12)
-  { name: 'T-rex',           emoji: '🦖', category: 'dinosaurs' },
-  { name: 'triceratops',     emoji: '🦕', category: 'dinosaurs' },
-  { name: 'raptor',          emoji: '🦖', category: 'dinosaurs' },
-  { name: 'brontosaurus',    emoji: '🦕', category: 'dinosaurs' },
-  { name: 'pterodactyl',     emoji: '🦅', category: 'dinosaurs' },
-  { name: 'stegosaurus',     emoji: '🦕', category: 'dinosaurs' },
-  { name: 'ankylosaurus',    emoji: '🦕', category: 'dinosaurs' },
-  { name: 'spinosaurus',     emoji: '🦖', category: 'dinosaurs' },
-  { name: 'parasaurolophus', emoji: '🦕', category: 'dinosaurs' },
-  { name: 'allosaurus',      emoji: '🦖', category: 'dinosaurs' },
-  { name: 'diplodocus',      emoji: '🦕', category: 'dinosaurs' },
-  { name: 'iguanodon',       emoji: '🦕', category: 'dinosaurs' },
+  // Dinosaurs (2) — Unicode only ships two distinct dino glyphs
+  { name: 'T-rex',         emoji: '🦖', category: 'dinosaurs' },
+  { name: 'brontosaurus',  emoji: '🦕', category: 'dinosaurs' },
 ];
 
 /** Animals filtered by category. 'all' returns the whole pool. */
