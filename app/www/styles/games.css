@@ -44,6 +44,43 @@ body.mission-bg .rlgl-timer {
   color: white;
 }
 
+/* ----- Weather Report: per-category atmospheric backgrounds ----- */
+
+body.rain-bg {
+  background: radial-gradient(ellipse at center, #6FA8DC, #3D6FA8 50%, #1A3050);
+}
+body.cold-bg {
+  background: radial-gradient(ellipse at center, #E8F4FB, #B0D4E8 45%, #5C8FB0);
+}
+body.hot-bg {
+  background: radial-gradient(ellipse at center, #FFE08A, #FFA64A 50%, #C75B1A);
+}
+body.wind-bg {
+  background: radial-gradient(ellipse at center, #C8DCC8, #7FA890 50%, #3F5A4D);
+}
+body.fog-bg {
+  background: radial-gradient(ellipse at center, #E0E0E0, #A8A8A8 50%, #5C5C5C);
+}
+body.special-bg {
+  background: radial-gradient(ellipse at center, #FFD56B, #FF7B6B 35%, #6B4FA8 70%, #2B3D5C);
+}
+body.rain-bg .action-text,
+body.wind-bg .action-text,
+body.special-bg .action-text {
+  color: white;
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+body.rain-bg .rlgl-timer,
+body.wind-bg .rlgl-timer,
+body.special-bg .rlgl-timer {
+  color: white;
+}
+body.cold-bg .action-text,
+body.fog-bg .action-text,
+body.hot-bg .action-text {
+  color: var(--navy);
+}
+
 /* ----- Find Me: creature + rings + intensity bar ----- */
 
 .creature-wrap {

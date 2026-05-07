@@ -19,6 +19,7 @@ import * as simonSays from './games/simonSays.js';
 import * as animalCharades from './games/animalCharades.js';
 import * as whatIsIt from './games/whatIsIt.js';
 import * as missionControl from './games/missionControl.js';
+import * as weatherReport from './games/weatherReport.js';
 
 const PANEL_BY_GAME = {
   findMe: 'findMeSettings',
@@ -29,6 +30,7 @@ const PANEL_BY_GAME = {
   charades: 'charadesSettings',
   whatis: 'whatIsItSettings',
   mission: 'missionSettings',
+  weather: 'weatherSettings',
 };
 
 const ACTIVE_GAME_KEY = 'activeGame';
@@ -111,6 +113,7 @@ function bootstrap() {
   animalCharades.init();
   whatIsIt.init();
   missionControl.init();
+  weatherReport.init();
 
   // Mark paid game tiles as locked / unlocked based on premium state.
   // v1 always returns "unlocked" so this is currently a no-op visually.

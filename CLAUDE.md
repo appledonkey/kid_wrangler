@@ -13,18 +13,21 @@ on Vercel.
 
 ---
 
-## Current games (8 tiles)
+## Current games (9 tiles)
 
-### Free at v1 launch (4)
+Tile labels (canonical, as they appear in the picker):
+
+### Free at v1 launch (5)
 - **Hide & Seek** (`findMe`) — phone hides, plays escalating chirps until found
-- **Red Light** (`rlgl`) — calls Green/Red Light at random intervals; optional Yellow Light slow-mo phase
-- **Floor Lava** (`action`) — 100+ action prompts (hop, spin, find something soft) with surprise lava events
-- **Emoji Quiz** (`whatis`) — 283 emojis across 7 categories (Animals, Food, Objects, Vehicles, Nature, Sports, plus All); every emoji unique
+- **Red Light / Green Light** (`rlgl`) — calls Green/Red Light at random intervals; optional Yellow Light slow-mo phase
+- **Floor is Lava** (`action`) — 100+ action prompts (hop, spin, find something soft) with surprise lava events
+- **What is it?** (`whatis`) — 283 emojis across 7 categories (Animals, Food, Objects, Vehicles, Nature, Sports, plus All); every emoji unique
+- **Weather Report** (`weather`) — phone is the weatherman, calls weather + chains a matching action ("Pouring!" → "Jump in muddy puddles!"). 55 weather entries × 50 reactions across 6 categories (rain/cold/hot/wind/fog/special), each with its own bg theme.
 
 ### Paid tier (4) — gated behind $4.99 IAP, **stub only at v1** (everything unlocked, see featureFlags.js)
-- **Hero Poses** (`hero`) — 260 hero/villain pretend-play prompts
+- **Heroes & Villains** (`hero`) — 260 hero/villain pretend-play prompts
 - **Simon Says** (`simon`) — 60 body-target commands with trickiness levels
-- **Animal Charades** (`charades`) — 77 animals across 7 habitats, three reveal modes
+- **Animal Antics** (`charades`) — 77 animals across 7 habitats, three reveal modes
 - **Mission Control** (`mission`) — phase-based mission narrative (preflight → countdown → liftoff → space → land → loop) with random emergencies
 
 ---
@@ -67,9 +70,10 @@ _parappa/
             └── games/
                 ├── findMe.js, redLight.js, floorLava.js,
                 ├── superHero.js, simonSays.js, animalCharades.js,
-                ├── whatIsIt.js, missionControl.js,
+                ├── whatIsIt.js, missionControl.js, weatherReport.js,
                 ├── animalsData.js     ← shared animal pool (77 entries, every emoji unique)
                 ├── animalSounds.js    ← procedural animal sound synthesis (Charades sound-hint toggle)
+                ├── weatherData.js     ← weather + reaction pools by category
                 └── whatIsItData.js    ← emoji quiz pool (~280 entries across 6 categories)
 ```
 
@@ -98,7 +102,7 @@ After every meaningful www/ change: `npx cap sync` then commit + push.
 `service-worker.js` is **cache-first** in production (Vercel) and **self-destructs** on `localhost` so dev iteration always sees fresh code. The cache name is hardcoded — every release that should bust user caches must bump it:
 
 ```js
-const CACHE_NAME = 'kidwrangler-vN';   // currently v11
+const CACHE_NAME = 'kidwrangler-vN';   // currently v12
 ```
 
 After bumping, the next visit to the production URL re-fetches everything and the old cache is dropped on activate.
@@ -129,7 +133,8 @@ These are settled — don't relitigate unless asked:
 - **Pace** controls in all games are labeled **Speed** with options **Slow / Normal / Fast / CHAOS**
 - **Total time** controls labeled **Duration**, options **1 min / 2 min / 5 min / Endless**
 - Toggle labels are 1–2 words: **Narrator**, **SFX**, **Auto-advance**, **Yellow light (slow-mo)**
-- Game tile titles are **noun format** (Hide & Seek, Hero Poses, Animal Charades, Emoji Quiz, Mission Control, etc.)
+- Game tile titles are the canonical labels listed in the "Current games" section above (Hide & Seek, Red Light / Green Light, Floor is Lava, Heroes & Villains, Simon Says, Animal Antics, What is it?, Mission Control, Weather Report)
+- Paid games' canonical key in `app.js` PANEL_BY_GAME stays stable even when the tile label changes (e.g. tile "Heroes & Villains" → key `hero`, tile "Animal Antics" → key `charades`)
 
 ### Audio behavior
 - **Speech-aware pacing** — `fire()` in every action game schedules the next command at `speechDurationMs(text) + paceGap`. No more commands cutting each other off.

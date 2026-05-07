@@ -41,16 +41,16 @@
     </button>
     <button class="game-opt" data-val="rlgl">
       <span class="icon">🚦</span>
-      <span class="game-title">Red Light</span>
+      <span class="game-title">Red Light / Green Light</span>
     </button>
     <button class="game-opt" data-val="action">
       <span class="icon">🌋</span>
-      <span class="game-title">Floor Lava</span>
+      <span class="game-title">Floor is Lava</span>
     </button>
     <button class="game-opt" data-val="hero">
       <span class="lock-badge">🔒</span>
       <span class="icon">🦸</span>
-      <span class="game-title">Hero Poses</span>
+      <span class="game-title">Heroes &amp; Villains</span>
     </button>
     <button class="game-opt" data-val="simon">
       <span class="lock-badge">🔒</span>
@@ -60,16 +60,20 @@
     <button class="game-opt" data-val="charades">
       <span class="lock-badge">🔒</span>
       <span class="icon">🐘</span>
-      <span class="game-title">Animal Charades</span>
+      <span class="game-title">Animal Antics</span>
     </button>
     <button class="game-opt" data-val="whatis">
       <span class="icon">❓</span>
-      <span class="game-title">Emoji Quiz</span>
+      <span class="game-title">What is it?</span>
     </button>
     <button class="game-opt" data-val="mission">
       <span class="lock-badge">🔒</span>
       <span class="icon">🚀</span>
       <span class="game-title">Mission Control</span>
+    </button>
+    <button class="game-opt" data-val="weather">
+      <span class="icon">🌦️</span>
+      <span class="game-title">Weather Report</span>
     </button>
   </div>
 
@@ -377,6 +381,47 @@
 
     <button class="big-btn start" id="missionStartBtn">Start Game</button>
   </div>
+
+  <!-- ============ WEATHER REPORT SETTINGS ============ -->
+  <div class="conditional hidden" id="weatherSettings">
+    <p class="tag">Phone is the weatherman — calls out weather and chains a matching action ("Pouring!" → "Jump in muddy puddles!").</p>
+
+    <button class="big-btn test" id="weatherTestBtn">🔊 Test Voice</button>
+
+    <div class="setting-group">
+      <div class="label">Speed</div>
+      <div class="options" id="weatherPaceOpts">
+        <button class="opt" data-val="slow">Slow</button>
+        <button class="opt selected" data-val="normal">Normal</button>
+        <button class="opt" data-val="fast">Fast</button>
+        <button class="opt danger" data-val="chaos">CHAOS</button>
+      </div>
+      <div class="range-display" id="weatherPaceDisplay">3–6 seconds between reports</div>
+    </div>
+
+    <div class="setting-group">
+      <div class="label">Duration</div>
+      <div class="options" id="weatherLengthOpts">
+        <button class="opt" data-val="60">1 min</button>
+        <button class="opt selected" data-val="120">2 min</button>
+        <button class="opt" data-val="300">5 min</button>
+        <button class="opt" data-val="0">Endless</button>
+      </div>
+    </div>
+
+    <div class="setting-group">
+      <div class="toggle-wrap">
+        <span class="tlabel">Reactions</span>
+        <div class="toggle on" id="weatherReactionsToggle"></div>
+      </div>
+      <div class="toggle-wrap">
+        <span class="tlabel">SFX</span>
+        <div class="toggle on" id="weatherSfxToggle"></div>
+      </div>
+    </div>
+
+    <button class="big-btn start" id="weatherStartBtn">Start Game</button>
+  </div>
 </div>
 
 <!-- ============ FIND ME — HIDE COUNTDOWN ============ -->
@@ -538,6 +583,25 @@
   <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🚀</h1>
   <div class="stat">A true ace pilot!</div>
   <button class="big-btn" id="missionAgainBtn">Fly Again</button>
+</div>
+
+<!-- ============ WEATHER REPORT ============ -->
+<div class="screen center" id="weatherCountdownScreen">
+  <div class="label">Tune In!</div>
+  <div class="countdown-num" id="weatherCountdown">3</div>
+  <div class="hide-text">Today's forecast...</div>
+</div>
+<div class="screen center" id="weatherGameScreen">
+  <div class="action-emoji" id="weatherEmoji">🌦️</div>
+  <div class="action-text" id="weatherText">And now, the weather!</div>
+  <div class="rlgl-timer" id="weatherTimer">2:00 left</div>
+  <button class="big-btn stop" id="weatherStopBtn">End Forecast</button>
+</div>
+<div class="screen center" id="weatherEndScreen">
+  <div class="confetti-text">That's the forecast!</div>
+  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🌈</h1>
+  <div class="stat">Stay weather-wise!</div>
+  <button class="big-btn" id="weatherAgainBtn">Play Again</button>
 </div>
 
 <!-- ============ Silent loop keepalive ============ -->

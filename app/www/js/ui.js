@@ -32,6 +32,9 @@ const SCREEN_IDS = [
   ['missionCountdown', 'missionCountdownScreen'],
   ['missionGame', 'missionGameScreen'],
   ['missionEnd', 'missionEndScreen'],
+  ['weatherCountdown', 'weatherCountdownScreen'],
+  ['weatherGame', 'weatherGameScreen'],
+  ['weatherEnd', 'weatherEndScreen'],
 ];
 
 export function initScreens() {
