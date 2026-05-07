@@ -1,13 +1,11 @@
-/* Shared animal data, used by Animal Charades and Guess the Sound.
+/* Shared animal data, used by Animal Charades.
  *
  * Flat array of animals, each with a UNIQUE emoji. Each entry has:
  *   name      — display name and the slug used in voice ("Act like a <name>")
  *   emoji     — visual icon (no duplicates across the pool)
  *   category  — one of CATEGORIES (used by Charades' habitat picker)
- *   sound     — (optional) key into animalSounds.js — only animals with a
- *               procedural sound effect are eligible for Guess the Sound
- *   guessTier — (optional) 'easy' | 'medium' — used by Guess the Sound's
- *               difficulty picker. Only present on entries with `sound`.
+ *   sound     — (optional) key into animalSounds.js for the Charades sound-hint
+ *               toggle; only animals with a procedural sound effect have it.
  */
 
 export const CATEGORIES = [
@@ -27,24 +25,24 @@ export const CATEGORY_LABELS = {
 
 export const ANIMALS = [
   // Farm (12)
-  { name: 'cow',     emoji: '🐄', category: 'farm',    sound: 'cow',     guessTier: 'easy' },
-  { name: 'pig',     emoji: '🐷', category: 'farm',    sound: 'pig',     guessTier: 'easy' },
-  { name: 'sheep',   emoji: '🐑', category: 'farm',    sound: 'sheep',   guessTier: 'easy' },
-  { name: 'horse',   emoji: '🐴', category: 'farm',    sound: 'horse',   guessTier: 'easy' },
-  { name: 'chicken', emoji: '🐔', category: 'farm',    sound: 'chicken', guessTier: 'easy' },
-  { name: 'duck',    emoji: '🦆', category: 'farm',    sound: 'duck',    guessTier: 'easy' },
-  { name: 'donkey',  emoji: '🫏', category: 'farm',    sound: 'donkey',  guessTier: 'medium' },
-  { name: 'turkey',  emoji: '🦃', category: 'farm',    sound: 'turkey',  guessTier: 'medium' },
-  { name: 'rooster', emoji: '🐓', category: 'farm',    sound: 'rooster', guessTier: 'medium' },
+  { name: 'cow',     emoji: '🐄', category: 'farm',    sound: 'cow' },
+  { name: 'pig',     emoji: '🐷', category: 'farm',    sound: 'pig' },
+  { name: 'sheep',   emoji: '🐑', category: 'farm',    sound: 'sheep' },
+  { name: 'horse',   emoji: '🐴', category: 'farm',    sound: 'horse' },
+  { name: 'chicken', emoji: '🐔', category: 'farm',    sound: 'chicken' },
+  { name: 'duck',    emoji: '🦆', category: 'farm',    sound: 'duck' },
+  { name: 'donkey',  emoji: '🫏', category: 'farm',    sound: 'donkey' },
+  { name: 'turkey',  emoji: '🦃', category: 'farm',    sound: 'turkey' },
+  { name: 'rooster', emoji: '🐓', category: 'farm',    sound: 'rooster' },
   { name: 'goat',    emoji: '🐐', category: 'farm' },
   { name: 'llama',   emoji: '🦙', category: 'farm' },
   { name: 'bull',    emoji: '🐂', category: 'farm' },
 
   // Wild & jungle (20)
-  { name: 'lion',      emoji: '🦁', category: 'wild', sound: 'lion', guessTier: 'easy' },
+  { name: 'lion',      emoji: '🦁', category: 'wild', sound: 'lion' },
   { name: 'tiger',     emoji: '🐅', category: 'wild' },
-  { name: 'elephant',  emoji: '🐘', category: 'wild', sound: 'elephant', guessTier: 'medium' },
-  { name: 'monkey',    emoji: '🐒', category: 'wild', sound: 'monkey', guessTier: 'medium' },
+  { name: 'elephant',  emoji: '🐘', category: 'wild', sound: 'elephant' },
+  { name: 'monkey',    emoji: '🐒', category: 'wild', sound: 'monkey' },
   { name: 'gorilla',   emoji: '🦍', category: 'wild' },
   { name: 'jaguar',    emoji: '🐆', category: 'wild' },
   { name: 'parrot',    emoji: '🦜', category: 'wild' },
@@ -77,19 +75,19 @@ export const ANIMALS = [
   { name: 'oyster',        emoji: '🦪', category: 'ocean' },
 
   // Forest (14)
-  { name: 'wolf',     emoji: '🐺', category: 'forest', sound: 'wolf',  guessTier: 'medium' },
-  { name: 'bear',     emoji: '🐻', category: 'forest', sound: 'bear',  guessTier: 'medium' },
+  { name: 'wolf',     emoji: '🐺', category: 'forest', sound: 'wolf' },
+  { name: 'bear',     emoji: '🐻', category: 'forest', sound: 'bear' },
   { name: 'fox',      emoji: '🦊', category: 'forest' },
-  { name: 'owl',      emoji: '🦉', category: 'forest', sound: 'owl',   guessTier: 'medium' },
+  { name: 'owl',      emoji: '🦉', category: 'forest', sound: 'owl' },
   { name: 'deer',     emoji: '🦌', category: 'forest' },
   { name: 'squirrel', emoji: '🐿️', category: 'forest' },
   { name: 'raccoon',  emoji: '🦝', category: 'forest' },
   { name: 'beaver',   emoji: '🦫', category: 'forest' },
   { name: 'badger',   emoji: '🦡', category: 'forest' },
   { name: 'hedgehog', emoji: '🦔', category: 'forest' },
-  { name: 'mouse',    emoji: '🐭', category: 'forest', sound: 'mouse', guessTier: 'medium' },
-  { name: 'frog',     emoji: '🐸', category: 'forest', sound: 'frog',  guessTier: 'medium' },
-  { name: 'snake',    emoji: '🐍', category: 'forest', sound: 'snake', guessTier: 'medium' },
+  { name: 'mouse',    emoji: '🐭', category: 'forest', sound: 'mouse' },
+  { name: 'frog',     emoji: '🐸', category: 'forest', sound: 'frog' },
+  { name: 'snake',    emoji: '🐍', category: 'forest', sound: 'snake' },
   { name: 'skunk',    emoji: '🦨', category: 'forest' },
 
   // Arctic (4) — Unicode is poor here; only entries with their own emoji
@@ -99,8 +97,8 @@ export const ANIMALS = [
   { name: 'mammoth',     emoji: '🦣',     category: 'arctic' },
 
   // Backyard & bugs (13)
-  { name: 'cat',       emoji: '🐱',     category: 'backyard', sound: 'cat', guessTier: 'easy' },
-  { name: 'dog',       emoji: '🐶',     category: 'backyard', sound: 'dog', guessTier: 'easy' },
+  { name: 'cat',       emoji: '🐱',     category: 'backyard', sound: 'cat' },
+  { name: 'dog',       emoji: '🐶',     category: 'backyard', sound: 'dog' },
   { name: 'rabbit',    emoji: '🐰',     category: 'backyard' },
   { name: 'hamster',   emoji: '🐹',     category: 'backyard' },
   { name: 'swan',      emoji: '🦢',     category: 'backyard' },
@@ -109,9 +107,9 @@ export const ANIMALS = [
   { name: 'ant',       emoji: '🐜',     category: 'backyard' },
   { name: 'snail',     emoji: '🐌',     category: 'backyard' },
   { name: 'spider',    emoji: '🕷️',    category: 'backyard' },
-  { name: 'bee',       emoji: '🐝',     category: 'backyard', sound: 'bee', guessTier: 'medium' },
+  { name: 'bee',       emoji: '🐝',     category: 'backyard', sound: 'bee' },
   { name: 'mosquito',  emoji: '🦟',     category: 'backyard' },
-  { name: 'crow',      emoji: '🐦‍⬛', category: 'backyard', sound: 'crow', guessTier: 'medium' },
+  { name: 'crow',      emoji: '🐦‍⬛', category: 'backyard', sound: 'crow' },
 
   // Dinosaurs (2) — Unicode only ships two distinct dino glyphs
   { name: 'T-rex',         emoji: '🦖', category: 'dinosaurs' },

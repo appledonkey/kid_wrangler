@@ -1,7 +1,7 @@
 /* What Is It? — phone shows an emoji, kids guess what it is, parent taps
- * Reveal Answer to confirm. Visual cousin of Guess the Sound.
+ * Reveal Answer to confirm.
  *
- * Categories: All / Animals / Food / Objects / Vehicles / Nature.
+ * Categories: All / Animals / Food / Objects / Vehicles / Nature / Sports.
  * Optional: auto-advance after a reveal.
  */
 

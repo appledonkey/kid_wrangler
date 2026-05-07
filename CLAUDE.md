@@ -13,23 +13,19 @@ on Vercel.
 
 ---
 
-## Current games (10 tiles)
+## Current games (8 tiles)
 
 ### Free at v1 launch (4)
 - **Hide & Seek** (`findMe`) — phone hides, plays escalating chirps until found
 - **Red Light** (`rlgl`) — calls Green/Red Light at random intervals; optional Yellow Light slow-mo phase
 - **Floor Lava** (`action`) — 100+ action prompts (hop, spin, find something soft) with surprise lava events
-- **Emoji Quiz** (`whatis`) — 191 emojis across 6 categories, kids guess from icon
+- **Emoji Quiz** (`whatis`) — 283 emojis across 7 categories (Animals, Food, Objects, Vehicles, Nature, Sports, plus All); every emoji unique
 
 ### Paid tier (4) — gated behind $4.99 IAP, **stub only at v1** (everything unlocked, see featureFlags.js)
 - **Hero Poses** (`hero`) — 260 hero/villain pretend-play prompts
 - **Simon Says** (`simon`) — 60 body-target commands with trickiness levels
-- **Animal Charades** (`charades`) — 90 animals across 7 habitats, three reveal modes
+- **Animal Charades** (`charades`) — 77 animals across 7 habitats, three reveal modes
 - **Mission Control** (`mission`) — phase-based mission narrative (preflight → countdown → liftoff → space → land → loop) with random emergencies
-
-### Coming soon (2) — visually disabled in picker
-- **Dance Party** (`dance`) — needs real music samples
-- **Sound Quiz** (`guess`) — needs real animal MP3s (procedural synth is too weak)
 
 ---
 
@@ -71,10 +67,10 @@ _parappa/
             └── games/
                 ├── findMe.js, redLight.js, floorLava.js,
                 ├── superHero.js, simonSays.js, animalCharades.js,
-                ├── whatIsIt.js, missionControl.js, guessSound.js,
-                ├── animalsData.js     ← shared animal pool (90 entries)
-                ├── animalSounds.js    ← procedural animal sound synthesis
-                └── whatIsItData.js    ← emoji quiz pool (food/objects/etc.)
+                ├── whatIsIt.js, missionControl.js,
+                ├── animalsData.js     ← shared animal pool (77 entries, every emoji unique)
+                ├── animalSounds.js    ← procedural animal sound synthesis (Charades sound-hint toggle)
+                └── whatIsItData.js    ← emoji quiz pool (~280 entries across 6 categories)
 ```
 
 ---
@@ -102,7 +98,7 @@ After every meaningful www/ change: `npx cap sync` then commit + push.
 `service-worker.js` is **cache-first** in production (Vercel) and **self-destructs** on `localhost` so dev iteration always sees fresh code. The cache name is hardcoded — every release that should bust user caches must bump it:
 
 ```js
-const CACHE_NAME = 'kidwrangler-vN';   // currently v9
+const CACHE_NAME = 'kidwrangler-vN';   // currently v11
 ```
 
 After bumping, the next visit to the production URL re-fetches everything and the old cache is dropped on activate.
@@ -133,7 +129,7 @@ These are settled — don't relitigate unless asked:
 - **Pace** controls in all games are labeled **Speed** with options **Slow / Normal / Fast / CHAOS**
 - **Total time** controls labeled **Duration**, options **1 min / 2 min / 5 min / Endless**
 - Toggle labels are 1–2 words: **Narrator**, **SFX**, **Auto-advance**, **Yellow light (slow-mo)**
-- Game tile titles are **noun format** (Hide & Seek, Hero Poses, Animal Charades, Emoji Quiz, Sound Quiz, Mission Control, etc.)
+- Game tile titles are **noun format** (Hide & Seek, Hero Poses, Animal Charades, Emoji Quiz, Mission Control, etc.)
 
 ### Audio behavior
 - **Speech-aware pacing** — `fire()` in every action game schedules the next command at `speechDurationMs(text) + paceGap`. No more commands cutting each other off.
@@ -174,9 +170,13 @@ These are settled — don't relitigate unless asked:
 ## Pending / explicitly punted TODOs
 
 ### Backburnered by user
-- **Real animal sounds** for Guess the Sound — sourcing CC0 MP3s from Pixabay; voice-override pattern is ready
-- **Real music** for Dance Party — same approach but bigger sourcing job
 - **Pause button** — needs each timed game's `fire()` loop refactored to be cleanly pause/resumable
+
+> Sound Quiz and Dance Party were removed entirely on 2026-05-07. The
+> placeholder tiles + scaffolding are gone (along with `danceParty.js`,
+> `guessSound.js`, and the `playKick`/`playSnare`/`playHat` drum
+> machine in `audio.js`). `animalSounds.js` stays — Charades' optional
+> sound-hint toggle still uses it.
 
 ### Pre-launch must-haves (user's responsibility)
 - Apple Developer account ($99/yr) and Google Play Console ($25 one-time)

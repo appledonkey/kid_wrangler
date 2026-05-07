@@ -211,7 +211,7 @@ body.mission-bg .rlgl-timer {
   opacity: 0.9;
 }
 
-/* ----- Floor Lava / Hero / Simon / Dance / Charades / Guess: action display ----- */
+/* ----- Floor Lava / Hero / Simon / Charades / Emoji Quiz / Mission: action display ----- */
 
 .action-emoji {
   font-size: clamp(6.5rem, 26vw, 11rem);

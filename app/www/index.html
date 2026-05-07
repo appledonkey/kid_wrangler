@@ -71,14 +71,6 @@
       <span class="icon">🚀</span>
       <span class="game-title">Mission Control</span>
     </button>
-    <button class="game-opt coming-soon" data-val="dance" disabled>
-      <span class="icon">💃</span>
-      <span class="game-title">Dance Party</span>
-    </button>
-    <button class="game-opt coming-soon" data-val="guess" disabled>
-      <span class="icon">🔊</span>
-      <span class="game-title">Sound Quiz</span>
-    </button>
   </div>
 
   <!-- ============ FIND ME SETTINGS ============ -->
@@ -288,46 +280,6 @@
     <button class="big-btn start" id="simonStartBtn">Start Game</button>
   </div>
 
-  <!-- ============ DANCE PARTY SETTINGS ============ -->
-  <div class="conditional hidden" id="danceSettings">
-    <p class="tag">Beat plays, phone calls out dance moves. Bust 'em out, freeze when it says FREEZE!</p>
-
-    <button class="big-btn test" id="danceTestBtn">🔊 Test Beat</button>
-
-    <div class="setting-group">
-      <div class="label">Tempo</div>
-      <div class="options" id="danceTempoOpts">
-        <button class="opt" data-val="slow">Slow</button>
-        <button class="opt selected" data-val="normal">Normal</button>
-        <button class="opt" data-val="fast">Fast</button>
-        <button class="opt danger" data-val="party">PARTY</button>
-      </div>
-    </div>
-
-    <div class="setting-group">
-      <div class="label">Duration</div>
-      <div class="options" id="danceLengthOpts">
-        <button class="opt" data-val="60">1 min</button>
-        <button class="opt selected" data-val="180">3 min</button>
-        <button class="opt" data-val="300">5 min</button>
-        <button class="opt" data-val="0">Endless</button>
-      </div>
-    </div>
-
-    <div class="setting-group">
-      <div class="toggle-wrap">
-        <span class="tlabel">Freeze breaks</span>
-        <div class="toggle on" id="danceFreezeToggle"></div>
-      </div>
-      <div class="toggle-wrap">
-        <span class="tlabel">Narrator</span>
-        <div class="toggle on" id="danceVoiceToggle"></div>
-      </div>
-    </div>
-
-    <button class="big-btn start" id="danceStartBtn">Start Game</button>
-  </div>
-
   <!-- ============ ANIMAL CHARADES SETTINGS ============ -->
   <div class="conditional hidden" id="charadesSettings">
     <p class="tag">Phone names an animal — kid acts it out! Others guess. Tap when guessed for the next one.</p>
@@ -424,40 +376,6 @@
     </div>
 
     <button class="big-btn start" id="missionStartBtn">Start Game</button>
-  </div>
-
-  <!-- ============ GUESS THE SOUND SETTINGS ============ -->
-  <div class="conditional hidden" id="guessSettings">
-    <p class="tag">Phone plays an animal sound a few times — kids guess what it is! Tap to reveal the answer.</p>
-
-    <button class="big-btn test" id="guessTestBtn">🔊 Test Sound</button>
-
-    <div class="setting-group">
-      <div class="label">Difficulty</div>
-      <div class="options" id="guessDifficultyOpts">
-        <button class="opt selected" data-val="easy">Easy</button>
-        <button class="opt" data-val="medium">Medium</button>
-        <button class="opt" data-val="all">All</button>
-      </div>
-    </div>
-
-    <div class="setting-group">
-      <div class="label">Repeats</div>
-      <div class="options" id="guessRepeatsOpts">
-        <button class="opt" data-val="2">2x</button>
-        <button class="opt selected" data-val="3">3x</button>
-        <button class="opt" data-val="4">4x</button>
-      </div>
-    </div>
-
-    <div class="setting-group">
-      <div class="toggle-wrap">
-        <span class="tlabel">Auto-advance</span>
-        <div class="toggle" id="guessAutoToggle"></div>
-      </div>
-    </div>
-
-    <button class="big-btn start" id="guessStartBtn">Start Game</button>
   </div>
 </div>
 
@@ -573,25 +491,6 @@
   <button class="big-btn" id="simonAgainBtn">Play Again</button>
 </div>
 
-<!-- ============ DANCE PARTY ============ -->
-<div class="screen center" id="danceCountdownScreen">
-  <div class="label">Get Ready!</div>
-  <div class="countdown-num" id="danceCountdown">3</div>
-  <div class="hide-text">Time to dance!</div>
-</div>
-<div class="screen center" id="danceGameScreen">
-  <div class="action-emoji" id="danceEmoji">💃</div>
-  <div class="action-text" id="danceText">Get ready to dance!</div>
-  <div class="rlgl-timer" id="danceTimer">3:00 left</div>
-  <button class="big-btn stop" id="danceStopBtn">Stop Game</button>
-</div>
-<div class="screen center" id="danceEndScreen">
-  <div class="confetti-text">Dance party over!</div>
-  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🪩</h1>
-  <div class="stat">You've got moves!</div>
-  <button class="big-btn" id="danceAgainBtn">Play Again</button>
-</div>
-
 <!-- ============ CHARADES ============ -->
 <div class="screen center" id="charadesGameScreen">
   <div class="action-emoji" id="charadesEmoji">🐘</div>
@@ -639,21 +538,6 @@
   <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🚀</h1>
   <div class="stat">A true ace pilot!</div>
   <button class="big-btn" id="missionAgainBtn">Fly Again</button>
-</div>
-
-<!-- ============ GUESS THE SOUND ============ -->
-<div class="screen center" id="guessGameScreen">
-  <div class="action-emoji" id="guessEmoji">🔊</div>
-  <div class="action-text" id="guessText">Listen carefully...</div>
-  <div class="rlgl-timer" id="guessScore">Round 1</div>
-  <button class="big-btn found" id="guessRevealBtn">Reveal Answer</button>
-  <button class="big-btn stop" id="guessStopBtn" style="margin-top:10px">End Game</button>
-</div>
-<div class="screen center" id="guessEndScreen">
-  <div class="confetti-text">Nice work!</div>
-  <h1 style="font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 8px;">🦉</h1>
-  <div class="stat" id="guessFinalScore">5 sounds!</div>
-  <button class="big-btn" id="guessAgainBtn">Play Again</button>
 </div>
 
 <!-- ============ Silent loop keepalive ============ -->

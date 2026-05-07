@@ -8,7 +8,7 @@
  * doesn't keep serving stale JS. Production hosts run the normal SW lifecycle.
  */
 
-const CACHE_NAME = 'kidwrangler-v10';
+const CACHE_NAME = 'kidwrangler-v11';
 
 const IS_LOCALHOST =
   self.location.hostname === 'localhost' ||
@@ -35,9 +35,7 @@ const PRECACHE = [
   './js/games/floorLava.js',
   './js/games/superHero.js',
   './js/games/simonSays.js',
-  './js/games/danceParty.js',
   './js/games/animalCharades.js',
-  './js/games/guessSound.js',
   './js/games/animalSounds.js',
   './fonts/Fredoka.css',
   './fonts/Fredoka-VariableFont_wdth,wght.woff2',

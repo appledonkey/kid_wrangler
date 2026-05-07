@@ -11,9 +11,8 @@
  *                       phone near the actor's ear so only they hear it.
  *
  * Sound hint: optional toggle. Plays the animal's procedural sound effect
- * (the same one Guess the Sound uses) along with the announcement, but
- * only for animals that have a sound and only outside whisper mode (where
- * a loud animal sound would spoil the secret).
+ * along with the announcement, but only for animals that have a sound and
+ * only outside whisper mode (where a loud animal sound would spoil it).
  */
 
 import { ensureAudio, playChime, playSuccessJingle } from '../audio.js';

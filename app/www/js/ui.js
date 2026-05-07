@@ -25,9 +25,6 @@ const SCREEN_IDS = [
   ['simonCountdown', 'simonCountdownScreen'],
   ['simonGame', 'simonGameScreen'],
   ['simonEnd', 'simonEndScreen'],
-  ['danceCountdown', 'danceCountdownScreen'],
-  ['danceGame', 'danceGameScreen'],
-  ['danceEnd', 'danceEndScreen'],
   ['charadesGame', 'charadesGameScreen'],
   ['charadesEnd', 'charadesEndScreen'],
   ['whatIsItGame', 'whatIsItGameScreen'],
@@ -35,8 +32,6 @@ const SCREEN_IDS = [
   ['missionCountdown', 'missionCountdownScreen'],
   ['missionGame', 'missionGameScreen'],
   ['missionEnd', 'missionEndScreen'],
-  ['guessGame', 'guessGameScreen'],
-  ['guessEnd', 'guessEndScreen'],
 ];
 
 export function initScreens() {

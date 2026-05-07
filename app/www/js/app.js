@@ -31,10 +31,6 @@ const PANEL_BY_GAME = {
   mission: 'missionSettings',
 };
 
-// Games that are present in the picker but not yet wired up. Tiles for these
-// are visually disabled and clicks are ignored.
-const COMING_SOON = new Set(['dance', 'guess']);
-
 const ACTIVE_GAME_KEY = 'activeGame';
 
 function showGamePanel(name) {
@@ -57,7 +53,6 @@ function setupGamePicker() {
   container.querySelectorAll('.game-opt').forEach((btn) => {
     btn.addEventListener('click', () => {
       const v = btn.dataset.val;
-      if (COMING_SOON.has(v)) return; // tile is just a placeholder
       showGamePanel(v);
       save(ACTIVE_GAME_KEY, v);
     });
@@ -66,7 +61,6 @@ function setupGamePicker() {
 
 async function restoreLastGame() {
   const v = await load(ACTIVE_GAME_KEY, 'findMe');
-  // If the saved game is unavailable (e.g. now coming-soon), fall back to default.
   const target = PANEL_BY_GAME[v] ? v : 'findMe';
   showGamePanel(target);
 }
@@ -109,9 +103,6 @@ function bootstrap() {
   setupGamePicker();
   restoreLastGame();
 
-  // Init each (active) game module exactly once. Coming-soon games (dance,
-  // guess) intentionally aren't imported — saves bytes and keeps stale event
-  // bindings out of the DOM.
   findMe.init();
   redLight.init();
   floorLava.init();
