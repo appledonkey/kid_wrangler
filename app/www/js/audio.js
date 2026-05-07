@@ -1,33 +1,29 @@
 /* Shared audio infrastructure.
  *
- * Web Audio graph:
+ * Web Audio graph (simple — no reverb, no per-screen routing):
  *
- *   source ──► dryGain ──┐
- *                        ├──► compressor ──► masterGain ──► destination
- *   source ──► convolver ─► wetGain ──┘
+ *   source ──► dryGain ──► compressor ──► masterGain ──► destination
  *
- * Reverb is only routed when explicitly enabled (Find Me only at the moment).
+ * Compressor is the "loud" preset: -22dB threshold, 8:1 ratio, ~1.6×
+ * makeup gain via masterGain. Tuned to make the phone speaker pop on
+ * a kid's playroom floor.
  *
- * Per BUILD_SPEC, three compressor presets:
- *   normal: -12dB / 4:1
- *   loud:   -22dB / 8:1
- *   max:    -32dB / 16:1 (heavy limiting + 2.4× master gain)
- *
- * Volume Boost values 'normal' / 'loud' / 'max' map to VOLUME_MULT below.
+ * Earlier versions had a convolution-reverb wet path and three
+ * compressor presets ("normal" / "loud" / "max"). Both were never
+ * exposed in the UI and the convolver impulse-response build (~880KB
+ * of stereo Float32 random noise) was a 30-100ms main-thread hitch
+ * on the first user click for no benefit. Both removed.
  */
 
 let audioCtx = null;
 let masterGain = null;
 let compressor = null;
-let convolver = null;
 let dryGain = null;
-let wetGain = null;
-let _reverbWet = false;
 
 const silentAudio =
   typeof document !== 'undefined' ? document.getElementById('silentLoop') : null;
 
-const VOLUME_MULT = { normal: 1.0, loud: 1.6, max: 2.4 };
+const MASTER_GAIN = 1.6;
 
 export function getAudioCtx() {
   return audioCtx;
@@ -37,8 +33,6 @@ export function ensureAudio() {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     buildAudioGraph();
-    // Hard-code the "loud" preset since user-facing volume boost is gone.
-    configureMaster('loud');
   }
   if (audioCtx.state === 'suspended') audioCtx.resume();
   if (silentAudio) {
@@ -53,70 +47,29 @@ export function resumeIfSuspended() {
 }
 
 function buildAudioGraph() {
-  convolver = audioCtx.createConvolver();
-  convolver.buffer = createImpulseResponse(2.5, 3.0);
   dryGain = audioCtx.createGain();
-  wetGain = audioCtx.createGain();
   compressor = audioCtx.createDynamicsCompressor();
   masterGain = audioCtx.createGain();
 
+  const now = audioCtx.currentTime;
+  compressor.threshold.setValueAtTime(-22, now);
+  compressor.knee.setValueAtTime(15, now);
+  compressor.ratio.setValueAtTime(8, now);
+  compressor.attack.setValueAtTime(0.002, now);
+  compressor.release.setValueAtTime(0.2, now);
+  masterGain.gain.setValueAtTime(MASTER_GAIN, now);
+
   dryGain.connect(compressor);
-  convolver.connect(wetGain);
-  wetGain.connect(compressor);
   compressor.connect(masterGain);
   masterGain.connect(audioCtx.destination);
 }
 
-export function configureMaster(boost, opts = {}) {
-  if (!compressor) return;
-  const reverb = !!opts.reverb;
-  _reverbWet = reverb;
-  const now = audioCtx.currentTime;
-  if (boost === 'normal') {
-    compressor.threshold.setValueAtTime(-12, now);
-    compressor.knee.setValueAtTime(20, now);
-    compressor.ratio.setValueAtTime(4, now);
-    compressor.attack.setValueAtTime(0.003, now);
-    compressor.release.setValueAtTime(0.25, now);
-  } else if (boost === 'loud') {
-    compressor.threshold.setValueAtTime(-22, now);
-    compressor.knee.setValueAtTime(15, now);
-    compressor.ratio.setValueAtTime(8, now);
-    compressor.attack.setValueAtTime(0.002, now);
-    compressor.release.setValueAtTime(0.2, now);
-  } else {
-    compressor.threshold.setValueAtTime(-32, now);
-    compressor.knee.setValueAtTime(8, now);
-    compressor.ratio.setValueAtTime(16, now);
-    compressor.attack.setValueAtTime(0.001, now);
-    compressor.release.setValueAtTime(0.15, now);
-  }
-  masterGain.gain.setValueAtTime(VOLUME_MULT[boost] || 1.0, now);
-  dryGain.gain.setValueAtTime(reverb ? 0.7 : 1.0, now);
-  wetGain.gain.setValueAtTime(reverb ? 0.5 : 0.0, now);
-}
-
-function createImpulseResponse(duration, decay) {
-  const sampleRate = audioCtx.sampleRate;
-  const length = Math.floor(sampleRate * duration);
-  const impulse = audioCtx.createBuffer(2, length, sampleRate);
-  for (let ch = 0; ch < 2; ch++) {
-    const data = impulse.getChannelData(ch);
-    for (let i = 0; i < length; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
-    }
-  }
-  return impulse;
-}
-
 /**
- * Connect a source node to the routing chain. Always taps the dry path;
- * also taps the convolver path when reverb is currently wet.
+ * Connect a source node to the routing chain.
  */
 export function connectSource(node) {
   if (!dryGain) return;
   node.connect(dryGain);
-  if (_reverbWet) node.connect(convolver);
 }
 
 /**
@@ -129,11 +82,10 @@ export function connectSource(node) {
 export function silenceAll() {
   if (!audioCtx || !masterGain) return;
   const now = audioCtx.currentTime;
-  const restore = VOLUME_MULT.loud || 1.0;
   masterGain.gain.cancelScheduledValues(now);
   masterGain.gain.setValueAtTime(masterGain.gain.value, now);
   masterGain.gain.linearRampToValueAtTime(0.0001, now + 0.06);
-  masterGain.gain.linearRampToValueAtTime(restore, now + 0.1);
+  masterGain.gain.linearRampToValueAtTime(MASTER_GAIN, now + 0.1);
 }
 
 // =============================================================

@@ -8,7 +8,7 @@
  * doesn't keep serving stale JS. Production hosts run the normal SW lifecycle.
  */
 
-const CACHE_NAME = 'kidwrangler-v12';
+const CACHE_NAME = 'kidwrangler-v13';
 
 const IS_LOCALHOST =
   self.location.hostname === 'localhost' ||
@@ -30,19 +30,20 @@ const PRECACHE = [
   './js/ui.js',
   './js/storage.js',
   './js/native.js',
+  './js/featureFlags.js',
   './js/games/findMe.js',
   './js/games/redLight.js',
   './js/games/floorLava.js',
   './js/games/superHero.js',
   './js/games/simonSays.js',
   './js/games/animalCharades.js',
+  './js/games/animalsData.js',
   './js/games/animalSounds.js',
+  './js/games/whatIsIt.js',
+  './js/games/whatIsItData.js',
+  './js/games/missionControl.js',
   './js/games/weatherReport.js',
   './js/games/weatherData.js',
-  './fonts/Fredoka.css',
-  './fonts/Fredoka-VariableFont_wdth,wght.woff2',
-  './fonts/Caveat.css',
-  './fonts/Caveat-VariableFont_wght.woff2',
 ];
 
 self.addEventListener('install', (event) => {

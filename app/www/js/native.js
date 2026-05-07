@@ -94,16 +94,28 @@ const App = Plugins.App || null;
 /**
  * Register a callback fired when the app is backgrounded.
  * Useful for pausing timers / silent loop on background.
+ *
+ * Returns an unsubscribe function. In Capacitor 3+ `addListener`
+ * returns a Promise<PluginListenerHandle>, so the unsubscribe is
+ * deferred until the promise resolves. Earlier versions returned
+ * a sync handle — both shapes are supported.
  */
 export function onAppStateChange(cb) {
   if (!App) return () => {};
-  let handle;
+  let handle = null;
   try {
-    App.addListener('appStateChange', (state) => cb(state.isActive));
+    handle = App.addListener('appStateChange', (state) => cb(state.isActive));
   } catch {
     /* swallow */
   }
   return () => {
-    if (handle && handle.remove) handle.remove();
+    if (!handle) return;
+    if (typeof handle.then === 'function') {
+      handle.then((h) => {
+        if (h && typeof h.remove === 'function') h.remove();
+      }).catch(() => {});
+    } else if (typeof handle.remove === 'function') {
+      handle.remove();
+    }
   };
 }
