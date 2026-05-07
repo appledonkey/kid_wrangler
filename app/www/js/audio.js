@@ -15,6 +15,8 @@
  * on the first user click for no benefit. Both removed.
  */
 
+import { logErr } from './log.js';
+
 let audioCtx = null;
 let masterGain = null;
 let compressor = null;
@@ -31,19 +33,28 @@ export function getAudioCtx() {
 
 export function ensureAudio() {
   if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    buildAudioGraph();
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      buildAudioGraph();
+    } catch (e) {
+      logErr('audio.ensureAudio', e);
+      return;
+    }
   }
-  if (audioCtx.state === 'suspended') audioCtx.resume();
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume().catch((e) => logErr('audio.resume', e));
+  }
   if (silentAudio) {
     silentAudio.volume = 0.001;
-    silentAudio.play().catch(() => {});
+    silentAudio.play().catch((e) => logErr('audio.silentLoop', e));
   }
 }
 
 export function resumeIfSuspended() {
-  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
-  if (silentAudio) silentAudio.play().catch(() => {});
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume().catch((e) => logErr('audio.resumeIfSuspended', e));
+  }
+  if (silentAudio) silentAudio.play().catch((e) => logErr('audio.silentLoop', e));
 }
 
 function buildAudioGraph() {

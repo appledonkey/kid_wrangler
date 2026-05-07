@@ -20,6 +20,7 @@
  */
 
 import { getAudioCtx, connectSource } from './audio.js';
+import { logErr } from './log.js';
 
 let speechVoice = null;
 let speechUnlocked = false;
@@ -59,6 +60,7 @@ async function tryLoadClip(slug) {
   try {
     const resp = await fetch(url);
     if (!resp.ok) {
+      // 404 is the expected "no recording for this slug" case — not an error.
       clipCache.set(slug, null);
       return null;
     }
@@ -66,7 +68,10 @@ async function tryLoadClip(slug) {
     const buf = await ctx.decodeAudioData(arr);
     clipCache.set(slug, buf);
     return buf;
-  } catch {
+  } catch (e) {
+    // Only logged in dev — a corrupt MP3 or fetch failure should leave
+    // a trace, even though we still gracefully fall back to TTS.
+    logErr('speech.tryLoadClip', e);
     clipCache.set(slug, null);
     return null;
   }
@@ -130,8 +135,8 @@ export function cancelSpeech() {
   if (!('speechSynthesis' in window)) return;
   try {
     window.speechSynthesis.cancel();
-  } catch {
-    /* swallow */
+  } catch (e) {
+    logErr('speech.cancel', e);
   }
 }
 
@@ -173,7 +178,7 @@ export function unlockSpeech() {
     window.speechSynthesis.speak(u);
     speechUnlocked = true;
   } catch (e) {
-    /* swallow */
+    logErr('speech.unlock', e);
   }
 }
 
@@ -186,7 +191,7 @@ export function startSpeechKeepalive() {
         window.speechSynthesis.resume();
       }
     } catch (e) {
-      /* swallow */
+      logErr('speech.keepalive', e);
     }
   }, 4000);
 }
@@ -213,11 +218,12 @@ function speakTTS(text, opts = {}) {
         u.volume = typeof opts.volume === 'number' ? opts.volume : 1.0;
         window.speechSynthesis.speak(u);
       } catch (e) {
-        /* swallow */
+        logErr('speech.speakTTS.inner', e);
       }
     }, 50);
     return true;
   } catch (e) {
+    logErr('speech.speakTTS', e);
     return false;
   }
 }

@@ -7,6 +7,7 @@
  */
 
 import { resumeIfSuspended } from './audio.js';
+import { logErr } from './log.js';
 
 let _webLock = null;
 let _shouldBeAwake = false;
@@ -24,7 +25,7 @@ async function _acquire() {
     try {
       await KeepAwakePlugin.keepAwake();
     } catch (e) {
-      /* swallow */
+      logErr('wakeLock.keepAwake', e);
     }
   }
   if (_webLock) return;
@@ -35,7 +36,7 @@ async function _acquire() {
       _webLock = null;
     });
   } catch (e) {
-    /* swallow */
+    logErr('wakeLock.request', e);
   }
 }
 
@@ -44,14 +45,14 @@ async function _drop() {
     try {
       await KeepAwakePlugin.allowSleep();
     } catch (e) {
-      /* swallow */
+      logErr('wakeLock.allowSleep', e);
     }
   }
   if (_webLock) {
     try {
       await _webLock.release();
     } catch (e) {
-      /* swallow */
+      logErr('wakeLock.release', e);
     }
     _webLock = null;
   }

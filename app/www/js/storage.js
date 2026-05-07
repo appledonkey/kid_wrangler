@@ -7,6 +7,8 @@
  * future site-wide preferences.
  */
 
+import { logErr } from './log.js';
+
 const NS = 'kw:';
 
 const Preferences =
@@ -25,10 +27,13 @@ export async function load(key, defaultVal) {
       if (value === null || value === undefined) return defaultVal;
       try {
         return JSON.parse(value);
-      } catch {
+      } catch (e) {
+        // Bad migration / corrupt JSON — fall back to default.
+        logErr('storage.load.parse', e);
         return defaultVal;
       }
-    } catch {
+    } catch (e) {
+      logErr('storage.load.preferences', e);
       return defaultVal;
     }
   }
@@ -36,7 +41,8 @@ export async function load(key, defaultVal) {
     const raw = localStorage.getItem(fullKey);
     if (raw === null) return defaultVal;
     return JSON.parse(raw);
-  } catch {
+  } catch (e) {
+    logErr('storage.load.localStorage', e);
     return defaultVal;
   }
 }
@@ -47,15 +53,15 @@ export async function save(key, value) {
   if (Preferences) {
     try {
       await Preferences.set({ key: fullKey, value: v });
-    } catch {
-      /* swallow */
+    } catch (e) {
+      logErr('storage.save.preferences', e);
     }
     return;
   }
   try {
     localStorage.setItem(fullKey, v);
-  } catch {
-    /* swallow */
+  } catch (e) {
+    logErr('storage.save.localStorage', e);
   }
 }
 
@@ -64,14 +70,14 @@ export async function remove(key) {
   if (Preferences) {
     try {
       await Preferences.remove({ key: fullKey });
-    } catch {
-      /* swallow */
+    } catch (e) {
+      logErr('storage.remove.preferences', e);
     }
     return;
   }
   try {
     localStorage.removeItem(fullKey);
-  } catch {
-    /* swallow */
+  } catch (e) {
+    logErr('storage.remove.localStorage', e);
   }
 }

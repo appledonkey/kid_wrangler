@@ -5,6 +5,8 @@
  * in a regular web browser instead of inside Capacitor).
  */
 
+import { logErr } from './log.js';
+
 const Plugins =
   typeof window !== 'undefined' && window.Capacitor && window.Capacitor.Plugins
     ? window.Capacitor.Plugins
@@ -29,8 +31,8 @@ export async function setStatusBar(bg, dark = false) {
   try {
     await StatusBar.setBackgroundColor({ color: bg });
     await StatusBar.setStyle({ style: dark ? 'DARK' : 'LIGHT' });
-  } catch {
-    /* swallow */
+  } catch (e) {
+    logErr('statusBar', e);
   }
 }
 
@@ -42,8 +44,8 @@ export async function hideSplash() {
   if (!SplashScreen) return;
   try {
     await SplashScreen.hide();
-  } catch {
-    /* swallow */
+  } catch (e) {
+    logErr('splash', e);
   }
 }
 
@@ -55,8 +57,8 @@ export async function tapHaptic() {
   if (!Haptics) return;
   try {
     await Haptics.impact({ style: 'LIGHT' });
-  } catch {
-    /* swallow */
+  } catch (e) {
+    logErr('haptic.tap', e);
   }
 }
 
@@ -64,8 +66,8 @@ export async function heavyHaptic() {
   if (!Haptics) return;
   try {
     await Haptics.impact({ style: 'HEAVY' });
-  } catch {
-    /* swallow */
+  } catch (e) {
+    logErr('haptic.heavy', e);
   }
 }
 
@@ -73,8 +75,8 @@ export async function successHaptic() {
   if (!Haptics) return;
   try {
     await Haptics.notification({ type: 'SUCCESS' });
-  } catch {
-    /* swallow */
+  } catch (e) {
+    logErr('haptic.success', e);
   }
 }
 
@@ -82,8 +84,8 @@ export async function warningHaptic() {
   if (!Haptics) return;
   try {
     await Haptics.notification({ type: 'WARNING' });
-  } catch {
-    /* swallow */
+  } catch (e) {
+    logErr('haptic.warning', e);
   }
 }
 
@@ -105,8 +107,8 @@ export function onAppStateChange(cb) {
   let handle = null;
   try {
     handle = App.addListener('appStateChange', (state) => cb(state.isActive));
-  } catch {
-    /* swallow */
+  } catch (e) {
+    logErr('appState', e);
   }
   return () => {
     if (!handle) return;
