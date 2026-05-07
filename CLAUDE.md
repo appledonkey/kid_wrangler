@@ -102,7 +102,7 @@ After every meaningful www/ change: `npx cap sync` then commit + push.
 `service-worker.js` is **cache-first** in production (Vercel) and **self-destructs** on `localhost` so dev iteration always sees fresh code. The cache name is hardcoded — every release that should bust user caches must bump it:
 
 ```js
-const CACHE_NAME = 'kidwrangler-vN';   // currently v12
+const CACHE_NAME = 'kidwrangler-vN';   // currently v13
 ```
 
 After bumping, the next visit to the production URL re-fetches everything and the old cache is dropped on activate.
@@ -175,13 +175,47 @@ These are settled — don't relitigate unless asked:
 ## Pending / explicitly punted TODOs
 
 ### Backburnered by user
-- **Pause button** — needs each timed game's `fire()` loop refactored to be cleanly pause/resumable
+- **Pause button** — needs each timed game's `fire()` loop refactored to be cleanly pause/resumable. The `_ended`/`_starting` lifecycle flags added on 2026-05-07 make this less invasive than before, but the `fire()` chain itself still needs rework.
+- **Hardware Android back button** — currently exits the app from any screen. Needs Capacitor `App.backButton` listener that bails to `setup` instead of exiting mid-game.
+- **Mid-game settings change** — settings panels live only on `setupScreen`; changing speed/duration mid-play requires Stop → Again → re-pick. Acceptable for v1 but worth noting.
 
 > Sound Quiz and Dance Party were removed entirely on 2026-05-07. The
 > placeholder tiles + scaffolding are gone (along with `danceParty.js`,
 > `guessSound.js`, and the `playKick`/`playSnare`/`playHat` drum
 > machine in `audio.js`). `animalSounds.js` stays — Charades' optional
 > sound-hint toggle still uses it.
+
+### Game-loop lifecycle (added 2026-05-07)
+
+Every timed game owns the same lifecycle now. New contributors should
+follow this template — drift across games is exactly how the bugs
+fixed in commits 9c9d024 / 8f0a9ee / c26826f got there in the first
+place:
+
+- **`_ended` flag** — set true at top of `endGame()`, returns early
+  if already true (Stop near time-expiry no longer cuts off the
+  closing line). Reset to false in the Start handler and in the
+  Cancel/Again handlers.
+- **`_starting` flag** — set true at top of the Start handler,
+  bails if already true (Start spam-tap can no longer stack
+  countdownTimers / endTimeouts / jingles). Cleared at the end
+  of `endGame()` and in the Cancel/Again handlers. For paid games,
+  also clear it before bailing on a lock check.
+- **`endGame()` calls `clearAll()`** — never re-implement timer
+  clearing inline in endGame. clearAll() is the single source of
+  truth and includes the countdown timer, which is essential for
+  Stop-during-countdown to work.
+- **Cancel button** — every countdown screen has one, wired to
+  clear timers, release wakeLock, stop speech keepalive, reset
+  bg classes, reset both lifecycle flags, and `show('setup')`.
+- **`cancelSpeech()` on Again handler** — closing speech and
+  jingle from the prior game must not bleed into setup.
+- **`makeQueue` contract** — call `getPool()` once per shuffle
+  cycle (initial + after exhaustion + after `.reset()`); callers
+  call `.reset()` explicitly when their pool semantics change.
+  The earlier "auto-detect pool reference change" was a bug
+  magnet because callers using spread-built pools triggered a
+  reshuffle on every `next()`.
 
 ### Pre-launch must-haves (user's responsibility)
 - Apple Developer account ($99/yr) and Google Play Console ($25 one-time)
@@ -209,10 +243,17 @@ These are settled — don't relitigate unless asked:
 
 ---
 
-## Most recent session ended at commit `2a5f82e`
+## Most recent session ended at commit `a53ece2` (push pending)
 
 Recent work, newest first:
 
+- **a53ece2** — perf/infra: SW precache 5 missing modules, drop reverb buffer (~880KB main-thread allocation), fix native.js dangling `handle` for app-state listener
+- **c26826f** — Cancel button on all 7 countdown screens (closes the worst dead-end in the UX flow)
+- **8f0a9ee** — Find Me watchdog double-chirp + Found-during-hide leak + Floor Lava lava-siren-on-Stop (added `silenceAll()` to audio.js)
+- **9c9d024** — fix `makeQueue` reshuffle bug + endGame idempotency + Stop-during-countdown + Start spam-tap guard + cancel speech on Again (touched ui.js + 8 game modules)
+- **3a0ed8f** — Weather Report game added + tile rename refresh
+- **acdf47b** — remove Dance Party + Sound Quiz entirely (911 lines deleted)
+- **e494ba7** — emoji quiz dedup + add Sports category, drop walrus=tooth and 17 other duplicate-emoji animals
 - **2a5f82e** — toggle row whole-clickable + SW cache v9 (fix yellow toggle not responding)
 - **313b2b9** — yellow-bg gradient (was missed in 5ffae4e)
 - **5ffae4e** — Yellow Light option, 3 subtexts back, button counts, more buffer between commands
