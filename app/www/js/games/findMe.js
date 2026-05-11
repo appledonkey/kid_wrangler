@@ -28,13 +28,17 @@ const STATE = {
   hideTime: 20,
 };
 
-const PHASE_DURATION = { easy: 25, medium: 45, hard: 70 };
+// PHASE_DURATION × NUM_PHASES = total seek time per difficulty:
+//   easy   25 × 5 = 125s ≈ 2 min
+//   medium 36 × 5 = 180s = 3 min
+//   hard   60 × 5 = 300s = 5 min
+const PHASE_DURATION = { easy: 25, medium: 36, hard: 60 };
 const NUM_PHASES = 5;
 
 const DIFFICULTY_LABELS = {
-  easy: 'Fast escalation, ~2 min',
-  medium: 'Steady, ~4 min',
-  hard: 'Slow build, ~6 min',
+  easy: 'Fast escalation over 2 minutes',
+  medium: 'Steady escalation over 3 minutes',
+  hard: 'Slow escalation over 5 minutes',
 };
 
 const PHASES = [
