@@ -177,11 +177,8 @@ for (const t of missionText) addLine('Mission Control', 'content', t);
 // ---- Weather Report ----
 addLine('Weather Report', 'system', "It's pouring rain!", 'Test Voice button line — overlaps with weather pool');
 addLine('Weather Report', 'system', "That's all for today's weather!", 'closing line');
-const { WEATHER, REACTIONS } = await importData('js/games/weatherData.js');
+const { WEATHER } = await importData('js/games/weatherData.js');
 for (const w of WEATHER) addLine('Weather Report', 'content', w.text);
-for (const cat of Object.keys(REACTIONS)) {
-  for (const r of REACTIONS[cat]) addLine('Weather Report', 'content', r.text);
-}
 
 assignVariants();
 

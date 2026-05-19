@@ -8,7 +8,7 @@
  * doesn't keep serving stale JS. Production hosts run the normal SW lifecycle.
  */
 
-const CACHE_NAME = 'kidwrangler-v15';
+const CACHE_NAME = 'kidwrangler-v16';
 
 const IS_LOCALHOST =
   self.location.hostname === 'localhost' ||

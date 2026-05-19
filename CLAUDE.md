@@ -22,7 +22,7 @@ Tile labels (canonical, as they appear in the picker):
 - **Red Light / Green Light** (`rlgl`) — calls Green/Red Light at random intervals; optional Yellow Light slow-mo phase
 - **Floor is Lava** (`action`) — 100+ action prompts (hop, spin, find something soft) with surprise lava events
 - **What is it?** (`whatis`) — 283 emojis across 7 categories (Animals, Food, Objects, Vehicles, Nature, Sports, plus All); every emoji unique
-- **Weather Report** (`weather`) — phone is the weatherman, calls weather + chains a matching action ("Pouring!" → "Jump in muddy puddles!"). 55 weather entries × 50 reactions across 6 categories (rain/cold/hot/wind/fog/special), each with its own bg theme.
+- **Weather Report** (`weather`) — phone is the weatherman, calls out 55 weather conditions across 6 categories (rain/cold/hot/wind/fog/special). Each category swaps the body bg to a matching gradient. Kids react in their own way — no scripted follow-up prompts (reactions feature shipped, then removed 2026-05-11 for simplicity).
 
 ### Paid tier (4) — gated behind $4.99 IAP, **stub only at v1** (everything unlocked, see featureFlags.js)
 - **Heroes & Villains** (`hero`) — 260 hero/villain pretend-play prompts
@@ -102,7 +102,7 @@ After every meaningful www/ change: `npx cap sync` then commit + push.
 `service-worker.js` is **cache-first** in production (Vercel) and **self-destructs** on `localhost` so dev iteration always sees fresh code. The cache name is hardcoded — every release that should bust user caches must bump it:
 
 ```js
-const CACHE_NAME = 'kidwrangler-vN';   // currently v15
+const CACHE_NAME = 'kidwrangler-vN';   // currently v16
 ```
 
 After bumping, the next visit to the production URL re-fetches everything and the old cache is dropped on activate.

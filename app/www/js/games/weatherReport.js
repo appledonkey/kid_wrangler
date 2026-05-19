@@ -1,14 +1,15 @@
 /* Weather Report — phone is the cheery weatherman.
  *
- * Each "tick" picks a weather entry from the shuffled queue, announces it
- * (emoji + voice + body bg theme), then ~60% of the time chains a follow-up
- * "reaction" prompt scoped to the same category 600ms after the weather
- * speech finishes. Reactions feel like part of a tiny themed scene:
- *   "It's pouring!" → "Jump in muddy puddles!"
- *   "Ice everywhere!" → "Don't slip on the ice!"
+ * Each "tick" picks a weather entry from the shuffled queue and announces
+ * it (emoji + voice + body bg theme). Kids react in their own way to each
+ * forecast — no scripted follow-up.
  *
- * Speech-aware pacing: the next tick fires speech_duration + paceGap after
- * the current line, so commands never overlap.
+ * Speech-aware pacing: the next tick fires speech_duration + paceGap
+ * after the current line, so commands never overlap.
+ *
+ * (Earlier versions chained category-scoped "reaction" prompts after
+ * each weather call. Removed 2026-05-11 — kept the game simpler and
+ * cut the voice-recording pool by ~50 lines.)
  */
 
 import {
@@ -36,14 +37,13 @@ import {
 } from '../ui.js';
 import { load, save } from '../storage.js';
 import { tapHaptic, successHaptic } from '../native.js';
-import { WEATHER, REACTIONS, CATEGORIES } from './weatherData.js';
+import { WEATHER, CATEGORIES } from './weatherData.js';
 
 const KEY = 'weatherReport';
 
 const STATE = {
   pace: 'normal',
   length: 120,
-  reactions: true,
   sfx: true,
 };
 
@@ -54,15 +54,11 @@ const WEATHER_PACE = {
   chaos: [0.8, 1.5],
 };
 
-const REACTION_CHANCE = 0.6;
-const REACTION_PAUSE_MS = 600;
-
 const BG_CLASSES = CATEGORIES.map((c) => `${c}-bg`);
 
 const weatherQueue = makeQueue(() => WEATHER);
 
 let actionTimer = null;
-let reactionTimer = null;
 let endTimeout = null;
 let endTime = 0;
 let timerInterval = null;
@@ -82,12 +78,6 @@ function announce(text, emoji) {
   emojiEl.textContent = emoji;
   textEl.textContent = text;
   retriggerAnim(emojiEl, textEl);
-}
-
-function pickReaction(category) {
-  const pool = REACTIONS[category];
-  if (!pool || !pool.length) return null;
-  return pool[Math.floor(Math.random() * pool.length)];
 }
 
 function updateTimer() {
@@ -113,24 +103,8 @@ function startGame() {
     setTimeout(() => speak(w.text, { rate: 1.0, pitch: 1.05 }), 100);
 
     const speechMs = speechDurationMs(w.text, { rate: 1.0 });
-    const willReact = STATE.reactions && Math.random() < REACTION_CHANCE;
     const [paceMin, paceMax] = WEATHER_PACE[STATE.pace] || WEATHER_PACE.normal;
     const gapMs = (paceMin + Math.random() * (paceMax - paceMin)) * 1000;
-
-    if (willReact) {
-      const r = pickReaction(w.category);
-      if (r) {
-        const reactDelay = speechMs + REACTION_PAUSE_MS;
-        reactionTimer = setTimeout(() => {
-          if (!isActiveScreen('weatherGame')) return;
-          announce(r.text, r.emoji);
-          setTimeout(() => speak(r.text, { rate: 1.05, pitch: 1.1 }), 80);
-        }, reactDelay);
-        const reactSpeechMs = speechDurationMs(r.text, { rate: 1.05 });
-        actionTimer = setTimeout(fire, reactDelay + reactSpeechMs + gapMs);
-        return;
-      }
-    }
     actionTimer = setTimeout(fire, speechMs + gapMs);
   };
   setTimeout(fire, 900);
@@ -182,11 +156,10 @@ function endGame() {
 
 function clearAll() {
   if (actionTimer) clearTimeout(actionTimer);
-  if (reactionTimer) clearTimeout(reactionTimer);
   if (endTimeout) clearTimeout(endTimeout);
   if (timerInterval) clearInterval(timerInterval);
   if (countdownTimer) clearInterval(countdownTimer);
-  actionTimer = reactionTimer = endTimeout = timerInterval = countdownTimer = null;
+  actionTimer = endTimeout = timerInterval = countdownTimer = null;
 }
 
 // ---------- Display helpers ----------
@@ -213,14 +186,12 @@ async function loadSettings() {
   if (saved) {
     if (typeof saved.pace === 'string') STATE.pace = saved.pace;
     if (typeof saved.length === 'number') STATE.length = saved.length;
-    if (typeof saved.reactions === 'boolean') STATE.reactions = saved.reactions;
     if (typeof saved.sfx === 'boolean') STATE.sfx = saved.sfx;
+    // Earlier versions persisted `reactions: true/false`; the feature is
+    // gone but the saved field is harmlessly ignored.
   }
   syncOpt('weatherPaceOpts', STATE.pace);
   syncOpt('weatherLengthOpts', String(STATE.length));
-  document
-    .getElementById('weatherReactionsToggle')
-    ?.classList.toggle('on', !!STATE.reactions);
   document
     .getElementById('weatherSfxToggle')
     ?.classList.toggle('on', !!STATE.sfx);
@@ -237,10 +208,6 @@ export function init() {
   });
   setupOpts('weatherLengthOpts', (v) => {
     STATE.length = parseInt(v, 10);
-    persist();
-  });
-  setupToggle('weatherReactionsToggle', (on) => {
-    STATE.reactions = on;
     persist();
   });
   setupToggle('weatherSfxToggle', (on) => {

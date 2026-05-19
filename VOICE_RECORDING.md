@@ -1,6 +1,6 @@
 # KidWrangler — voice recording checklist
 
-_Generated 2026-05-19 · 1063 lines · 1089 unique MP3 files (21940 chars total)_
+_Generated 2026-05-19 · 1014 lines · 1040 unique MP3 files (20969 chars total)_
 
 ## How to record
 
@@ -1096,7 +1096,7 @@ _No voice lines — game uses procedural chirps only._
 - [ ] `friendly-aliens-share-a-snack.mp3` — "Friendly aliens — share a snack!"
 - [ ] `climb-steep-through-the-clouds.mp3` — "Climb steep — through the clouds!"
 
-## Weather Report (106)
+## Weather Report (57)
 
 ### System / framing (2 · 3 files w/ variants)
 
@@ -1105,7 +1105,7 @@ _No voice lines — game uses procedural chirps only._
   - [ ] `thats-all-for-todays-weather.mp3`
   - [ ] `thats-all-for-todays-weather-2.mp3`
 
-### Content / prompts (104)
+### Content / prompts (55)
 
 - [ ] `heatwave.mp3` — "Heatwave!"
 - [ ] `hazy-day.mp3` — "Hazy day!"
@@ -1120,13 +1120,11 @@ _No voice lines — game uses procedural chirps only._
 - [ ] `steamy-air.mp3` — "Steamy air!"
 - [ ] `humid-heat.mp3` — "Humid heat!"
 - [ ] `boiling-hot.mp3` — "Boiling hot!"
-- [ ] `make-a-wish.mp3` — "Make a wish!"
 - [ ] `its-raining.mp3` — "It's raining!"
 - [ ] `its-pouring.mp3` — "It's pouring!"
 - [ ] `wind-howling.mp3` — "Wind howling!"
 - [ ] `misty-meadow.mp3` — "Misty meadow!"
 - [ ] `peasoup-fog.mp3` — "Pea-soup fog!"
-- [ ] `fan-yourself.mp3` — "Fan yourself!"
 - [ ] `storm-warning.mp3` — "Storm warning!"
 - [ ] `freezing-rain.mp3` — "Freezing rain!"
 - [ ] `scorching-sun.mp3` — "Scorching sun!"
@@ -1135,7 +1133,6 @@ _No voice lines — game uses procedural chirps only._
 - [ ] `foggy-morning.mp3` — "Foggy morning!"
 - [ ] `solar-eclipse.mp3` — "Solar eclipse!"
 - [ ] `meteor-shower.mp3` — "Meteor shower!"
-- [ ] `run-for-cover.mp3` — "Run for cover!"
 - [ ] `just-a-drizzle.mp3` — "Just a drizzle."
 - [ ] `heavy-downpour.mp3` — "Heavy downpour!"
 - [ ] `light-sprinkle.mp3` — "Light sprinkle."
@@ -1148,66 +1145,20 @@ _No voice lines — game uses procedural chirps only._
 - [ ] `hurricane-winds.mp3` — "Hurricane winds!"
 - [ ] `leaves-swirling.mp3` — "Leaves swirling!"
 - [ ] `aurora-borealis.mp3` — "Aurora borealis!"
-- [ ] `build-a-snowman.mp3` — "Build a snowman!"
-- [ ] `find-some-shade.mp3` — "Find some shade!"
-- [ ] `fly-like-a-kite.mp3` — "Fly like a kite!"
-- [ ] `stargaze-in-awe.mp3` — "Stargaze in awe!"
 - [ ] `brrr-bundle-up.mp3` — "Brrr — bundle up!"
 - [ ] `big-puff-of-wind.mp3` — "Big puff of wind!"
 - [ ] `muggy-and-sticky.mp3` — "Muggy and sticky!"
 - [ ] `eye-of-the-storm.mp3` — "Eye of the storm!"
 - [ ] `lightning-strike.mp3` — "Lightning strike!"
 - [ ] `golden-hour-glow.mp3` — "Golden hour glow."
-- [ ] `throw-a-snowball.mp3` — "Throw a snowball!"
-- [ ] `slide-on-the-ice.mp3` — "Slide on the ice!"
-- [ ] `jump-in-the-pool.mp3` — "Jump in the pool!"
-- [ ] `lay-in-the-grass.mp3` — "Lay in the grass!"
-- [ ] `spin-like-a-leaf.mp3` — "Spin like a leaf!"
-- [ ] `count-the-colors.mp3` — "Count the colors!"
-- [ ] `shield-your-eyes.mp3` — "Shield your eyes!"
 - [ ] `blizzard-incoming.mp3` — "Blizzard incoming!"
 - [ ] `big-fluffy-flakes.mp3` — "Big fluffy flakes!"
 - [ ] `sizzling-sidewalk.mp3` — "Sizzling sidewalk!"
 - [ ] `tropical-sunshine.mp3` — "Tropical sunshine!"
-- [ ] `dance-in-the-rain.mp3` — "Dance in the rain!"
-- [ ] `make-a-snow-angel.mp3` — "Make a snow angel!"
-- [ ] `skate-skate-skate.mp3` — "Skate skate skate!"
-- [ ] `sweat-sweat-sweat.mp3` — "Sweat sweat sweat!"
-- [ ] `sip-some-lemonade.mp3` — "Sip some lemonade!"
-- [ ] `twirl-in-the-glow.mp3` — "Twirl in the glow!"
-- [ ] `sparkle-and-shine.mp3` — "Sparkle and shine!"
 - [ ] `pitterpatter-rain.mp3` — "Pitter-patter rain."
-- [ ] `squelch-in-the-mud.mp3` — "Squelch in the mud!"
-- [ ] `look-for-a-rainbow.mp3` — "Look for a rainbow!"
-- [ ] `hold-onto-your-hat.mp3` — "Hold onto your hat!"
-- [ ] `lean-into-the-wind.mp3` — "Lean into the wind!"
-- [ ] `walk-veeery-slowly.mp3` — "Walk veeery slowly!"
-- [ ] `wave-away-the-mist.mp3` — "Wave away the mist!"
 - [ ] `steady-rain-all-day.mp3` — "Steady rain all day."
-- [ ] `shiver-shiver-shake.mp3` — "Shiver shiver shake!"
-- [ ] `melt-like-ice-cream.mp3` — "Melt like ice cream!"
-- [ ] `wobble-side-to-side.mp3` — "Wobble side to side!"
-- [ ] `swat-the-mosquitoes.mp3` — "Swat the mosquitoes!"
 - [ ] `its-snowing-buckets.mp3` — "It's snowing buckets!"
 - [ ] `suns-out-funs-out.mp3` — "Sun's out, fun's out!"
-- [ ] `splash-splash-splash.mp3` — "Splash splash splash!"
-- [ ] `hop-over-the-puddles.mp3` — "Hop over the puddles!"
-- [ ] `hold-tight-to-a-tree.mp3` — "Hold tight to a tree!"
 - [ ] `dark-clouds-gathering.mp3` — "Dark clouds gathering."
-- [ ] `jump-in-muddy-puddles.mp3` — "Jump in muddy puddles!"
-- [ ] `get-out-your-umbrella.mp3` — "Get out your umbrella!"
-- [ ] `wiggle-like-a-wet-dog.mp3` — "Wiggle like a wet dog!"
-- [ ] `dont-slip-on-the-ice.mp3` — "Don't slip on the ice!"
-- [ ] `slap-on-the-sunscreen.mp3` — "Slap on the sunscreen!"
-- [ ] `tippytoe-cant-see.mp3` — "Tippy-toe — can't see!"
-- [ ] `stomp-through-the-snow.mp3` — "Stomp through the snow!"
-- [ ] `drink-a-big-cold-drink.mp3` — "Drink a big cold drink!"
-- [ ] `hair-flying-everywhere.mp3` — "Hair flying everywhere!"
 - [ ] `thunderstorm-rolling-in.mp3` — "Thunderstorm rolling in!"
-- [ ] `spread-your-arms-soar.mp3` — "Spread your arms — soar!"
-- [ ] `wipe-your-foggy-glasses.mp3` — "Wipe your foggy glasses!"
 - [ ] `snowflakes-drifting-down.mp3` — "Snowflakes drifting down."
-- [ ] `take-a-deep-humid-breath.mp3` — "Take a deep humid breath!"
-- [ ] `cover-your-ears-for-the-boom.mp3` — "Cover your ears for the BOOM!"
-- [ ] `catch-raindrops-on-your-tongue.mp3` — "Catch raindrops on your tongue!"
-- [ ] `catch-snowflakes-on-your-tongue.mp3` — "Catch snowflakes on your tongue!"
