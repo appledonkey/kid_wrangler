@@ -181,7 +181,7 @@ const ACTIONS = {
   ],
 };
 
-const LAVA_ACTIONS = [
+export const LAVA_ACTIONS = [
   { text: 'FLOOR IS LAVA!\nClimb on something!', emoji: '🔥' },
   { text: 'LAVA EVERYWHERE!\nGet off the floor!', emoji: '🌋' },
   { text: 'The ground is melting!\nFind higher ground!', emoji: '🔥' },

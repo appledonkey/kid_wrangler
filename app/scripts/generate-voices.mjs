@@ -142,6 +142,7 @@ let lines = dataRows.map((r) => ({
   slug: r[idx.slug],
   filename: r[idx.filename],
   text: r[idx.text],
+  variants: parseInt(r[idx.variants] || '1', 10) || 1,
 }));
 
 if (opts.game) {
@@ -159,16 +160,33 @@ for (const l of lines) {
 }
 lines = [...bySlug.values()];
 
+// Expand variants: one queue entry per (slug, variant-index).
+//   variant 1 → slug.mp3
+//   variant 2 → slug-2.mp3
+//   variant 3 → slug-3.mp3 ...
+const expanded = [];
+for (const l of lines) {
+  for (let n = 1; n <= l.variants; n++) {
+    const suffix = n === 1 ? '' : `-${n}`;
+    expanded.push({
+      ...l,
+      variantIndex: n,
+      filename: `${l.slug}${suffix}.mp3`,
+    });
+  }
+}
+
 // Skip already-generated.
+let queue = expanded;
 if (!opts.force) {
-  lines = lines.filter((l) => {
+  queue = queue.filter((l) => {
     const p = path.join(OUT_DIR, l.filename);
     return !existsSync(p) || statSync(p).size === 0;
   });
 }
 
 // Apply limit.
-const queue = lines.slice(0, opts.limit);
+queue = queue.slice(0, opts.limit);
 
 console.log(`Voice ID:      ${opts.voice}`);
 console.log(`Model:         ${opts.model}`);
@@ -178,7 +196,9 @@ console.log(`Tier filter:   ${opts.tier || '(all)'}`);
 console.log(`Force:         ${opts.force ? 'yes' : 'no (skip existing)'}`);
 console.log(`Rate gap:      ${opts.rateMs}ms`);
 console.log(`Output dir:    ${OUT_DIR}`);
-console.log(`To generate:   ${queue.length} files (of ${lines.length} matching after dedupe)`);
+const variantCount = expanded.length - lines.length;
+console.log(`Variants:      +${variantCount} extra files for high-repeat lines (state calls, lava events, closings)`);
+console.log(`To generate:   ${queue.length} files (of ${expanded.length} total slugs after dedupe + variant expansion)`);
 const totalChars = queue.reduce((n, l) => n + l.text.length, 0);
 console.log(`Total chars:   ${totalChars}`);
 console.log('');
@@ -245,7 +265,8 @@ for (let i = 0; i < queue.length; i++) {
     const bytes = await genOne(line);
     ok++;
     const kb = (bytes / 1024).toFixed(1);
-    console.log(`${tag} ✓ ${line.filename.padEnd(45)} ${kb}KB  "${line.text}"`);
+    const vTag = line.variants > 1 ? ` (variant ${line.variantIndex}/${line.variants})` : '';
+    console.log(`${tag} ✓ ${line.filename.padEnd(45)} ${kb}KB  "${line.text}"${vTag}`);
   } catch (e) {
     failed++;
     failures.push({ line, err: String(e.message || e) });

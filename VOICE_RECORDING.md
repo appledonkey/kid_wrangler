@@ -1,6 +1,6 @@
 # KidWrangler — voice recording checklist
 
-_Generated 2026-05-07 · 1063 lines · 1056 unique MP3 files_
+_Generated 2026-05-19 · 1063 lines · 1089 unique MP3 files (21940 chars total)_
 
 ## How to record
 
@@ -16,6 +16,9 @@ _Generated 2026-05-07 · 1063 lines · 1056 unique MP3 files_
 - **Silence:** trim leading silence aggressively. The runtime adds its own gap.
 - **Levels:** record peaking around -6dB. The compressor brings it up.
 - **Lines marked _(shared)_** appear in more than one game — record once.
+- **Lines with variants** ship as `<slug>.mp3`, `<slug>-2.mp3`, etc.
+  The runtime picks one randomly per play — avoids "Red light!" sounding
+  identical 30× in a session. Variants are reserved for high-repeat lines.
 
 ### Tier strategy
 
@@ -32,21 +35,34 @@ _No voice lines — game uses procedural chirps only._
 
 ## Red Light / Green Light (4)
 
-### System / framing (4)
+### System / framing (4 · 11 files w/ variants)
 
-- [ ] `red-light.mp3` — "Red light!"
-- [ ] `green-light.mp3` — "Green light!"
-- [ ] `yellow-light.mp3` — "Yellow light!" — _only spoken when Yellow Light toggle is ON_
-- [ ] `time-is-up-great-job.mp3` — "Time is up! Great job!" _(shared)_ — _closing line_
+- **Red light!** · 3 variants
+  - [ ] `red-light.mp3`
+  - [ ] `red-light-2.mp3`
+  - [ ] `red-light-3.mp3`
+- **Green light!** · 3 variants
+  - [ ] `green-light.mp3`
+  - [ ] `green-light-2.mp3`
+  - [ ] `green-light-3.mp3`
+- **Yellow light!** · 3 variants — _only spoken when Yellow Light toggle is ON_
+  - [ ] `yellow-light.mp3`
+  - [ ] `yellow-light-2.mp3`
+  - [ ] `yellow-light-3.mp3`
+- **Time is up! Great job!** · 2 variants _(shared)_ — _closing line_
+  - [ ] `time-is-up-great-job.mp3`
+  - [ ] `time-is-up-great-job-2.mp3`
 
 ## Floor is Lava (111)
 
-### System / framing (2)
+### System / framing (2 · 3 files w/ variants)
 
 - [ ] `hop-on-one-foot.mp3` — "Hop on one foot!" — _Test Voice button line_
-- [ ] `time-is-up-great-job.mp3` — "Time is up! Great job!" _(shared)_ — _closing line (shared filename with Red Light)_
+- **Time is up! Great job!** · 2 variants _(shared)_ — _closing line (shared filename with Red Light)_
+  - [ ] `time-is-up-great-job.mp3`
+  - [ ] `time-is-up-great-job-2.mp3`
 
-### Content / prompts (109)
+### Content / prompts (109 · 129 files w/ variants)
 
 - [ ] `find-a-hat.mp3` — "Find a hat!"
 - [ ] `find-a-book.mp3` — "Find a book!"
@@ -126,45 +142,81 @@ _No voice lines — game uses procedural chirps only._
 - [ ] `sidebend-left-and-right.mp3` — "Side-bend left and right!"
 - [ ] `do-five-mountain-climbers.mp3` — "Do five mountain climbers!"
 - [ ] `walk-backwards-five-steps.mp3` — "Walk backwards five steps!"
-- [ ] `lava-river-get-to-safety.mp3` — "LAVA RIVER! Get to safety!"
+- **LAVA RIVER! Get to safety!** · 3 variants
+  - [ ] `lava-river-get-to-safety.mp3`
+  - [ ] `lava-river-get-to-safety-2.mp3`
+  - [ ] `lava-river-get-to-safety-3.mp3`
 - [ ] `stretch-your-arms-out-wide.mp3` — "Stretch your arms out wide!"
 - [ ] `pretend-you-are-underwater.mp3` — "Pretend you are underwater!"
-- [ ] `volcano-erupting-get-high.mp3` — "VOLCANO ERUPTING! Get high!"
+- **VOLCANO ERUPTING! Get high!** · 3 variants
+  - [ ] `volcano-erupting-get-high.mp3`
+  - [ ] `volcano-erupting-get-high-2.mp3`
+  - [ ] `volcano-erupting-get-high-3.mp3`
 - [ ] `high-knees-for-five-seconds.mp3` — "High knees for five seconds!"
 - [ ] `snap-your-fingers-ten-times.mp3` — "Snap your fingers ten times!"
 - [ ] `pretend-to-brush-your-teeth.mp3` — "Pretend to brush your teeth!"
-- [ ] `hot-lava-jump-on-the-couch.mp3` — "HOT LAVA! Jump on the couch!"
+- **HOT LAVA! Jump on the couch!** · 3 variants
+  - [ ] `hot-lava-jump-on-the-couch.mp3`
+  - [ ] `hot-lava-jump-on-the-couch-2.mp3`
+  - [ ] `hot-lava-jump-on-the-couch-3.mp3`
 - [ ] `be-a-statue-for-five-seconds.mp3` — "Be a statue for five seconds!"
 - [ ] `pretend-to-be-a-chef-cooking.mp3` — "Pretend to be a chef cooking!"
 - [ ] `pretend-you-are-stuck-in-mud.mp3` — "Pretend you are stuck in mud!"
-- [ ] `the-floor-is-burning-get-up.mp3` — "THE FLOOR IS BURNING! Get up!"
+- **THE FLOOR IS BURNING! Get up!** · 3 variants
+  - [ ] `the-floor-is-burning-get-up.mp3`
+  - [ ] `the-floor-is-burning-get-up-2.mp3`
+  - [ ] `the-floor-is-burning-get-up-3.mp3`
 - [ ] `hold-a-plank-for-five-seconds.mp3` — "Hold a plank for five seconds!"
 - [ ] `tap-each-finger-to-your-thumb.mp3` — "Tap each finger to your thumb!"
 - [ ] `pretend-to-be-a-bouncing-ball.mp3` — "Pretend to be a bouncing ball!"
 - [ ] `pretend-to-be-popcorn-popping.mp3` — "Pretend to be popcorn popping!"
-- [ ] `molten-rock-everywhere-climb.mp3` — "MOLTEN ROCK EVERYWHERE! Climb!"
+- **MOLTEN ROCK EVERYWHERE! Climb!** · 3 variants
+  - [ ] `molten-rock-everywhere-climb.mp3`
+  - [ ] `molten-rock-everywhere-climb-2.mp3`
+  - [ ] `molten-rock-everywhere-climb-3.mp3`
 - [ ] `stomp-left-right-left-right.mp3` — "Stomp left, right, left, right!"
 - [ ] `hop-on-one-foot-then-the-other.mp3` — "Hop on one foot, then the other!"
-- [ ] `scorching-ground-off-the-floor.mp3` — "SCORCHING GROUND! Off the floor!"
+- **SCORCHING GROUND! Off the floor!** · 3 variants
+  - [ ] `scorching-ground-off-the-floor.mp3`
+  - [ ] `scorching-ground-off-the-floor-2.mp3`
+  - [ ] `scorching-ground-off-the-floor-3.mp3`
 - [ ] `pat-your-head-and-rub-your-tummy.mp3` — "Pat your head and rub your tummy!"
 - [ ] `stand-on-one-leg-with-eyes-closed.mp3` — "Stand on one leg with eyes closed!"
 - [ ] `wink-with-one-eye-then-the-other.mp3` — "Wink with one eye, then the other!"
-- [ ] `floor-is-lava-climb-on-something.mp3` — "FLOOR IS LAVA! Climb on something!"
-- [ ] `lava-lava-lava-get-up-high-now.mp3` — "LAVA! LAVA! LAVA! Get up high NOW!"
-- [ ] `lava-everywhere-get-off-the-floor.mp3` — "LAVA EVERYWHERE! Get off the floor!"
+- **FLOOR IS LAVA! Climb on something!** · 3 variants
+  - [ ] `floor-is-lava-climb-on-something.mp3`
+  - [ ] `floor-is-lava-climb-on-something-2.mp3`
+  - [ ] `floor-is-lava-climb-on-something-3.mp3`
+- **LAVA! LAVA! LAVA! Get up high NOW!** · 3 variants
+  - [ ] `lava-lava-lava-get-up-high-now.mp3`
+  - [ ] `lava-lava-lava-get-up-high-now-2.mp3`
+  - [ ] `lava-lava-lava-get-up-high-now-3.mp3`
+- **LAVA EVERYWHERE! Get off the floor!** · 3 variants
+  - [ ] `lava-everywhere-get-off-the-floor.mp3`
+  - [ ] `lava-everywhere-get-off-the-floor-2.mp3`
+  - [ ] `lava-everywhere-get-off-the-floor-3.mp3`
 - [ ] `balance-on-tiptoes-for-five-seconds.mp3` — "Balance on tiptoes for five seconds!"
 - [ ] `wiggle-your-fingers-like-piano-keys.mp3` — "Wiggle your fingers like piano keys!"
 - [ ] `stand-like-a-flamingo-for-five-seconds.mp3` — "Stand like a flamingo for five seconds!"
 - [ ] `clap-a-fast-pattern-clapclappauseclap.mp3` — "Clap a fast pattern: clap-clap-pause-clap!"
-- [ ] `the-ground-is-melting-find-higher-ground.mp3` — "The ground is melting! Find higher ground!"
+- **The ground is melting! Find higher ground!** · 3 variants
+  - [ ] `the-ground-is-melting-find-higher-ground.mp3`
+  - [ ] `the-ground-is-melting-find-higher-ground-2.mp3`
+  - [ ] `the-ground-is-melting-find-higher-ground-3.mp3`
 
 ## Heroes & Villains (263)
 
-### System / framing (3)
+### System / framing (3 · 6 files w/ variants)
 
-- [ ] `mwa-ha-ha-great-evildoing.mp3` — "Mwa ha ha! Great evil-doing!" — _closing line — Villain role_
-- [ ] `great-work-hero-or-villain.mp3` — "Great work, hero or villain!" — _closing line — Both role_
-- [ ] `you-saved-the-day-great-job-hero.mp3` — "You saved the day! Great job hero!" — _closing line — Hero role_
+- **Mwa ha ha! Great evil-doing!** · 2 variants — _closing line — Villain role_
+  - [ ] `mwa-ha-ha-great-evildoing.mp3`
+  - [ ] `mwa-ha-ha-great-evildoing-2.mp3`
+- **Great work, hero or villain!** · 2 variants — _closing line — Both role_
+  - [ ] `great-work-hero-or-villain.mp3`
+  - [ ] `great-work-hero-or-villain-2.mp3`
+- **You saved the day! Great job hero!** · 2 variants — _closing line — Hero role_
+  - [ ] `you-saved-the-day-great-job-hero.mp3`
+  - [ ] `you-saved-the-day-great-job-hero-2.mp3`
 
 ### Content / prompts (260)
 
@@ -431,10 +483,12 @@ _No voice lines — game uses procedural chirps only._
 
 ## Simon Says (121)
 
-### System / framing (2)
+### System / framing (2 · 3 files w/ variants)
 
 - [ ] `simon-says-touch-your-nose.mp3` — "Simon says touch your nose" — _Test Voice button line_
-- [ ] `time-is-up-great-listening.mp3` — "Time is up! Great listening!" — _closing line_
+- **Time is up! Great listening!** · 2 variants — _closing line_
+  - [ ] `time-is-up-great-listening.mp3`
+  - [ ] `time-is-up-great-listening-2.mp3`
 
 ### Content / prompts (119)
 
@@ -937,10 +991,12 @@ _No voice lines — game uses procedural chirps only._
 
 ## Mission Control (97)
 
-### System / framing (2)
+### System / framing (2 · 3 files w/ variants)
 
 - [ ] `mission-control-all-systems-go.mp3` — "Mission Control: all systems go!" — _Test Voice button line_
-- [ ] `mission-accomplished-great-flying.mp3` — "Mission accomplished! Great flying!" — _closing line_
+- **Mission accomplished! Great flying!** · 2 variants — _closing line_
+  - [ ] `mission-accomplished-great-flying.mp3`
+  - [ ] `mission-accomplished-great-flying-2.mp3`
 
 ### Content / prompts (95)
 
@@ -1042,10 +1098,12 @@ _No voice lines — game uses procedural chirps only._
 
 ## Weather Report (106)
 
-### System / framing (2)
+### System / framing (2 · 3 files w/ variants)
 
 - [ ] `its-pouring-rain.mp3` — "It's pouring rain!" — _Test Voice button line — overlaps with weather pool_
-- [ ] `thats-all-for-todays-weather.mp3` — "That's all for today's weather!" — _closing line_
+- **That's all for today's weather!** · 2 variants — _closing line_
+  - [ ] `thats-all-for-todays-weather.mp3`
+  - [ ] `thats-all-for-todays-weather-2.mp3`
 
 ### Content / prompts (104)
 

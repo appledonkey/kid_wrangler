@@ -102,7 +102,7 @@ After every meaningful www/ change: `npx cap sync` then commit + push.
 `service-worker.js` is **cache-first** in production (Vercel) and **self-destructs** on `localhost` so dev iteration always sees fresh code. The cache name is hardcoded — every release that should bust user caches must bump it:
 
 ```js
-const CACHE_NAME = 'kidwrangler-vN';   // currently v14
+const CACHE_NAME = 'kidwrangler-vN';   // currently v15
 ```
 
 After bumping, the next visit to the production URL re-fetches everything and the old cache is dropped on activate.

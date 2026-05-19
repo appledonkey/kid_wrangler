@@ -30,7 +30,19 @@ let speechKeepalive = null;
 // Recorded voice support
 // =============================================================
 
-const clipCache = new Map(); // slug -> AudioBuffer (hit) | null (known miss)
+/* clipCache: slug -> AudioBuffer[] (one or more variants) | null (known miss).
+ *
+ * Variants: high-repeat lines (Red Light state calls, Floor Lava events,
+ * closing lines) ship as `<slug>.mp3`, `<slug>-2.mp3`, `<slug>-3.mp3`, etc.
+ * `speak()` picks one variant at random per call so kids don't hear the
+ * same take 30× in a Red Light session. Most lines have a single MP3 and
+ * play deterministically.
+ *
+ * The runtime auto-detects variants by probing sequential suffixes
+ * (-2, -3, ...) until the first 404, capped at MAX_VARIANTS.
+ */
+const clipCache = new Map();
+const MAX_VARIANTS = 5;
 
 /**
  * Slug rules: lowercase, strip everything except letters / digits /
@@ -56,25 +68,35 @@ async function tryLoadClip(slug) {
     clipCache.set(slug, null);
     return null;
   }
-  const url = `audio/voice/${slug}.mp3`;
-  try {
-    const resp = await fetch(url);
-    if (!resp.ok) {
-      // 404 is the expected "no recording for this slug" case — not an error.
-      clipCache.set(slug, null);
-      return null;
+  const bufs = [];
+  // Probe slug.mp3, slug-2.mp3, slug-3.mp3, ... up to MAX_VARIANTS.
+  // First 404 ends discovery (after at least slug.mp3 was tried).
+  for (let n = 1; n <= MAX_VARIANTS; n++) {
+    const suffix = n === 1 ? '' : `-${n}`;
+    const url = `audio/voice/${slug}${suffix}.mp3`;
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) break; // 404 is expected for missing variants
+      const arr = await resp.arrayBuffer();
+      const buf = await ctx.decodeAudioData(arr);
+      bufs.push(buf);
+    } catch (e) {
+      // Only logged in dev — a corrupt MP3 or fetch failure leaves a
+      // trace, but we still gracefully fall back to TTS or earlier
+      // variants below.
+      logErr('speech.tryLoadClip', e);
+      break;
     }
-    const arr = await resp.arrayBuffer();
-    const buf = await ctx.decodeAudioData(arr);
-    clipCache.set(slug, buf);
-    return buf;
-  } catch (e) {
-    // Only logged in dev — a corrupt MP3 or fetch failure should leave
-    // a trace, even though we still gracefully fall back to TTS.
-    logErr('speech.tryLoadClip', e);
-    clipCache.set(slug, null);
-    return null;
   }
+  const result = bufs.length ? bufs : null;
+  clipCache.set(slug, result);
+  return result;
+}
+
+function pickVariant(bufs) {
+  if (!bufs || bufs.length === 0) return null;
+  if (bufs.length === 1) return bufs[0];
+  return bufs[Math.floor(Math.random() * bufs.length)];
 }
 
 function playRecording(buf, volume) {
@@ -246,19 +268,19 @@ export function speak(text, opts = {}) {
   // Synchronous cache check: avoids async overhead for clips we've already
   // resolved this session (hit or miss).
   if (clipCache.has(slug)) {
-    const buf = clipCache.get(slug);
-    if (buf) {
-      playRecording(buf, opts.volume);
+    const bufs = clipCache.get(slug);
+    if (bufs) {
+      playRecording(pickVariant(bufs), opts.volume);
       return true;
     }
     return speakTTS(text, opts);
   }
 
-  // First time we've seen this slug — try the network. The async wait adds
-  // ~100-300ms before sound on the very first call; subsequent calls (and
-  // anything preloaded via preloadVoices) play immediately.
-  tryLoadClip(slug).then((buf) => {
-    if (buf) playRecording(buf, opts.volume);
+  // First time we've seen this slug — probe for variants. The async wait
+  // adds ~100-300ms before sound on the very first call; subsequent calls
+  // (and anything preloaded via preloadVoices) play immediately.
+  tryLoadClip(slug).then((bufs) => {
+    if (bufs) playRecording(pickVariant(bufs), opts.volume);
     else speakTTS(text, opts);
   });
   return true;
