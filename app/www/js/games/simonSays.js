@@ -61,24 +61,24 @@ export const SIMON_COMMANDS = [
   'touch your eyebrows',
 
   // Quick reactions (12)
-  'sit down',
-  'stand up',
+  'drop to the floor',
+  'spring up like a jack-in-the-box',
   'jump up high',
   'spin around',
   'turn around',
   'crouch low',
   'freeze',
-  'dance',
-  'bow',
+  'dance like a robot',
+  'bow like royalty',
   'shrug your shoulders',
-  'shake your head',
-  'nod your head',
+  'shake your head like a wet dog',
+  'nod super dramatically',
 
   // Single-action movements (8)
   'clap your hands',
   'wiggle your fingers',
   'stomp your feet',
-  'wave hello',
+  'wave with both hands like a maniac',
   'blow a kiss',
   'give a thumbs up',
   'cross your arms',
@@ -97,7 +97,7 @@ export const SIMON_COMMANDS = [
   'take a step back',
   'take a step left',
   'take a step right',
-  'lean forward',
+  'lean forward like you are about to fall',
   'reach for the sky',
   'point at the ceiling',
 
@@ -116,6 +116,16 @@ export const SIMON_COMMANDS = [
   'open your mouth wide',
   'tiptoe like a ninja',
   'pretend to be a tree',
+
+  // High-energy adds (8) — per the improvement plan
+  'waddle like a penguin',
+  'flap your arms like a chicken',
+  'flex like a bodybuilder',
+  'do a karate chop',
+  'moonwalk',
+  'dab',
+  'roar like a dinosaur',
+  'act like you are freezing cold',
 ];
 
 const TRICKY = { easy: 0.15, normal: 0.3, sneaky: 0.5 };
