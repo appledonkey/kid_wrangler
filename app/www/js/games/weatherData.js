@@ -6,25 +6,29 @@
  *   rain → rain-bg, cold → cold-bg, hot → hot-bg, wind → wind-bg,
  *   fog → fog-bg, special → special-bg
  *
+ * Prompts are action-first rather than weather-label — each line should
+ * make a kid want to immediately do something physical. Pure atmosphere
+ * labels ("Hazy day!", "Tropical sunshine!") got pulled 2026-05-11 in
+ * favor of "Stumble through thick fog!" / "Melt in the tropical heat!"
+ * style entries.
+ *
  * (Earlier versions also exported REACTIONS — a per-category pool of
- * follow-up actions chained after each weather call. Removed on
- * 2026-05-11 to keep the game simpler. Reactions data dropped wholesale.)
+ * follow-up actions chained after each weather call. Removed alongside
+ * the labels pass; weatherReport.js no longer chains.)
  */
 
 export const WEATHER = [
-  // Rain (12)
+  // Rain (10)
   { text: "It's raining!",            emoji: '🌧️',  category: 'rain' },
   { text: "It's pouring!",            emoji: '☔',   category: 'rain' },
-  { text: 'Just a drizzle.',          emoji: '🌦️',  category: 'rain' },
   { text: 'Heavy downpour!',          emoji: '🌧️',  category: 'rain' },
   { text: 'Sun shower!',              emoji: '🌦️',  category: 'rain' },
   { text: 'Thunderstorm rolling in!', emoji: '⛈️',  category: 'rain' },
-  { text: 'Light sprinkle.',          emoji: '🌦️',  category: 'rain' },
-  { text: 'Pitter-patter rain.',      emoji: '🌧️',  category: 'rain' },
   { text: 'Storm warning!',           emoji: '⛈️',  category: 'rain' },
-  { text: 'Steady rain all day.',     emoji: '🌧️',  category: 'rain' },
-  { text: 'Dark clouds gathering.',   emoji: '☁️',   category: 'rain' },
   { text: 'Cloudburst!',              emoji: '⛈️',  category: 'rain' },
+  { text: 'Dark clouds gathering!',   emoji: '☁️',   category: 'rain' },
+  { text: 'Dodge the raindrops!',     emoji: '🌧️',  category: 'rain' },
+  { text: 'Run through the sprinklers!', emoji: '💦', category: 'rain' },
 
   // Cold (10)
   { text: 'Snow is falling!',         emoji: '🌨️',  category: 'cold' },
@@ -35,49 +39,45 @@ export const WEATHER = [
   { text: 'Ice everywhere!',          emoji: '🧊',  category: 'cold' },
   { text: 'Big fluffy flakes!',       emoji: '❄️',  category: 'cold' },
   { text: 'Freezing rain!',           emoji: '❄️',  category: 'cold' },
-  { text: 'Snowflakes drifting down.', emoji: '❄️', category: 'cold' },
   { text: 'Brrr — bundle up!',        emoji: '🥶',  category: 'cold' },
+  { text: 'Wade through deep snow!',  emoji: '🌨️',  category: 'cold' },
 
-  // Hot (9)
-  { text: 'Heatwave!',                emoji: '🥵',  category: 'hot' },
-  { text: 'Scorching sun!',           emoji: '☀️',  category: 'hot' },
-  { text: 'Sweltering hot!',          emoji: '🌡️',  category: 'hot' },
-  { text: 'Sunny day!',               emoji: '☀️',  category: 'hot' },
-  { text: 'Beach weather!',           emoji: '🏖️',  category: 'hot' },
-  { text: 'Sizzling sidewalk!',       emoji: '🔥',  category: 'hot' },
-  { text: "Sun's out, fun's out!",    emoji: '😎',  category: 'hot' },
-  { text: 'Tropical sunshine!',       emoji: '🌴',  category: 'hot' },
-  { text: 'Boiling hot!',             emoji: '🥵',  category: 'hot' },
+  // Hot (8)
+  { text: 'Heatwave!',                                    emoji: '🥵',  category: 'hot' },
+  { text: 'Scorching sun!',                               emoji: '☀️',  category: 'hot' },
+  { text: 'Sunny day!',                                   emoji: '☀️',  category: 'hot' },
+  { text: 'Shield your eyes from the blazing sun!',       emoji: '😎',  category: 'hot' },
+  { text: 'Melt in the tropical heat!',                   emoji: '🌴',  category: 'hot' },
+  { text: "It's so hot the ground is sizzling — hop!",    emoji: '🔥',  category: 'hot' },
+  { text: 'Fan yourself faster — heat wave!',             emoji: '🌡️',  category: 'hot' },
+  { text: 'Sweltering hot!',                              emoji: '🌡️',  category: 'hot' },
 
-  // Wind (9)
-  { text: 'Windy day!',               emoji: '💨',  category: 'wind' },
-  { text: 'Gusty wind!',              emoji: '💨',  category: 'wind' },
-  { text: 'Tornado warning!',         emoji: '🌪️',  category: 'wind' },
-  { text: 'Strong breeze!',           emoji: '🍃',  category: 'wind' },
-  { text: 'Hurricane winds!',         emoji: '🌬️',  category: 'wind' },
-  { text: 'Whirlwind!',               emoji: '🌪️',  category: 'wind' },
-  { text: 'Leaves swirling!',         emoji: '🍂',  category: 'wind' },
-  { text: 'Big puff of wind!',        emoji: '💨',  category: 'wind' },
-  { text: 'Wind howling!',            emoji: '🌬️',  category: 'wind' },
+  // Wind (8)
+  { text: 'Tornado warning!',           emoji: '🌪️',  category: 'wind' },
+  { text: 'Whirlwind!',                 emoji: '🌪️',  category: 'wind' },
+  { text: 'Hurricane winds!',           emoji: '🌬️',  category: 'wind' },
+  { text: 'Big puff of wind!',          emoji: '💨',  category: 'wind' },
+  { text: 'Hold onto your hat — gale force!', emoji: '🧢', category: 'wind' },
+  { text: 'Chase swirling leaves!',     emoji: '🍂',  category: 'wind' },
+  { text: 'Brace against the hurricane!', emoji: '🌬️', category: 'wind' },
+  { text: 'Squint through the sandstorm!', emoji: '🏜️', category: 'wind' },
 
-  // Fog / humid (7)
-  { text: 'Foggy morning!',           emoji: '🌫️',  category: 'fog' },
-  { text: 'Misty meadow!',            emoji: '🌫️',  category: 'fog' },
-  { text: 'Pea-soup fog!',            emoji: '🌫️',  category: 'fog' },
-  { text: 'Steamy air!',              emoji: '♨️',  category: 'fog' },
-  { text: 'Muggy and sticky!',        emoji: '💧',  category: 'fog' },
-  { text: 'Humid heat!',              emoji: '🌡️',  category: 'fog' },
-  { text: 'Hazy day!',                emoji: '🌫️',  category: 'fog' },
+  // Fog / humid (5)
+  { text: 'Stumble through thick fog!',                emoji: '🌫️',  category: 'fog' },
+  { text: "Wave your arms through the fog — can't see!", emoji: '🙌', category: 'fog' },
+  { text: 'Tippy-toe — visibility zero!',              emoji: '🌫️',  category: 'fog' },
+  { text: 'Swat the swamp mosquitoes!',                emoji: '🦟',  category: 'fog' },
+  { text: 'Wipe the steam off your glasses!',          emoji: '👓',  category: 'fog' },
 
   // Special (8)
-  { text: 'A rainbow!',               emoji: '🌈',  category: 'special' },
-  { text: 'Double rainbow!',          emoji: '🌈',  category: 'special' },
-  { text: 'Eye of the storm!',        emoji: '🌀',  category: 'special' },
-  { text: 'Lightning strike!',        emoji: '⚡',  category: 'special' },
-  { text: 'Solar eclipse!',           emoji: '🌑',  category: 'special' },
-  { text: 'Aurora borealis!',         emoji: '🌌',  category: 'special' },
-  { text: 'Meteor shower!',           emoji: '☄️',  category: 'special' },
-  { text: 'Golden hour glow.',        emoji: '🌇',  category: 'special' },
+  { text: 'Eye of the storm — freeze!',                 emoji: '🌀',  category: 'special' },
+  { text: 'Lightning flash — freeze!',                  emoji: '⚡',  category: 'special' },
+  { text: 'Duck from giant hailstones!',                emoji: '🧊',  category: 'special' },
+  { text: 'Solar eclipse — shield your eyes!',          emoji: '🌑',  category: 'special' },
+  { text: 'Aurora borealis — dance under the lights!',  emoji: '🌌',  category: 'special' },
+  { text: 'Meteor shower — duck and dodge!',            emoji: '☄️',  category: 'special' },
+  { text: 'Spot a shooting star and make a wish!',      emoji: '🌠',  category: 'special' },
+  { text: 'Rainbow! Run to find the end!',              emoji: '🌈',  category: 'special' },
 ];
 
 export const CATEGORIES = ['rain', 'cold', 'hot', 'wind', 'fog', 'special'];
