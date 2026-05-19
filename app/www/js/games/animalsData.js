@@ -59,24 +59,21 @@ export const ANIMALS = [
   { name: 'crocodile', emoji: '🐊', category: 'wild' },
   { name: 'flamingo',  emoji: '🦩', category: 'wild' },
   { name: 'eagle',     emoji: '🦅', category: 'wild', article: 'an' },
-  { name: 'bison',     emoji: '🦬', category: 'wild' },
   { name: 'peacock',   emoji: '🦚', category: 'wild' },
 
-  // Ocean (12)
-  { name: 'shark',         emoji: '🦈', category: 'ocean' },
-  { name: 'whale',         emoji: '🐋', category: 'ocean' },
-  { name: 'octopus',       emoji: '🐙', category: 'ocean', article: 'an' },
-  { name: 'crab',          emoji: '🦀', category: 'ocean' },
-  { name: 'dolphin',       emoji: '🐬', category: 'ocean' },
-  { name: 'jellyfish',     emoji: '🪼', category: 'ocean' },
-  { name: 'lobster',       emoji: '🦞', category: 'ocean' },
-  { name: 'sea turtle',    emoji: '🐢', category: 'ocean' },
-  { name: 'pufferfish',    emoji: '🐡', category: 'ocean' },
-  { name: 'tropical fish', emoji: '🐠', category: 'ocean' },
-  { name: 'shrimp',        emoji: '🦐', category: 'ocean' },
-  { name: 'oyster',        emoji: '🦪', category: 'ocean', article: 'an' },
+  // Ocean (10)
+  { name: 'shark',      emoji: '🦈', category: 'ocean' },
+  { name: 'whale',      emoji: '🐋', category: 'ocean' },
+  { name: 'octopus',    emoji: '🐙', category: 'ocean', article: 'an' },
+  { name: 'crab',       emoji: '🦀', category: 'ocean' },
+  { name: 'dolphin',    emoji: '🐬', category: 'ocean' },
+  { name: 'jellyfish',  emoji: '🪼', category: 'ocean' },
+  { name: 'lobster',    emoji: '🦞', category: 'ocean' },
+  { name: 'sea turtle', emoji: '🐢', category: 'ocean' },
+  { name: 'pufferfish', emoji: '🐡', category: 'ocean' },
+  { name: 'otter',      emoji: '🦦', category: 'ocean', article: 'an' },
 
-  // Forest (14)
+  // Forest (11)
   { name: 'wolf',     emoji: '🐺', category: 'forest', sound: 'wolf' },
   { name: 'bear',     emoji: '🐻', category: 'forest', sound: 'bear' },
   { name: 'fox',      emoji: '🦊', category: 'forest' },
@@ -84,21 +81,17 @@ export const ANIMALS = [
   { name: 'deer',     emoji: '🦌', category: 'forest' },
   { name: 'squirrel', emoji: '🐿️', category: 'forest' },
   { name: 'raccoon',  emoji: '🦝', category: 'forest' },
-  { name: 'beaver',   emoji: '🦫', category: 'forest' },
-  { name: 'badger',   emoji: '🦡', category: 'forest' },
   { name: 'hedgehog', emoji: '🦔', category: 'forest' },
   { name: 'mouse',    emoji: '🐭', category: 'forest', sound: 'mouse' },
   { name: 'frog',     emoji: '🐸', category: 'forest', sound: 'frog' },
   { name: 'snake',    emoji: '🐍', category: 'forest', sound: 'snake' },
-  { name: 'skunk',    emoji: '🦨', category: 'forest' },
 
-  // Arctic (4) — Unicode is poor here; only entries with their own emoji
+  // Arctic (3) — Unicode is poor here; only entries with their own emoji
   { name: 'penguin',     emoji: '🐧',     category: 'arctic' },
   { name: 'polar bear',  emoji: '🐻‍❄️', category: 'arctic' },
   { name: 'seal',        emoji: '🦭',     category: 'arctic' },
-  { name: 'mammoth',     emoji: '🦣',     category: 'arctic' },
 
-  // Backyard & bugs (13)
+  // Backyard & bugs (12)
   { name: 'cat',       emoji: '🐱',     category: 'backyard', sound: 'cat' },
   { name: 'dog',       emoji: '🐶',     category: 'backyard', sound: 'dog' },
   { name: 'rabbit',    emoji: '🐰',     category: 'backyard' },
@@ -110,8 +103,7 @@ export const ANIMALS = [
   { name: 'snail',     emoji: '🐌',     category: 'backyard' },
   { name: 'spider',    emoji: '🕷️',    category: 'backyard' },
   { name: 'bee',       emoji: '🐝',     category: 'backyard', sound: 'bee' },
-  { name: 'mosquito',  emoji: '🦟',     category: 'backyard' },
-  { name: 'crow',      emoji: '🐦‍⬛', category: 'backyard', sound: 'crow' },
+  { name: 'bat',       emoji: '🦇',     category: 'backyard' },
 
   // Dinosaurs (2) — Unicode only ships two distinct dino glyphs
   { name: 'T-rex',         emoji: '🦖', category: 'dinosaurs' },
