@@ -84,18 +84,14 @@ const ACTIONS = {
     { text: 'Bounce like a kangaroo!', emoji: '🦘' },
   ],
 
-  // Exercise (10) — calorie burners
+  // Exercise (6) — calorie burners that fit lava-game energy
   exercise: [
     { text: 'Do five jumping jacks!', emoji: '🤸' },
     { text: 'Do five squats!', emoji: '🏋️' },
     { text: 'Do five lunges!', emoji: '🚶' },
     { text: 'Do five push-ups!', emoji: '💪' },
     { text: 'High knees for five seconds!', emoji: '🦵' },
-    { text: 'Do five sit-ups!', emoji: '🧘' },
-    { text: 'Do five mountain climbers!', emoji: '🧗' },
     { text: 'Hold a plank for five seconds!', emoji: '🛹' },
-    { text: 'Do five toe touches!', emoji: '🦶' },
-    { text: 'Do five leg lifts!', emoji: '🦵' },
   ],
 
   // Balance & freeze (8) — yoga / statue holds
@@ -110,44 +106,35 @@ const ACTIONS = {
     { text: 'Hold a karate pose!', emoji: '🥋' },
   ],
 
-  // Stretches (8)
+  // Stretches (4) — slimmed to the punchier ones, dropped yoga-class fillers
   stretches: [
     { text: 'Reach for the sky!', emoji: '🙌' },
     { text: 'Touch your toes!', emoji: '🤸' },
     { text: 'Twist side to side!', emoji: '🔁' },
-    { text: 'Roll your shoulders back!', emoji: '🔄' },
-    { text: 'Side-bend left and right!', emoji: '↔️' },
-    { text: 'Touch the floor!', emoji: '⬇️' },
     { text: 'Stretch your arms out wide!', emoji: '🪽' },
-    { text: 'Big yawn and stretch!', emoji: '🥱' },
   ],
 
-  // Scavenger hunt (12)
-  find: [
-    { text: 'Find something RED!', emoji: '🔴' },
-    { text: 'Find something BLUE!', emoji: '🔵' },
-    { text: 'Find something GREEN!', emoji: '🟢' },
-    { text: 'Find something soft!', emoji: '☁️' },
-    { text: 'Find something round!', emoji: '⚪' },
-    { text: 'Find something fluffy!', emoji: '🧸' },
-    { text: 'Find something shiny!', emoji: '✨' },
-    { text: 'Find a book!', emoji: '📖' },
-    { text: 'Find a pillow!', emoji: '🛏️' },
-    { text: 'Find a shoe!', emoji: '👟' },
-    { text: 'Find a hat!', emoji: '🧢' },
-    { text: 'Find a stuffed animal!', emoji: '🧸' },
+  // Lava escape moves (10) — on-theme physical urgency
+  escape: [
+    { text: 'Jump to safety!', emoji: '⬆️' },
+    { text: 'Hop from rock to rock!', emoji: '🪨' },
+    { text: 'Climb the imaginary mountain!', emoji: '🏔️' },
+    { text: 'Surf across the lava!', emoji: '🏄' },
+    { text: 'Balance on one foot — lava rising!', emoji: '🦩' },
+    { text: 'The lava is getting closer!', emoji: '🔥' },
+    { text: 'The ground is cracking!', emoji: '🪨' },
+    { text: 'Build a bridge with your arms!', emoji: '🌉' },
+    { text: 'Pretend you are on a sinking ship!', emoji: '🚢' },
+    { text: 'Earthquake — shake the ground!', emoji: '🌍' },
   ],
 
-  // Skill / dexterity (8)
+  // Skill / dexterity (5) — kept the strongest patterns
   skills: [
     { text: 'Clap a fast pattern: clap-clap-pause-clap!', emoji: '👏' },
-    { text: 'Snap your fingers ten times!', emoji: '🫰' },
     { text: 'Pat your head and rub your tummy!', emoji: '🙆' },
     { text: 'Wiggle your fingers like piano keys!', emoji: '🎹' },
     { text: 'Stomp left, right, left, right!', emoji: '👣' },
     { text: 'Hop on one foot, then the other!', emoji: '🦶' },
-    { text: 'Tap each finger to your thumb!', emoji: '🤏' },
-    { text: 'Wink with one eye, then the other!', emoji: '😉' },
   ],
 
   // Silly / pretend (12)
@@ -217,20 +204,20 @@ const LAVA_DURATION = 7000;
 function getActionPool() {
   if (STATE.difficulty === 'easy') {
     return [
-      ...ACTIONS.easy, ...ACTIONS.animals, ...ACTIONS.find,
+      ...ACTIONS.easy, ...ACTIONS.animals,
       ...ACTIONS.balance, ...ACTIONS.stretches,
     ];
   }
   if (STATE.difficulty === 'wild') {
     return [
       ...ACTIONS.exercise, ...ACTIONS.silly, ...ACTIONS.skills,
-      ...ACTIONS.wild, ...ACTIONS.animals,
+      ...ACTIONS.wild, ...ACTIONS.animals, ...ACTIONS.escape,
     ];
   }
   // mixed = all categories
   return [
     ...ACTIONS.easy, ...ACTIONS.animals, ...ACTIONS.exercise,
-    ...ACTIONS.balance, ...ACTIONS.stretches, ...ACTIONS.find,
+    ...ACTIONS.balance, ...ACTIONS.stretches, ...ACTIONS.escape,
     ...ACTIONS.skills, ...ACTIONS.silly, ...ACTIONS.wild,
   ];
 }
