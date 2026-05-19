@@ -78,8 +78,8 @@ const HERO_POWERS = [
   { text: 'Throw a lightning bolt!', emoji: '🌩️' },
   { text: 'Freeze breath! Frost everything!', emoji: '🥶' },
   { text: 'Heat vision! Melt the bad guys!', emoji: '🔆' },
-  { text: 'Control the wind!', emoji: '🌬️' },
-  { text: 'Control the rain!', emoji: '🌧️' },
+  { text: 'Raise your arms and summon the wind!', emoji: '🌬️' },
+  { text: 'Call down the rain with a battle cry!', emoji: '🌧️' },
   { text: 'Make a giant tidal wave!', emoji: '🌊' },
   { text: 'Plant powers! Grow vines!', emoji: '🌱' },
   { text: 'Summon a sandstorm!', emoji: '🏜️' },
@@ -90,11 +90,11 @@ const HERO_POWERS = [
 
   // Mind powers
   { text: 'Use telekinesis! Move stuff with your mind!', emoji: '🧠' },
-  { text: 'Read minds!', emoji: '🤔' },
+  { text: 'Press your temples — read their mind!', emoji: '🤔' },
   { text: 'Use mind control on a villain!', emoji: '🌀' },
-  { text: 'Send a telepathic message!', emoji: '💭' },
+  { text: 'Squint hard and beam a thought!', emoji: '💭' },
   { text: 'Brainwave attack!', emoji: '💫' },
-  { text: 'See the future for one second!', emoji: '🔭' },
+  { text: 'Freeze — you just saw the future!', emoji: '🔭' },
 
   // Stealth & senses
   { text: 'Become invisible! Sneak around!', emoji: '🫥' },
@@ -135,7 +135,7 @@ const HERO_POWERS = [
 
   // Animal / savage
   { text: 'Roar like a hero beast!', emoji: '🦁' },
-  { text: 'Talk to animals!', emoji: '🐾' },
+  { text: 'Roar a command to the animals!', emoji: '🐾' },
   { text: 'Climb a wall like a spider!', emoji: '🧗' },
   { text: 'Pounce like a tiger!', emoji: '🐯' },
   { text: 'Sting like a hornet!', emoji: '🐝' },
@@ -165,13 +165,13 @@ const HERO_POWERS = [
   { text: 'Deflect a punch with your forearm!', emoji: '💪' },
 
   // Heroic deeds
-  { text: 'Save someone in trouble!', emoji: '🆘' },
+  { text: 'Dive and catch a falling friend!', emoji: '🆘' },
   { text: 'Rescue a kitten from a tree!', emoji: '🐱' },
   { text: 'Stop a runaway train!', emoji: '🚂' },
   { text: 'Catch a falling person!', emoji: '🪂' },
   { text: 'Defuse a bomb!', emoji: '💣' },
   { text: 'Take a heroic bow for the crowd!', emoji: '🙇' },
-  { text: 'Help an old lady cross the street!', emoji: '👵' },
+  { text: 'Carry an old lady across a busy street!', emoji: '👵' },
   { text: 'Save a baby from danger!', emoji: '👶' },
   { text: 'Lead the team into battle!', emoji: '🚩' },
   { text: 'Plant a flag of victory!', emoji: '🏁' },
@@ -183,7 +183,7 @@ const HERO_POWERS = [
   { text: 'Time travel back five seconds!', emoji: '⏳' },
   { text: 'Speed up time! Make flowers bloom!', emoji: '🌸' },
   { text: 'Pop into a parallel world!', emoji: '🪞' },
-  { text: 'Rewind a mistake!', emoji: '⏪' },
+  { text: 'Spin backwards — rewind a mistake!', emoji: '⏪' },
 
   // Anime fighter
   { text: 'BLAST a two-handed energy beam!', emoji: '🤲' },
@@ -242,7 +242,7 @@ const VILLAIN_MOVES = [
 
   // Mind manipulation
   { text: 'Cackle evilly!', emoji: '😈' },
-  { text: 'Hypnotize a passerby!', emoji: '🌀' },
+  { text: 'Wave your hands and hypnotize the crowd!', emoji: '🌀' },
   { text: 'Brainwash a citizen!', emoji: '🧠' },
   { text: 'Whisper bad ideas into their ear!', emoji: '👂' },
   { text: 'Mind-trick a hero!', emoji: '💭' },
@@ -254,7 +254,7 @@ const VILLAIN_MOVES = [
   { text: 'Spy on the heroes from a rooftop!', emoji: '🔭' },
   { text: 'Tiptoe past a sleeping guard!', emoji: '🦶' },
   { text: 'Hide behind a giant pillar!', emoji: '🏛️' },
-  { text: 'Eavesdrop on a secret meeting!', emoji: '👁️' },
+  { text: 'Sneak behind enemy lines!', emoji: '👁️' },
 
   // Iconic villain moves
   { text: 'Twirl your evil mustache!', emoji: '👨‍🎤' },
@@ -323,7 +323,7 @@ const VILLAIN_MOVES = [
   { text: 'Trap heroes in a time loop!', emoji: '🔁' },
 
   // Big villain energy
-  { text: 'Click a remote that controls all gadgets!', emoji: '🎮' },
+  { text: 'Jab a doomsday remote with both thumbs!', emoji: '🎮' },
   { text: 'Steal everyone\'s bedtime!', emoji: '🛏️' },
   { text: 'Turn off the sun!', emoji: '☀️' },
   { text: 'Write your name across the moon!', emoji: '🌝' },
