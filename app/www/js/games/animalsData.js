@@ -4,6 +4,8 @@
  *   name      — display name and the slug used in voice ("Act like a <name>")
  *   emoji     — visual icon (no duplicates across the pool)
  *   category  — one of CATEGORIES (used by Charades' habitat picker)
+ *   article   — (optional) 'a' (default) or 'an' for vowel-start names so the
+ *               spoken line is "Act like an elephant" not "Act like a elephant"
  *   sound     — (optional) key into animalSounds.js for the Charades sound-hint
  *               toggle; only animals with a procedural sound effect have it.
  */
@@ -41,13 +43,13 @@ export const ANIMALS = [
   // Wild & jungle (20)
   { name: 'lion',      emoji: '🦁', category: 'wild', sound: 'lion' },
   { name: 'tiger',     emoji: '🐅', category: 'wild' },
-  { name: 'elephant',  emoji: '🐘', category: 'wild', sound: 'elephant' },
+  { name: 'elephant',  emoji: '🐘', category: 'wild', sound: 'elephant', article: 'an' },
   { name: 'monkey',    emoji: '🐒', category: 'wild', sound: 'monkey' },
   { name: 'gorilla',   emoji: '🦍', category: 'wild' },
   { name: 'jaguar',    emoji: '🐆', category: 'wild' },
   { name: 'parrot',    emoji: '🦜', category: 'wild' },
   { name: 'sloth',     emoji: '🦥', category: 'wild' },
-  { name: 'orangutan', emoji: '🦧', category: 'wild' },
+  { name: 'orangutan', emoji: '🦧', category: 'wild', article: 'an' },
   { name: 'panda',     emoji: '🐼', category: 'wild' },
   { name: 'hippo',     emoji: '🦛', category: 'wild' },
   { name: 'rhino',     emoji: '🦏', category: 'wild' },
@@ -56,14 +58,14 @@ export const ANIMALS = [
   { name: 'kangaroo',  emoji: '🦘', category: 'wild' },
   { name: 'crocodile', emoji: '🐊', category: 'wild' },
   { name: 'flamingo',  emoji: '🦩', category: 'wild' },
-  { name: 'eagle',     emoji: '🦅', category: 'wild' },
+  { name: 'eagle',     emoji: '🦅', category: 'wild', article: 'an' },
   { name: 'bison',     emoji: '🦬', category: 'wild' },
   { name: 'peacock',   emoji: '🦚', category: 'wild' },
 
   // Ocean (12)
   { name: 'shark',         emoji: '🦈', category: 'ocean' },
   { name: 'whale',         emoji: '🐋', category: 'ocean' },
-  { name: 'octopus',       emoji: '🐙', category: 'ocean' },
+  { name: 'octopus',       emoji: '🐙', category: 'ocean', article: 'an' },
   { name: 'crab',          emoji: '🦀', category: 'ocean' },
   { name: 'dolphin',       emoji: '🐬', category: 'ocean' },
   { name: 'jellyfish',     emoji: '🪼', category: 'ocean' },
@@ -72,13 +74,13 @@ export const ANIMALS = [
   { name: 'pufferfish',    emoji: '🐡', category: 'ocean' },
   { name: 'tropical fish', emoji: '🐠', category: 'ocean' },
   { name: 'shrimp',        emoji: '🦐', category: 'ocean' },
-  { name: 'oyster',        emoji: '🦪', category: 'ocean' },
+  { name: 'oyster',        emoji: '🦪', category: 'ocean', article: 'an' },
 
   // Forest (14)
   { name: 'wolf',     emoji: '🐺', category: 'forest', sound: 'wolf' },
   { name: 'bear',     emoji: '🐻', category: 'forest', sound: 'bear' },
   { name: 'fox',      emoji: '🦊', category: 'forest' },
-  { name: 'owl',      emoji: '🦉', category: 'forest', sound: 'owl' },
+  { name: 'owl',      emoji: '🦉', category: 'forest', sound: 'owl', article: 'an' },
   { name: 'deer',     emoji: '🦌', category: 'forest' },
   { name: 'squirrel', emoji: '🐿️', category: 'forest' },
   { name: 'raccoon',  emoji: '🦝', category: 'forest' },
@@ -104,7 +106,7 @@ export const ANIMALS = [
   { name: 'swan',      emoji: '🦢',     category: 'backyard' },
   { name: 'butterfly', emoji: '🦋',     category: 'backyard' },
   { name: 'ladybug',   emoji: '🐞',     category: 'backyard' },
-  { name: 'ant',       emoji: '🐜',     category: 'backyard' },
+  { name: 'ant',       emoji: '🐜',     category: 'backyard', article: 'an' },
   { name: 'snail',     emoji: '🐌',     category: 'backyard' },
   { name: 'spider',    emoji: '🕷️',    category: 'backyard' },
   { name: 'bee',       emoji: '🐝',     category: 'backyard', sound: 'bee' },

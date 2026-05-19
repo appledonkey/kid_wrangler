@@ -154,18 +154,28 @@ for (const cmd of SIMON_COMMANDS) {
 }
 
 // ---- Animal Antics (Charades) ----
+// Mirror animalCharades.js::actLikePhrase exactly so slugs match the runtime.
+function actLikePhrase(animal) {
+  const article = animal.article || 'a';
+  return `Act like ${article} ${animal.name}`;
+}
 addLine('Animal Antics', 'system', 'Act like a kangaroo', 'Test Voice button line');
 const animals = (await importData('js/games/animalsData.js')).ANIMALS;
 for (const a of animals) {
-  addLine('Animal Antics', 'content', `Act like a ${a.name}`);
+  addLine('Animal Antics', 'content', actLikePhrase(a));
 }
 
 // ---- What is it? (Emoji Quiz) ----
-// Note: code does `It's a ${name}` — not "It's an", even for vowel names.
-addLine('What is it?', 'system', "It's an apple", 'Test Voice button line — uses "an"');
+// Mirror whatIsIt.js::revealPhrase exactly so slugs match the runtime.
+function revealPhrase(item) {
+  if (item.plural) return `They're ${item.name}`;
+  if (item.countable === false) return `It's ${item.name}`;
+  return `It's ${item.article || 'a'} ${item.name}`;
+}
+addLine('What is it?', 'system', "It's an apple", 'Test Voice button line');
 const items = (await importData('js/games/whatIsItData.js')).ITEMS;
 for (const it of items) {
-  addLine('What is it?', 'content', `It's a ${it.name}`);
+  addLine('What is it?', 'content', revealPhrase(it));
 }
 
 // ---- Mission Control ----

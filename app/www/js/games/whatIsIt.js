@@ -35,6 +35,22 @@ let _starting = false;
 
 const itemQueue = makeQueue(() => itemsIn(STATE.category));
 
+/** Build the reveal phrase for an item, respecting optional grammar fields:
+ *
+ *   plural: true       → "They're <name>"     (grapes, fries, glasses, scissors…)
+ *   countable: false   → "It's <name>"        (milk, corn, broccoli, lightning…)
+ *   article: 'an'      → "It's an <name>"     (apple, owl, octopus…)
+ *   (default)          → "It's a <name>"
+ *
+ * Keeps the data file readable — only items that need an override carry the
+ * field. Saves having to spell out the full speakable phrase per row.
+ */
+function revealPhrase(item) {
+  if (item.plural) return `They're ${item.name}`;
+  if (item.countable === false) return `It's ${item.name}`;
+  return `It's ${item.article || 'a'} ${item.name}`;
+}
+
 function startRound() {
   revealed = false;
   round++;
@@ -55,8 +71,9 @@ function reveal() {
   if (!currentItem || revealed) return;
   revealed = true;
   const item = currentItem;
-  document.getElementById('whatIsItText').textContent = "It's a " + item.name + '!';
-  setTimeout(() => speak("It's a " + item.name, { rate: 1.0, pitch: 1.05 }), 200);
+  const phrase = revealPhrase(item);
+  document.getElementById('whatIsItText').textContent = phrase + '!';
+  setTimeout(() => speak(phrase, { rate: 1.0, pitch: 1.05 }), 200);
   document.getElementById('whatIsItRevealBtn').textContent = 'Next';
 
   if (STATE.auto) {

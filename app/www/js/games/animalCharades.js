@@ -52,6 +52,13 @@ let score = 0;
 
 const charadesQueue = makeQueue(() => animalsIn(STATE.category));
 
+/** Build the "Act like a/an X" line for an animal, respecting an
+ *  optional `article` override on the data row ("an" for vowel-start names). */
+function actLikePhrase(animal) {
+  const article = animal.article || 'a';
+  return `Act like ${article} ${animal.name}`;
+}
+
 function announce(animal) {
   const emojiEl = document.getElementById('charadesEmoji');
   const textEl = document.getElementById('charadesText');
@@ -61,7 +68,7 @@ function announce(animal) {
     textEl.textContent = '(only the actor can hear)';
   } else {
     emojiEl.textContent = animal.emoji;
-    textEl.textContent = 'Act like a ' + animal.name + '!';
+    textEl.textContent = actLikePhrase(animal) + '!';
   }
   retriggerAnim(emojiEl, textEl);
 
@@ -70,12 +77,12 @@ function announce(animal) {
   // Speak according to reveal mode.
   if (STATE.reveal === 'show-and-speak') {
     setTimeout(
-      () => speak('Act like a ' + animal.name, { rate: 1.0, pitch: 1.05 }),
+      () => speak(actLikePhrase(animal), { rate: 1.0, pitch: 1.05 }),
       100
     );
   } else if (STATE.reveal === 'whisper') {
     setTimeout(
-      () => speak('Act like a ' + animal.name, { rate: 1.0, pitch: 1.05, volume: WHISPER_VOLUME }),
+      () => speak(actLikePhrase(animal), { rate: 1.0, pitch: 1.05, volume: WHISPER_VOLUME }),
       100
     );
   }
