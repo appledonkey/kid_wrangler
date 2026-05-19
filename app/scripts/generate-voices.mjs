@@ -9,19 +9,20 @@
  *
  * USAGE
  *
- *   # Set up once
- *   set ELEVENLABS_API_KEY=sk_xxx              (Windows cmd)
- *   $env:ELEVENLABS_API_KEY = "sk_xxx"         (Windows PowerShell)
- *   export ELEVENLABS_API_KEY=sk_xxx           (bash/zsh)
+ *   # One-time setup: copy the env template + fill in your credentials.
+ *   #   PowerShell:  Copy-Item .env.example .env
+ *   #   bash/zsh:    cp .env.example .env
+ *   # Then edit `.env` and paste your API key + voice ID. The script
+ *   # auto-loads `.env` at startup — no env-var exports needed.
  *
  *   # Test on 5 lines first (cheap sanity check)
- *   node app/scripts/generate-voices.mjs --voice <voice_id> --limit 5
+ *   node app/scripts/generate-voices.mjs --limit 5
  *
  *   # Do one game at a time
- *   node app/scripts/generate-voices.mjs --voice <voice_id> --game "Red Light / Green Light"
+ *   node app/scripts/generate-voices.mjs --game "Red Light / Green Light"
  *
- *   # Generate everything (1056 unique files — costs real money, run last)
- *   node app/scripts/generate-voices.mjs --voice <voice_id>
+ *   # Generate everything (~1000 unique files — costs real money, run last)
+ *   node app/scripts/generate-voices.mjs
  *
  * FLAGS
  *
@@ -59,6 +60,39 @@ const REPO_ROOT = path.resolve(__dirname, '../../');
 const CSV_PATH = path.join(REPO_ROOT, 'VOICE_RECORDING.csv');
 const OUT_DIR = path.join(REPO_ROOT, 'app/www/audio/voice');
 
+// ---------- .env loader (inline — no npm dep) ----------
+//
+// Reads .env at the repo root and populates process.env. Existing
+// process.env values take priority (so you can still do
+// `$env:ELEVENLABS_API_KEY=...` to override per-session).
+//
+// Supports:
+//   KEY=value
+//   KEY="quoted value with spaces"
+//   # comment lines
+//   blank lines
+function loadDotEnv() {
+  const envPath = path.join(REPO_ROOT, '.env');
+  if (!existsSync(envPath)) return;
+  const text = readFileSync(envPath, 'utf8');
+  for (const rawLine of text.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith('#')) continue;
+    const eq = line.indexOf('=');
+    if (eq === -1) continue;
+    const key = line.slice(0, eq).trim();
+    let value = line.slice(eq + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    if (!(key in process.env)) process.env[key] = value;
+  }
+}
+loadDotEnv();
+
 // ---------- CLI parsing ----------
 
 const args = process.argv.slice(2);
@@ -86,16 +120,21 @@ const opts = {
 const apiKey = process.env.ELEVENLABS_API_KEY;
 
 if (!opts.dryRun && !apiKey) {
-  console.error('ERROR: set ELEVENLABS_API_KEY in your environment.');
-  console.error('  PowerShell:  $env:ELEVENLABS_API_KEY = "sk_..."');
-  console.error('  cmd.exe:     set ELEVENLABS_API_KEY=sk_...');
-  console.error('  bash/zsh:    export ELEVENLABS_API_KEY=sk_...');
+  console.error('ERROR: ELEVENLABS_API_KEY is not set.');
+  console.error('  Easiest: copy .env.example to .env at the repo root and');
+  console.error('  paste your key. The script auto-loads .env.');
+  console.error('');
+  console.error('  Or set per-session:');
+  console.error('    PowerShell:  $env:ELEVENLABS_API_KEY = "sk_..."');
+  console.error('    cmd.exe:     set ELEVENLABS_API_KEY=sk_...');
+  console.error('    bash/zsh:    export ELEVENLABS_API_KEY=sk_...');
   process.exit(1);
 }
 if (!opts.voice) {
-  console.error('ERROR: pass --voice <voice_id> or set ELEVENLABS_VOICE_ID.');
-  console.error('  Find voice IDs at https://elevenlabs.io/app/voice-library');
-  console.error('  Or in your VoiceLab: /v1/voices → "voice_id" field.');
+  console.error('ERROR: voice ID is not set.');
+  console.error('  Put ELEVENLABS_VOICE_ID in your .env file, or pass');
+  console.error('  --voice <voice_id> on the command line.');
+  console.error('  Find voice IDs in your ElevenLabs VoiceLab.');
   process.exit(1);
 }
 
