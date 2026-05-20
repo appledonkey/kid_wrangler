@@ -99,9 +99,12 @@ const HIGH_REPEAT_SLUGS = new Set([
   'green-light', 'yellow-light', 'red-light',
 ]);
 
+// Closing lines that are still single phrases (themed games kept their
+// one-shot closing). The "Time is up + praise" pattern in RLGL / Floor
+// Lava / Simon was split into two pools — `speakClose()` provides the
+// variety via combinatorics, so those individual phrases don't need
+// variants.
 const CLOSING_LINE_SLUGS = new Set([
-  'time-is-up-great-job',
-  'time-is-up-great-listening',
   'mwa-ha-ha-great-evildoing',
   'great-work-hero-or-villain',
   'you-saved-the-day-great-job-hero',
@@ -124,15 +127,40 @@ function assignVariants() {
 
 // ---- Hide & Seek: no speech, only chirps. Skip. ----
 
+// ---- Shared closing-pair pools (used by Red Light, Floor Lava, Simon Says) ----
+// The runtime calls speakClose(intros, praises) which picks one from each
+// pool. Combinatorial variety means no per-line variants needed.
+const TIME_UP_PHRASES = [
+  'Time is up', "Time's up", 'Out of time', 'Buzzer time', 'All done',
+];
+const PRAISE_GENERIC = [
+  'Great job', 'Good job', 'Nice work', 'Well done', 'You did it', 'Awesome',
+];
+const PRAISE_LISTENING = [
+  'Great listening', 'Sharp ears', 'Way to listen', 'You heard them all',
+];
+
 // ---- Red Light / Green Light ----
 addLine('Red Light / Green Light', 'system', 'Green light!');
 addLine('Red Light / Green Light', 'system', 'Yellow light!', 'only spoken when Yellow Light toggle is ON');
 addLine('Red Light / Green Light', 'system', 'Red light!');
-addLine('Red Light / Green Light', 'system', 'Time is up! Great job!', 'closing line');
+for (const t of TIME_UP_PHRASES) {
+  addLine('Red Light / Green Light', 'system', `${t}!`, 'closing pool A — time-up phrases (shared with Floor Lava + Simon)');
+}
+for (const p of PRAISE_GENERIC) {
+  addLine('Red Light / Green Light', 'system', `${p}!`, 'closing pool B — generic praise (shared with Floor Lava)');
+}
 
 // ---- Floor is Lava ----
 addLine('Floor is Lava', 'system', 'Hop on one foot!', 'Test Voice button line');
-addLine('Floor is Lava', 'system', 'Time is up! Great job!', 'closing line (shared filename with Red Light)');
+// Closing pools are shared across games — they'll appear marked (shared)
+// in the rendered checklist so the user records them once.
+for (const t of TIME_UP_PHRASES) {
+  addLine('Floor is Lava', 'system', `${t}!`, 'closing pool A — time-up (shared)');
+}
+for (const p of PRAISE_GENERIC) {
+  addLine('Floor is Lava', 'system', `${p}!`, 'closing pool B — generic praise (shared with Red Light)');
+}
 const lavaText = extractTextLiterals(path.join(WWW, 'js/games/floorLava.js'));
 for (const t of lavaText) addLine('Floor is Lava', 'content', t);
 
@@ -145,7 +173,12 @@ for (const t of heroText) addLine('Heroes & Villains', 'content', t);
 
 // ---- Simon Says ----
 addLine('Simon Says', 'system', 'Simon says touch your nose', 'Test Voice button line');
-addLine('Simon Says', 'system', 'Time is up! Great listening!', 'closing line');
+for (const t of TIME_UP_PHRASES) {
+  addLine('Simon Says', 'system', `${t}!`, 'closing pool A — time-up (shared)');
+}
+for (const p of PRAISE_LISTENING) {
+  addLine('Simon Says', 'system', `${p}!`, 'closing pool B — listening praise (Simon only)');
+}
 const { SIMON_COMMANDS } = await importData('js/games/simonSays.js');
 // Simon plays each command in BOTH forms: "Simon says X" and just "X"
 for (const cmd of SIMON_COMMANDS) {

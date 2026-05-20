@@ -18,6 +18,9 @@ import {
   stopSpeechKeepalive,
   speechDurationMs,
   cancelSpeech,
+  speakClose,
+  TIME_UP_PHRASES,
+  PRAISE_LISTENING,
 } from '../speech.js';
 import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
 import {
@@ -230,7 +233,7 @@ function endGame() {
   releaseWakeLock();
   stopSpeechKeepalive();
   cancelSpeech();
-  speak('Time is up! Great listening!', { rate: 1.0 });
+  speakClose(TIME_UP_PHRASES, PRAISE_LISTENING, { rate: 1.0 });
   successHaptic();
   playSuccessJingle();
   show('simonEnd');

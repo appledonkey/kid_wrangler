@@ -251,6 +251,59 @@ function speakTTS(text, opts = {}) {
 }
 
 // =============================================================
+// Closing speech — two-phrase split
+// =============================================================
+//
+// `speak('Time is up! Great job!')` as one utterance feels rushed —
+// the comma-pause TTS provides between clauses is too short, and the
+// MP3 path runs the whole phrase as one take. `speakClose(intros,
+// praises)` instead picks one random phrase from each pool and
+// speaks them in sequence with a real beat between, so the
+// combinatorial variety (intros × praises) provides freshness
+// without per-line variant MP3s.
+
+export const TIME_UP_PHRASES = [
+  'Time is up',
+  "Time's up",
+  'Out of time',
+  'Buzzer time',
+  'All done',
+];
+
+export const PRAISE_GENERIC = [
+  'Great job',
+  'Good job',
+  'Nice work',
+  'Well done',
+  'You did it',
+  'Awesome',
+];
+
+export const PRAISE_LISTENING = [
+  'Great listening',
+  'Sharp ears',
+  'Way to listen',
+  'You heard them all',
+];
+
+/**
+ * Speak a two-part closing line: pick one from `intros`, one from
+ * `praises`, speak them in sequence with a natural pause between
+ * (speech duration estimate + 350ms). Both phrases get a trailing
+ * "!" automatically — the pool entries are bare phrases.
+ */
+export function speakClose(intros, praises, opts = {}) {
+  if (!intros?.length || !praises?.length) return;
+  const intro = intros[Math.floor(Math.random() * intros.length)];
+  const praise = praises[Math.floor(Math.random() * praises.length)];
+  const introLine = `${intro}!`;
+  const praiseLine = `${praise}!`;
+  speak(introLine, opts);
+  const gap = speechDurationMs(introLine, opts) + 350;
+  setTimeout(() => speak(praiseLine, opts), gap);
+}
+
+// =============================================================
 // Public API
 // =============================================================
 

@@ -21,6 +21,9 @@ import {
   stopSpeechKeepalive,
   speechDurationMs,
   cancelSpeech,
+  speakClose,
+  TIME_UP_PHRASES,
+  PRAISE_GENERIC,
 } from '../speech.js';
 import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
 import { show, screens, setupOpts, setupToggle, isActiveScreen, retriggerAnim } from '../ui.js';
@@ -197,7 +200,7 @@ function endGame() {
   stopSpeechKeepalive();
   cancelSpeech();
   document.body.classList.remove('green-bg', 'red-bg', 'yellow-bg');
-  if (STATE.voice) speak('Time is up! Great job!', { rate: 1.0 });
+  if (STATE.voice) speakClose(TIME_UP_PHRASES, PRAISE_GENERIC, { rate: 1.0 });
   successHaptic();
   playSuccessJingle();
   show('rlglEnd');

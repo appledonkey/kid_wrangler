@@ -22,6 +22,9 @@ import {
   stopSpeechKeepalive,
   speechDurationMs,
   cancelSpeech,
+  speakClose,
+  TIME_UP_PHRASES,
+  PRAISE_GENERIC,
 } from '../speech.js';
 import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
 import {
@@ -349,7 +352,7 @@ function endGame() {
   silenceAll();
   document.body.classList.remove('lava-bg');
   inLava = false;
-  speak('Time is up! Great job!', { rate: 1.0 });
+  speakClose(TIME_UP_PHRASES, PRAISE_GENERIC, { rate: 1.0 });
   successHaptic();
   playSuccessJingle();
   show('actionEnd');

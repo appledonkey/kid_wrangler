@@ -1,6 +1,6 @@
 # KidWrangler — voice recording checklist
 
-_Generated 2026-05-19 · 982 lines · 1006 unique MP3 files (21594 chars total)_
+_Generated 2026-05-20 · 1010 lines · 1017 unique MP3 files (21788 chars total)_
 
 ## How to record
 
@@ -33,34 +33,50 @@ _Generated 2026-05-19 · 982 lines · 1006 unique MP3 files (21594 chars total)_
 
 _No voice lines — game uses procedural chirps only._
 
-## Red Light / Green Light (4)
+## Red Light / Green Light (14)
 
-### System / framing (4 · 11 files w/ variants)
+### System / framing (14 · 20 files w/ variants)
 
+- [ ] `awesome.mp3` — "Awesome!" _(shared)_ — _closing pool B — generic praise (shared with Floor Lava)_
+- [ ] `all-done.mp3` — "All done!" _(shared)_ — _closing pool A — time-up phrases (shared with Floor Lava + Simon)_
+- [ ] `good-job.mp3` — "Good job!" _(shared)_ — _closing pool B — generic praise (shared with Floor Lava)_
 - **Red light!** · 3 variants
   - [ ] `red-light.mp3`
   - [ ] `red-light-2.mp3`
   - [ ] `red-light-3.mp3`
+- [ ] `times-up.mp3` — "Time's up!" _(shared)_ — _closing pool A — time-up phrases (shared with Floor Lava + Simon)_
+- [ ] `great-job.mp3` — "Great job!" _(shared)_ — _closing pool B — generic praise (shared with Floor Lava)_
+- [ ] `nice-work.mp3` — "Nice work!" _(shared)_ — _closing pool B — generic praise (shared with Floor Lava)_
+- [ ] `well-done.mp3` — "Well done!" _(shared)_ — _closing pool B — generic praise (shared with Floor Lava)_
+- [ ] `time-is-up.mp3` — "Time is up!" _(shared)_ — _closing pool A — time-up phrases (shared with Floor Lava + Simon)_
+- [ ] `you-did-it.mp3` — "You did it!" _(shared)_ — _closing pool B — generic praise (shared with Floor Lava)_
 - **Green light!** · 3 variants
   - [ ] `green-light.mp3`
   - [ ] `green-light-2.mp3`
   - [ ] `green-light-3.mp3`
+- [ ] `out-of-time.mp3` — "Out of time!" _(shared)_ — _closing pool A — time-up phrases (shared with Floor Lava + Simon)_
+- [ ] `buzzer-time.mp3` — "Buzzer time!" _(shared)_ — _closing pool A — time-up phrases (shared with Floor Lava + Simon)_
 - **Yellow light!** · 3 variants — _only spoken when Yellow Light toggle is ON_
   - [ ] `yellow-light.mp3`
   - [ ] `yellow-light-2.mp3`
   - [ ] `yellow-light-3.mp3`
-- **Time is up! Great job!** · 2 variants _(shared)_ — _closing line_
-  - [ ] `time-is-up-great-job.mp3`
-  - [ ] `time-is-up-great-job-2.mp3`
 
-## Floor is Lava (98)
+## Floor is Lava (108)
 
-### System / framing (2 · 3 files w/ variants)
+### System / framing (12)
 
+- [ ] `awesome.mp3` — "Awesome!" _(shared)_ — _closing pool B — generic praise (shared with Red Light)_
+- [ ] `all-done.mp3` — "All done!" _(shared)_ — _closing pool A — time-up (shared)_
+- [ ] `good-job.mp3` — "Good job!" _(shared)_ — _closing pool B — generic praise (shared with Red Light)_
+- [ ] `times-up.mp3` — "Time's up!" _(shared)_ — _closing pool A — time-up (shared)_
+- [ ] `great-job.mp3` — "Great job!" _(shared)_ — _closing pool B — generic praise (shared with Red Light)_
+- [ ] `nice-work.mp3` — "Nice work!" _(shared)_ — _closing pool B — generic praise (shared with Red Light)_
+- [ ] `well-done.mp3` — "Well done!" _(shared)_ — _closing pool B — generic praise (shared with Red Light)_
+- [ ] `time-is-up.mp3` — "Time is up!" _(shared)_ — _closing pool A — time-up (shared)_
+- [ ] `you-did-it.mp3` — "You did it!" _(shared)_ — _closing pool B — generic praise (shared with Red Light)_
+- [ ] `out-of-time.mp3` — "Out of time!" _(shared)_ — _closing pool A — time-up (shared)_
+- [ ] `buzzer-time.mp3` — "Buzzer time!" _(shared)_ — _closing pool A — time-up (shared)_
 - [ ] `hop-on-one-foot.mp3` — "Hop on one foot!" — _Test Voice button line_
-- **Time is up! Great job!** · 2 variants _(shared)_ — _closing line (shared filename with Red Light)_
-  - [ ] `time-is-up-great-job.mp3`
-  - [ ] `time-is-up-great-job-2.mp3`
 
 ### Content / prompts (96 · 116 files w/ variants)
 
@@ -468,14 +484,20 @@ _No voice lines — game uses procedural chirps only._
 - [ ] `yell-that-your-power-level-is-over-nine-thousand.mp3` — "Yell that your power level is OVER NINE THOUSAND!"
 - [ ] `transform-into-a-thunder-eagle-with-lightning-wings.mp3` — "Transform into a thunder eagle with lightning wings!"
 
-## Simon Says (137)
+## Simon Says (145)
 
-### System / framing (2 · 3 files w/ variants)
+### System / framing (10)
 
+- [ ] `all-done.mp3` — "All done!" _(shared)_ — _closing pool A — time-up (shared)_
+- [ ] `times-up.mp3` — "Time's up!" _(shared)_ — _closing pool A — time-up (shared)_
+- [ ] `time-is-up.mp3` — "Time is up!" _(shared)_ — _closing pool A — time-up (shared)_
+- [ ] `sharp-ears.mp3` — "Sharp ears!" — _closing pool B — listening praise (Simon only)_
+- [ ] `out-of-time.mp3` — "Out of time!" _(shared)_ — _closing pool A — time-up (shared)_
+- [ ] `buzzer-time.mp3` — "Buzzer time!" _(shared)_ — _closing pool A — time-up (shared)_
+- [ ] `way-to-listen.mp3` — "Way to listen!" — _closing pool B — listening praise (Simon only)_
+- [ ] `great-listening.mp3` — "Great listening!" — _closing pool B — listening praise (Simon only)_
+- [ ] `you-heard-them-all.mp3` — "You heard them all!" — _closing pool B — listening praise (Simon only)_
 - [ ] `simon-says-touch-your-nose.mp3` — "Simon says touch your nose" — _Test Voice button line_
-- **Time is up! Great listening!** · 2 variants — _closing line_
-  - [ ] `time-is-up-great-listening.mp3`
-  - [ ] `time-is-up-great-listening-2.mp3`
 
 ### Content / prompts (135)
 
