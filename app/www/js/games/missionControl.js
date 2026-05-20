@@ -69,7 +69,12 @@ function normalizePaceKey(k) {
   return k;
 }
 
-const COUNTDOWN_TICK_MS = 800; // tighter cadence for the 10-9-8 sequence
+// Minimum gap between commands in a sequence phase (the 10-9-8-...-BLAST OFF
+// countdown). The actual tick uses Math.max(this, speechMs + 300) so longer
+// words ("BLAST OFF!") don't get stepped on. 1100ms gives roughly 400-500ms
+// of silence between recorded "Ten" / "Nine" clips — feels like a real
+// countdown rather than a tight stream.
+const COUNTDOWN_TICK_MS = 1100;
 const EMERGENCY_TICK_MS = 1200;
 const EMERGENCY_PROBABILITY = 0.18; // ~1 in 5 missions has an emergency
 
@@ -403,7 +408,13 @@ function fire() {
   //    fixed tick so 10-9-8 stays tight.
   let dur;
   if (phase.type === 'sequence') {
-    dur = COUNTDOWN_TICK_MS;
+    // Speech-aware floor: if the spoken line is longer than our tick
+    // (e.g. "BLAST OFF!" is wordier than "Ten!"), wait for the voice
+    // to finish before scheduling the next tick.
+    dur = Math.max(
+      COUNTDOWN_TICK_MS,
+      speechDurationMs(cmd.text, { rate: 1.05 }) + 300
+    );
   } else {
     dur = speechDurationMs(cmd.text, { rate: 1.05 }) + paceMs();
   }
