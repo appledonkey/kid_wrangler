@@ -212,6 +212,9 @@ export function init() {
     score = 0;
     updateScoreDisplay();
     show('charadesGame');
+    // Reset prompt area so stale state from the last session doesn't flash.
+    document.getElementById('charadesEmoji').textContent = '🐘';
+    document.getElementById('charadesText').textContent = 'Tap to start!';
     charadesQueue.reset();
     setTimeout(() => announce(charadesQueue.next()), 400);
   });

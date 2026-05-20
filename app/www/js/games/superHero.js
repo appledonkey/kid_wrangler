@@ -418,6 +418,9 @@ function startGame() {
   show('heroGame');
   document.body.classList.add('hero-bg');
   queue.reset();
+  // Reset prompt area so stale state from the last session doesn't flash.
+  document.getElementById('heroEmoji').textContent = '🦸';
+  document.getElementById('heroText').textContent = 'Get ready!';
 
   const fire = () => {
     if (!isActiveScreen('heroGame')) return;

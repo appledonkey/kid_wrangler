@@ -158,6 +158,9 @@ export function init() {
     requestWakeLock();
     round = 0;
     show('whatIsItGame');
+    // Reset prompt area so the previous game's last reveal doesn't flash.
+    document.getElementById('whatIsItEmoji').textContent = '❓';
+    document.getElementById('whatIsItText').textContent = 'What is it?';
     itemQueue.reset();
     setTimeout(startRound, 400);
   });

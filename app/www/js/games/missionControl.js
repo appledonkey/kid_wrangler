@@ -424,6 +424,9 @@ function startGame() {
   show('missionGame');
   document.body.classList.add('mission-bg');
   startNewMission();
+  // Reset prompt area so stale state from the last session doesn't flash.
+  document.getElementById('missionEmoji').textContent = '🚀';
+  document.getElementById('missionText').textContent = 'Get ready, pilot!';
   setTimeout(fire, 900);
 
   if (STATE.length > 0) {

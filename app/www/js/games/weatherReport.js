@@ -93,6 +93,9 @@ function startGame() {
   show('weatherGame');
   weatherQueue.reset();
   setBg(null);
+  // Reset prompt area so stale state from the last session doesn't flash.
+  document.getElementById('weatherEmoji').textContent = '🌦️';
+  document.getElementById('weatherText').textContent = 'And now, the weather!';
 
   const fire = () => {
     if (!isActiveScreen('weatherGame')) return;

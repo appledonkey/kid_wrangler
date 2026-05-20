@@ -294,6 +294,10 @@ function startGame() {
   actionQueue.reset();
   lavaQueue.reset();
   document.body.classList.remove('lava-bg');
+  // Reset the prompt area to its placeholder so a new session doesn't
+  // flash the previous game's last action for the 900ms before fire().
+  document.getElementById('actionEmoji').textContent = '🎯';
+  document.getElementById('actionText').textContent = 'Get ready!';
 
   const fire = () => {
     if (!isActiveScreen('actionGame')) return;
