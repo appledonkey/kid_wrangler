@@ -311,7 +311,10 @@ function startGame() {
     const duration = action.isLava ? LAVA_DURATION : speechMs + gapMs;
     actionTimer = setTimeout(fire, duration);
   };
-  setTimeout(fire, 900);
+  // 250ms — just enough for the game-screen transition to paint cleanly
+  // after the 3-2-1 countdown ends. The countdown itself is the "get
+  // ready" beat; no need for an extra 900ms of "Get ready!" on top.
+  setTimeout(fire, 250);
 
   if (STATE.length > 0) {
     endTime = Date.now() + STATE.length * 1000;

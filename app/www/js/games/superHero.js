@@ -431,7 +431,7 @@ function startGame() {
     const gapMs = (min + Math.random() * (max - min)) * 1000;
     actionTimer = setTimeout(fire, speechMs + gapMs);
   };
-  setTimeout(fire, 900);
+  setTimeout(fire, 250); // see floorLava.js for the rationale
 
   if (STATE.length > 0) {
     endTime = Date.now() + STATE.length * 1000;
