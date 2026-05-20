@@ -46,25 +46,40 @@ const STATE = {
   length: 120,
 };
 
+// Each entry can carry an optional `holdMs` — the minimum time the prompt
+// stays on screen before the next one fires, regardless of the user's
+// chosen Speed setting. Use it for prompts where the kid needs time to
+// actually perform the move:
+//   - "five seconds" durations → holdMs ≈ 5500
+//   - count-based actions → holdMs ≈ count × per-rep time + ~500ms buffer
+//     (clap ~280ms each · hop ~600ms · jumping jack ~800ms · squat / lunge /
+//     push-up ~1400ms · spin ~1500ms · step ~700ms)
+//
+// fire() floors the per-tick duration at holdMs, so even on CHAOS pace
+// a "Hold a plank for five seconds!" still gets ~5.5 seconds.
 const ACTIONS = {
-  // Easy moves (16) — body-part overlaps with Simon Says intentionally dropped
+  // Easy moves (~20) — body-part overlaps with Simon Says intentionally dropped
   easy: [
     { text: 'Hop on one foot!', emoji: '🦶' },
-    { text: 'Spin in a circle!', emoji: '🌀' },
+    { text: 'Spin in a circle!', emoji: '🌀', holdMs: 2000 },
     { text: 'Jump up and down!', emoji: '⬆️' },
-    { text: 'Clap five times!', emoji: '👏' },
-    { text: 'Stand on tiptoes!', emoji: '🩰' },
+    { text: 'Clap three times!', emoji: '👏', holdMs: 1300 },
+    { text: 'Clap five times!', emoji: '👏', holdMs: 1900 },
+    { text: 'Clap eight times!', emoji: '👏', holdMs: 2750 },
+    { text: 'Stand on tiptoes!', emoji: '🩰', holdMs: 2000 },
     { text: 'Skip in place!', emoji: '🦘' },
     { text: 'Run in place!', emoji: '🏃' },
-    { text: 'Hop forward five times!', emoji: '➡️' },
-    { text: 'Hop backward five times!', emoji: '⬅️' },
+    { text: 'Hop forward three times!', emoji: '➡️', holdMs: 2300 },
+    { text: 'Hop forward five times!', emoji: '➡️', holdMs: 3500 },
+    { text: 'Hop backward three times!', emoji: '⬅️', holdMs: 2300 },
+    { text: 'Hop backward five times!', emoji: '⬅️', holdMs: 3500 },
     { text: 'Bounce on your toes!', emoji: '🪀' },
     { text: 'Wiggle your whole body!', emoji: '🌪️' },
-    { text: 'Spin like a top!', emoji: '🌀' },
+    { text: 'Spin like a top!', emoji: '🌀', holdMs: 2500 },
     { text: 'March around the room!', emoji: '🪖' },
     { text: 'Walk backwards!', emoji: '🔄' },
-    { text: 'Tiptoe slowly!', emoji: '🤫' },
-    { text: 'Crawl on hands and knees!', emoji: '👶' },
+    { text: 'Tiptoe slowly!', emoji: '🤫', holdMs: 2500 },
+    { text: 'Crawl on hands and knees!', emoji: '👶', holdMs: 2500 },
   ],
 
   // Animal moves (16) — acting out animals, kept here (Simon doesn't have these now)
@@ -87,57 +102,63 @@ const ACTIONS = {
     { text: 'Bounce like a kangaroo!', emoji: '🦘' },
   ],
 
-  // Exercise (6) — calorie burners that fit lava-game energy
+  // Exercise (~9) — calorie burners that fit lava-game energy
   exercise: [
-    { text: 'Do five jumping jacks!', emoji: '🤸' },
-    { text: 'Do five squats!', emoji: '🏋️' },
-    { text: 'Do five lunges!', emoji: '🚶' },
-    { text: 'Do five push-ups!', emoji: '💪' },
-    { text: 'High knees for five seconds!', emoji: '🦵' },
-    { text: 'Hold a plank for five seconds!', emoji: '🛹' },
+    { text: 'Do three jumping jacks!', emoji: '🤸', holdMs: 2900 },
+    { text: 'Do five jumping jacks!', emoji: '🤸', holdMs: 4500 },
+    { text: 'Do three squats!', emoji: '🏋️', holdMs: 4700 },
+    { text: 'Do five squats!', emoji: '🏋️', holdMs: 7500 },
+    { text: 'Do three lunges!', emoji: '🚶', holdMs: 4700 },
+    { text: 'Do five lunges!', emoji: '🚶', holdMs: 7500 },
+    { text: 'Do five push-ups!', emoji: '💪', holdMs: 7500 },
+    { text: 'High knees for five seconds!', emoji: '🦵', holdMs: 5500 },
+    { text: 'Hold a plank for five seconds!', emoji: '🛹', holdMs: 5500 },
   ],
 
-  // Balance & freeze (8) — yoga / statue holds
+  // Balance & freeze (~11) — yoga / statue holds with explicit dwell time
   balance: [
-    { text: 'Balance on one foot!', emoji: '🦩' },
-    { text: 'Stand like a flamingo for five seconds!', emoji: '🦩' },
-    { text: 'Be a statue for five seconds!', emoji: '🗿' },
-    { text: 'Hold a tree pose!', emoji: '🌳' },
-    { text: 'Balance on tiptoes for five seconds!', emoji: '🩰' },
-    { text: 'Freeze like a popsicle!', emoji: '🧊' },
-    { text: 'Stand on one leg with eyes closed!', emoji: '🙈' },
-    { text: 'Hold a karate pose!', emoji: '🥋' },
+    { text: 'Balance on one foot!', emoji: '🦩', holdMs: 3000 },
+    { text: 'Stand like a flamingo for three seconds!', emoji: '🦩', holdMs: 3500 },
+    { text: 'Stand like a flamingo for five seconds!', emoji: '🦩', holdMs: 5500 },
+    { text: 'Be a statue for three seconds!', emoji: '🗿', holdMs: 3500 },
+    { text: 'Be a statue for five seconds!', emoji: '🗿', holdMs: 5500 },
+    { text: 'Hold a tree pose!', emoji: '🌳', holdMs: 3000 },
+    { text: 'Balance on tiptoes for five seconds!', emoji: '🩰', holdMs: 5500 },
+    { text: 'Freeze like a popsicle!', emoji: '🧊', holdMs: 3000 },
+    { text: 'Stand on one leg with eyes closed!', emoji: '🙈', holdMs: 3500 },
+    { text: 'Hold a karate pose!', emoji: '🥋', holdMs: 2500 },
+    { text: 'Hold a plank for three seconds!', emoji: '🛹', holdMs: 3500 },
   ],
 
   // Stretches (4) — slimmed to the punchier ones, dropped yoga-class fillers
   stretches: [
-    { text: 'Reach for the sky!', emoji: '🙌' },
-    { text: 'Touch your toes!', emoji: '🤸' },
-    { text: 'Twist side to side!', emoji: '🔁' },
-    { text: 'Stretch your arms out wide!', emoji: '🪽' },
+    { text: 'Reach for the sky!', emoji: '🙌', holdMs: 1500 },
+    { text: 'Touch your toes!', emoji: '🤸', holdMs: 1500 },
+    { text: 'Twist side to side!', emoji: '🔁', holdMs: 2500 },
+    { text: 'Stretch your arms out wide!', emoji: '🪽', holdMs: 1500 },
   ],
 
-  // Lava escape moves (10) — on-theme physical urgency
+  // Lava escape moves (10) — on-theme physical urgency, mostly quick reacts
   escape: [
     { text: 'Jump to safety!', emoji: '⬆️' },
-    { text: 'Hop from rock to rock!', emoji: '🪨' },
-    { text: 'Climb the imaginary mountain!', emoji: '🏔️' },
-    { text: 'Surf across the lava!', emoji: '🏄' },
-    { text: 'Balance on one foot — lava rising!', emoji: '🦩' },
+    { text: 'Hop from rock to rock!', emoji: '🪨', holdMs: 3000 },
+    { text: 'Climb the imaginary mountain!', emoji: '🏔️', holdMs: 3000 },
+    { text: 'Surf across the lava!', emoji: '🏄', holdMs: 2500 },
+    { text: 'Balance on one foot — lava rising!', emoji: '🦩', holdMs: 3000 },
     { text: 'The lava is getting closer!', emoji: '🔥' },
     { text: 'The ground is cracking!', emoji: '🪨' },
-    { text: 'Build a bridge with your arms!', emoji: '🌉' },
-    { text: 'Pretend you are on a sinking ship!', emoji: '🚢' },
-    { text: 'Earthquake — shake the ground!', emoji: '🌍' },
+    { text: 'Build a bridge with your arms!', emoji: '🌉', holdMs: 2500 },
+    { text: 'Pretend you are on a sinking ship!', emoji: '🚢', holdMs: 3000 },
+    { text: 'Earthquake — shake the ground!', emoji: '🌍', holdMs: 2500 },
   ],
 
   // Skill / dexterity (5) — kept the strongest patterns
   skills: [
-    { text: 'Clap a fast pattern: clap-clap-pause-clap!', emoji: '👏' },
-    { text: 'Pat your head and rub your tummy!', emoji: '🙆' },
-    { text: 'Wiggle your fingers like piano keys!', emoji: '🎹' },
-    { text: 'Stomp left, right, left, right!', emoji: '👣' },
-    { text: 'Hop on one foot, then the other!', emoji: '🦶' },
+    { text: 'Clap a fast pattern: clap-clap-pause-clap!', emoji: '👏', holdMs: 2000 },
+    { text: 'Pat your head and rub your tummy!', emoji: '🙆', holdMs: 3000 },
+    { text: 'Wiggle your fingers like piano keys!', emoji: '🎹', holdMs: 2000 },
+    { text: 'Stomp left, right, left, right!', emoji: '👣', holdMs: 2500 },
+    { text: 'Hop on one foot, then the other!', emoji: '🦶', holdMs: 2500 },
   ],
 
   // Silly / pretend (12)
@@ -146,28 +167,30 @@ const ACTIONS = {
     { text: 'Sing your name out loud!', emoji: '🎤' },
     { text: 'Talk like a robot!', emoji: '🤖' },
     { text: 'Walk like a zombie!', emoji: '🧟' },
-    { text: 'Do a superhero pose!', emoji: '🦸' },
-    { text: 'Pretend to be a tree!', emoji: '🌳' },
-    { text: 'Pretend to be a snowman!', emoji: '⛄' },
+    { text: 'Do a superhero pose!', emoji: '🦸', holdMs: 2000 },
+    { text: 'Pretend to be a tree!', emoji: '🌳', holdMs: 2500 },
+    { text: 'Pretend to be a snowman!', emoji: '⛄', holdMs: 2500 },
     { text: 'Pretend to brush your teeth!', emoji: '🪥' },
-    { text: 'Pretend to be asleep!', emoji: '😴' },
+    { text: 'Pretend to be asleep!', emoji: '😴', holdMs: 2000 },
     { text: 'Pretend to be a chef cooking!', emoji: '👨‍🍳' },
     { text: 'Pretend you are underwater!', emoji: '🤿' },
     { text: 'Pretend to ride a horse!', emoji: '🏇' },
   ],
 
-  // Wild / random (10) — leftover creative
+  // Wild / random (~12) — leftover creative
   wild: [
-    { text: 'Tiptoe like a ninja!', emoji: '🥷' },
+    { text: 'Tiptoe like a ninja!', emoji: '🥷', holdMs: 2500 },
     { text: 'Pretend to swim!', emoji: '🏊' },
     { text: 'Pretend to fly!', emoji: '🪁' },
-    { text: 'Spin around three times!', emoji: '🌀' },
-    { text: 'Walk backwards five steps!', emoji: '🔙' },
-    { text: 'Crawl like a baby!', emoji: '👶' },
+    { text: 'Spin around two times!', emoji: '🌀', holdMs: 3500 },
+    { text: 'Spin around three times!', emoji: '🌀', holdMs: 5000 },
+    { text: 'Walk backwards three steps!', emoji: '🔙', holdMs: 2600 },
+    { text: 'Walk backwards five steps!', emoji: '🔙', holdMs: 4000 },
+    { text: 'Crawl like a baby!', emoji: '👶', holdMs: 2500 },
     { text: 'Wiggle like a worm!', emoji: '🪱' },
-    { text: 'Pretend you are stuck in mud!', emoji: '🟫' },
+    { text: 'Pretend you are stuck in mud!', emoji: '🟫', holdMs: 2500 },
     { text: 'Pretend to be a bouncing ball!', emoji: '🏀' },
-    { text: 'Pretend to be popcorn popping!', emoji: '🍿' },
+    { text: 'Pretend to be popcorn popping!', emoji: '🍿', holdMs: 2500 },
   ],
 };
 
@@ -308,7 +331,11 @@ function startGame() {
     // the next command's chime from cutting off the previous voice.
     const speechMs = speechDurationMs(action.text, { rate: action.isLava ? 1.15 : 1.05 });
     const gapMs = (min + Math.random() * (max - min)) * 1000;
-    const duration = action.isLava ? LAVA_DURATION : speechMs + gapMs;
+    let duration = action.isLava ? LAVA_DURATION : speechMs + gapMs;
+    // Per-prompt minimum hold so "Hold a plank for five seconds!" /
+    // "Hop forward five times!" get enough time on screen to actually
+    // perform — even on CHAOS pace. holdMs is a floor, not a ceiling.
+    if (action.holdMs) duration = Math.max(duration, action.holdMs);
     actionTimer = setTimeout(fire, duration);
   };
   // 250ms — just enough for the game-screen transition to paint cleanly

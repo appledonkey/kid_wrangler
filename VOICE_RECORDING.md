@@ -1,6 +1,6 @@
 # KidWrangler — voice recording checklist
 
-_Generated 2026-05-20 · 1010 lines · 1017 unique MP3 files (21788 chars total)_
+_Generated 2026-05-20 · 1022 lines · 1028 unique MP3 files (22076 chars total)_
 
 ## How to record
 
@@ -61,7 +61,7 @@ _No voice lines — game uses procedural chirps only._
   - [ ] `yellow-light-2.mp3`
   - [ ] `yellow-light-3.mp3`
 
-## Floor is Lava (108)
+## Floor is Lava (120)
 
 ### System / framing (12)
 
@@ -78,7 +78,7 @@ _No voice lines — game uses procedural chirps only._
 - [ ] `buzzer-time.mp3` — "Buzzer time!" _(shared)_ — _closing pool A — time-up (shared)_
 - [ ] `hop-on-one-foot.mp3` — "Hop on one foot!" — _Test Voice button line_
 
-### Content / prompts (96 · 116 files w/ variants)
+### Content / prompts (108 · 128 files w/ variants)
 
 - [ ] `run-in-place.mp3` — "Run in place!"
 - [ ] `skip-in-place.mp3` — "Skip in place!"
@@ -92,10 +92,14 @@ _No voice lines — game uses procedural chirps only._
 - [ ] `spin-like-a-top.mp3` — "Spin like a top!"
 - [ ] `bark-like-a-dog.mp3` — "Bark like a dog!"
 - [ ] `buzz-like-a-bee.mp3` — "Buzz like a bee!"
+- [ ] `do-three-squats.mp3` — "Do three squats!"
+- [ ] `do-three-lunges.mp3` — "Do three lunges!"
 - [ ] `touch-your-toes.mp3` — "Touch your toes!" _(shared)_
 - [ ] `pretend-to-swim.mp3` — "Pretend to swim!"
 - [ ] `spin-in-a-circle.mp3` — "Spin in a circle!"
 - [ ] `jump-up-and-down.mp3` — "Jump up and down!"
+- [ ] `clap-three-times.mp3` — "Clap three times!" _(shared)_
+- [ ] `clap-eight-times.mp3` — "Clap eight times!"
 - [ ] `stand-on-tiptoes.mp3` — "Stand on tiptoes!"
 - [ ] `roar-like-a-lion.mp3` — "Roar like a lion!"
 - [ ] `hop-like-a-bunny.mp3` — "Hop like a bunny!"
@@ -129,17 +133,21 @@ _No voice lines — game uses procedural chirps only._
 - [ ] `waddle-like-a-penguin.mp3` — "Waddle like a penguin!" _(shared)_
 - [ ] `do-five-jumping-jacks.mp3` — "Do five jumping jacks!"
 - [ ] `hop-from-rock-to-rock.mp3` — "Hop from rock to rock!"
+- [ ] `spin-around-two-times.mp3` — "Spin around two times!"
 - [ ] `hop-forward-five-times.mp3` — "Hop forward five times!"
 - [ ] `wiggle-your-whole-body.mp3` — "Wiggle your whole body!"
 - [ ] `stomp-like-an-elephant.mp3` — "Stomp like an elephant!"
 - [ ] `bounce-like-a-kangaroo.mp3` — "Bounce like a kangaroo!"
+- [ ] `do-three-jumping-jacks.mp3` — "Do three jumping jacks!"
 - [ ] `freeze-like-a-popsicle.mp3` — "Freeze like a popsicle!"
 - [ ] `the-ground-is-cracking.mp3` — "The ground is cracking!"
+- [ ] `hop-forward-three-times.mp3` — "Hop forward three times!"
 - [ ] `hop-backward-five-times.mp3` — "Hop backward five times!"
 - [ ] `sing-your-name-out-loud.mp3` — "Sing your name out loud!"
 - [ ] `pretend-to-be-a-snowman.mp3` — "Pretend to be a snowman!"
 - [ ] `pretend-to-ride-a-horse.mp3` — "Pretend to ride a horse!"
 - [ ] `spin-around-three-times.mp3` — "Spin around three times!"
+- [ ] `hop-backward-three-times.mp3` — "Hop backward three times!"
 - [ ] `crawl-on-hands-and-knees.mp3` — "Crawl on hands and knees!"
 - [ ] `walk-backwards-five-steps.mp3` — "Walk backwards five steps!"
 - **LAVA RIVER! Get to safety!** · 3 variants
@@ -149,6 +157,7 @@ _No voice lines — game uses procedural chirps only._
 - [ ] `stretch-your-arms-out-wide.mp3` — "Stretch your arms out wide!"
 - [ ] `the-lava-is-getting-closer.mp3` — "The lava is getting closer!"
 - [ ] `pretend-you-are-underwater.mp3` — "Pretend you are underwater!"
+- [ ] `walk-backwards-three-steps.mp3` — "Walk backwards three steps!"
 - **VOLCANO ERUPTING! Get high!** · 3 variants
   - [ ] `volcano-erupting-get-high.mp3`
   - [ ] `volcano-erupting-get-high-2.mp3`
@@ -168,6 +177,7 @@ _No voice lines — game uses procedural chirps only._
   - [ ] `the-floor-is-burning-get-up-2.mp3`
   - [ ] `the-floor-is-burning-get-up-3.mp3`
 - [ ] `hold-a-plank-for-five-seconds.mp3` — "Hold a plank for five seconds!"
+- [ ] `be-a-statue-for-three-seconds.mp3` — "Be a statue for three seconds!"
 - [ ] `build-a-bridge-with-your-arms.mp3` — "Build a bridge with your arms!"
 - [ ] `earthquake-shake-the-ground.mp3` — "Earthquake — shake the ground!"
 - [ ] `pretend-to-be-a-bouncing-ball.mp3` — "Pretend to be a bouncing ball!"
@@ -176,6 +186,7 @@ _No voice lines — game uses procedural chirps only._
   - [ ] `molten-rock-everywhere-climb.mp3`
   - [ ] `molten-rock-everywhere-climb-2.mp3`
   - [ ] `molten-rock-everywhere-climb-3.mp3`
+- [ ] `hold-a-plank-for-three-seconds.mp3` — "Hold a plank for three seconds!"
 - [ ] `stomp-left-right-left-right.mp3` — "Stomp left, right, left, right!"
 - [ ] `hop-on-one-foot-then-the-other.mp3` — "Hop on one foot, then the other!"
 - **SCORCHING GROUND! Off the floor!** · 3 variants
@@ -201,6 +212,7 @@ _No voice lines — game uses procedural chirps only._
 - [ ] `balance-on-tiptoes-for-five-seconds.mp3` — "Balance on tiptoes for five seconds!"
 - [ ] `wiggle-your-fingers-like-piano-keys.mp3` — "Wiggle your fingers like piano keys!"
 - [ ] `stand-like-a-flamingo-for-five-seconds.mp3` — "Stand like a flamingo for five seconds!"
+- [ ] `stand-like-a-flamingo-for-three-seconds.mp3` — "Stand like a flamingo for three seconds!"
 - [ ] `clap-a-fast-pattern-clapclappauseclap.mp3` — "Clap a fast pattern: clap-clap-pause-clap!"
 - **The ground is melting! Find higher ground!** · 3 variants
   - [ ] `the-ground-is-melting-find-higher-ground.mp3`
@@ -531,7 +543,7 @@ _No voice lines — game uses procedural chirps only._
 - [ ] `touch-your-ankle.mp3` — "touch your ankle" — _"trick" form (no "Simon says" prefix)_
 - [ ] `bow-like-royalty.mp3` — "bow like royalty" — _"trick" form (no "Simon says" prefix)_
 - [ ] `give-a-thumbs-up.mp3` — "give a thumbs up" — _"trick" form (no "Simon says" prefix)_
-- [ ] `clap-three-times.mp3` — "clap three times" — _"trick" form (no "Simon says" prefix)_
+- [ ] `clap-three-times.mp3` — "clap three times" _(shared)_ — _"trick" form (no "Simon says" prefix)_
 - [ ] `take-a-step-back.mp3` — "take a step back" — _"trick" form (no "Simon says" prefix)_
 - [ ] `take-a-step-left.mp3` — "take a step left" — _"trick" form (no "Simon says" prefix)_
 - [ ] `do-a-karate-chop.mp3` — "do a karate chop" — _"trick" form (no "Simon says" prefix)_
