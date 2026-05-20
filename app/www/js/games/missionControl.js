@@ -36,6 +36,9 @@ import {
   stopSpeechKeepalive,
   speechDurationMs,
   cancelSpeech,
+  speakClose,
+  MISSION_VICTORY_INTROS,
+  MISSION_PRAISE,
 } from '../speech.js';
 import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
 import {
@@ -474,7 +477,7 @@ function endGame() {
   stopSpeechKeepalive();
   cancelSpeech();
   document.body.classList.remove('mission-bg');
-  speak('Mission accomplished! Great flying!', { rate: 1.0 });
+  speakClose(MISSION_VICTORY_INTROS, MISSION_PRAISE, { rate: 1.0 });
   successHaptic();
   playSuccessJingle();
   show('missionEnd');

@@ -286,6 +286,70 @@ export const PRAISE_LISTENING = [
   'You heard them all',
 ];
 
+// ---- Mission Control closing pools ----
+export const MISSION_VICTORY_INTROS = [
+  'Mission accomplished',
+  'Touchdown',
+  'Safe landing',
+  'Mission complete',
+];
+export const MISSION_PRAISE = [
+  'Great flying',
+  'Ace work pilot',
+  'Stellar work',
+  'Smooth landing',
+];
+
+// ---- Heroes & Villains closing pools (role-conditional) ----
+export const HERO_VICTORY_INTROS = [
+  'You saved the day',
+  'The city is safe',
+  'Justice prevails',
+  'Victory is yours',
+];
+export const HERO_PRAISE = [
+  'Great job hero',
+  'Way to go',
+  'Heroic effort',
+  'True hero',
+];
+
+export const VILLAIN_VICTORY_INTROS = [
+  'Mwa ha ha',
+  'Diabolical',
+  'Wickedly done',
+  'Evil plans complete',
+];
+export const VILLAIN_PRAISE = [
+  'Great evil-doing',
+  'You scoundrel',
+  'Truly villainous',
+  'A worthy villain',
+];
+
+export const BOTH_VICTORY_INTROS = [
+  'What a showdown',
+  'Heroes and villains alike',
+  'Battle over',
+];
+export const BOTH_PRAISE = [
+  'Great work either way',
+  'All the moves',
+  'Truly versatile',
+];
+
+// ---- Weather Report closing pools ----
+export const WEATHER_VICTORY_INTROS = [
+  "That's all for today's weather",
+  "And that's the forecast",
+  'Forecast complete',
+];
+export const WEATHER_PRAISE = [
+  'Stay weather-wise',
+  'See you tomorrow',
+  'Bundle up out there',
+];
+
 /**
  * Speak a two-part closing line: pick one from `intros`, one from
  * `praises`, speak them in sequence with a natural pause between

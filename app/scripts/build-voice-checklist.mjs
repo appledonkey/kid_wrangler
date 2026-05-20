@@ -99,18 +99,10 @@ const HIGH_REPEAT_SLUGS = new Set([
   'green-light', 'yellow-light', 'red-light',
 ]);
 
-// Closing lines that are still single phrases (themed games kept their
-// one-shot closing). The "Time is up + praise" pattern in RLGL / Floor
-// Lava / Simon was split into two pools — `speakClose()` provides the
-// variety via combinatorics, so those individual phrases don't need
-// variants.
-const CLOSING_LINE_SLUGS = new Set([
-  'mwa-ha-ha-great-evildoing',
-  'great-work-hero-or-villain',
-  'you-saved-the-day-great-job-hero',
-  'mission-accomplished-great-flying',
-  'thats-all-for-todays-weather',
-]);
+// Every closing line in every game is now a two-pool speakClose() —
+// intro × praise pairing provides the variety. None of the bare
+// phrases need per-slug variants.
+const CLOSING_LINE_SLUGS = new Set();
 
 // Lava-event slugs pulled live from floorLava.js so this list stays in
 // sync if the lava text ever changes.
@@ -165,9 +157,30 @@ const lavaText = extractTextLiterals(path.join(WWW, 'js/games/floorLava.js'));
 for (const t of lavaText) addLine('Floor is Lava', 'content', t);
 
 // ---- Heroes & Villains ----
-addLine('Heroes & Villains', 'system', 'Mwa ha ha! Great evil-doing!', 'closing line — Villain role');
-addLine('Heroes & Villains', 'system', 'Great work, hero or villain!', 'closing line — Both role');
-addLine('Heroes & Villains', 'system', 'You saved the day! Great job hero!', 'closing line — Hero role');
+const HERO_VICTORY_INTROS = ['You saved the day', 'The city is safe', 'Justice prevails', 'Victory is yours'];
+const HERO_PRAISE = ['Great job hero', 'Way to go', 'Heroic effort', 'True hero'];
+const VILLAIN_VICTORY_INTROS = ['Mwa ha ha', 'Diabolical', 'Wickedly done', 'Evil plans complete'];
+const VILLAIN_PRAISE = ['Great evil-doing', 'You scoundrel', 'Truly villainous', 'A worthy villain'];
+const BOTH_VICTORY_INTROS = ['What a showdown', 'Heroes and villains alike', 'Battle over'];
+const BOTH_PRAISE = ['Great work either way', 'All the moves', 'Truly versatile'];
+for (const t of HERO_VICTORY_INTROS) {
+  addLine('Heroes & Villains', 'system', `${t}!`, 'closing pool A — Hero role intro');
+}
+for (const p of HERO_PRAISE) {
+  addLine('Heroes & Villains', 'system', `${p}!`, 'closing pool B — Hero role praise');
+}
+for (const t of VILLAIN_VICTORY_INTROS) {
+  addLine('Heroes & Villains', 'system', `${t}!`, 'closing pool A — Villain role intro');
+}
+for (const p of VILLAIN_PRAISE) {
+  addLine('Heroes & Villains', 'system', `${p}!`, 'closing pool B — Villain role praise');
+}
+for (const t of BOTH_VICTORY_INTROS) {
+  addLine('Heroes & Villains', 'system', `${t}!`, 'closing pool A — Both role intro');
+}
+for (const p of BOTH_PRAISE) {
+  addLine('Heroes & Villains', 'system', `${p}!`, 'closing pool B — Both role praise');
+}
 const heroText = extractTextLiterals(path.join(WWW, 'js/games/superHero.js'));
 for (const t of heroText) addLine('Heroes & Villains', 'content', t);
 
@@ -212,14 +225,28 @@ for (const it of items) {
 }
 
 // ---- Mission Control ----
+const MISSION_VICTORY_INTROS = ['Mission accomplished', 'Touchdown', 'Safe landing', 'Mission complete'];
+const MISSION_PRAISE = ['Great flying', 'Ace work pilot', 'Stellar work', 'Smooth landing'];
 addLine('Mission Control', 'system', 'Mission Control: all systems go!', 'Test Voice button line');
-addLine('Mission Control', 'system', 'Mission accomplished! Great flying!', 'closing line');
+for (const t of MISSION_VICTORY_INTROS) {
+  addLine('Mission Control', 'system', `${t}!`, 'closing pool A — mission-end intro');
+}
+for (const p of MISSION_PRAISE) {
+  addLine('Mission Control', 'system', `${p}!`, 'closing pool B — pilot praise');
+}
 const missionText = extractTextLiterals(path.join(WWW, 'js/games/missionControl.js'));
 for (const t of missionText) addLine('Mission Control', 'content', t);
 
 // ---- Weather Report ----
+const WEATHER_VICTORY_INTROS = ["That's all for today's weather", "And that's the forecast", 'Forecast complete'];
+const WEATHER_PRAISE = ['Stay weather-wise', 'See you tomorrow', 'Bundle up out there'];
 addLine('Weather Report', 'system', "It's pouring rain!", 'Test Voice button line — overlaps with weather pool');
-addLine('Weather Report', 'system', "That's all for today's weather!", 'closing line');
+for (const t of WEATHER_VICTORY_INTROS) {
+  addLine('Weather Report', 'system', `${t}!`, 'closing pool A — sign-off intro');
+}
+for (const p of WEATHER_PRAISE) {
+  addLine('Weather Report', 'system', `${p}!`, 'closing pool B — sign-off farewell');
+}
 const { WEATHER } = await importData('js/games/weatherData.js');
 for (const w of WEATHER) addLine('Weather Report', 'content', w.text);
 

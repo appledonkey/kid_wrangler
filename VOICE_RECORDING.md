@@ -1,6 +1,6 @@
 # KidWrangler — voice recording checklist
 
-_Generated 2026-05-20 · 1022 lines · 1028 unique MP3 files (22076 chars total)_
+_Generated 2026-05-20 · 1052 lines · 1053 unique MP3 files (22332 chars total)_
 
 ## How to record
 
@@ -219,19 +219,32 @@ _No voice lines — game uses procedural chirps only._
   - [ ] `the-ground-is-melting-find-higher-ground-2.mp3`
   - [ ] `the-ground-is-melting-find-higher-ground-3.mp3`
 
-## Heroes & Villains (263)
+## Heroes & Villains (282)
 
-### System / framing (3 · 6 files w/ variants)
+### System / framing (22)
 
-- **Mwa ha ha! Great evil-doing!** · 2 variants — _closing line — Villain role_
-  - [ ] `mwa-ha-ha-great-evildoing.mp3`
-  - [ ] `mwa-ha-ha-great-evildoing-2.mp3`
-- **Great work, hero or villain!** · 2 variants — _closing line — Both role_
-  - [ ] `great-work-hero-or-villain.mp3`
-  - [ ] `great-work-hero-or-villain-2.mp3`
-- **You saved the day! Great job hero!** · 2 variants — _closing line — Hero role_
-  - [ ] `you-saved-the-day-great-job-hero.mp3`
-  - [ ] `you-saved-the-day-great-job-hero-2.mp3`
+- [ ] `way-to-go.mp3` — "Way to go!" — _closing pool B — Hero role praise_
+- [ ] `true-hero.mp3` — "True hero!" — _closing pool B — Hero role praise_
+- [ ] `mwa-ha-ha.mp3` — "Mwa ha ha!" — _closing pool A — Villain role intro_
+- [ ] `diabolical.mp3` — "Diabolical!" — _closing pool A — Villain role intro_
+- [ ] `battle-over.mp3` — "Battle over!" — _closing pool A — Both role intro_
+- [ ] `heroic-effort.mp3` — "Heroic effort!" — _closing pool B — Hero role praise_
+- [ ] `wickedly-done.mp3` — "Wickedly done!" — _closing pool A — Villain role intro_
+- [ ] `you-scoundrel.mp3` — "You scoundrel!" — _closing pool B — Villain role praise_
+- [ ] `all-the-moves.mp3` — "All the moves!" — _closing pool B — Both role praise_
+- [ ] `great-job-hero.mp3` — "Great job hero!" — _closing pool B — Hero role praise_
+- [ ] `what-a-showdown.mp3` — "What a showdown!" — _closing pool A — Both role intro_
+- [ ] `truly-versatile.mp3` — "Truly versatile!" — _closing pool B — Both role praise_
+- [ ] `the-city-is-safe.mp3` — "The city is safe!" — _closing pool A — Hero role intro_
+- [ ] `justice-prevails.mp3` — "Justice prevails!" — _closing pool A — Hero role intro_
+- [ ] `victory-is-yours.mp3` — "Victory is yours!" — _closing pool A — Hero role intro_
+- [ ] `great-evildoing.mp3` — "Great evil-doing!" — _closing pool B — Villain role praise_
+- [ ] `truly-villainous.mp3` — "Truly villainous!" — _closing pool B — Villain role praise_
+- [ ] `a-worthy-villain.mp3` — "A worthy villain!" — _closing pool B — Villain role praise_
+- [ ] `you-saved-the-day.mp3` — "You saved the day!" — _closing pool A — Hero role intro_
+- [ ] `evil-plans-complete.mp3` — "Evil plans complete!" — _closing pool A — Villain role intro_
+- [ ] `great-work-either-way.mp3` — "Great work either way!" — _closing pool B — Both role praise_
+- [ ] `heroes-and-villains-alike.mp3` — "Heroes and villains alike!" — _closing pool A — Both role intro_
 
 ### Content / prompts (260)
 
@@ -992,16 +1005,21 @@ _No voice lines — game uses procedural chirps only._
 - [ ] `its-a-game-controller.mp3` — "It's a game controller"
 - [ ] `its-a-fire-extinguisher.mp3` — "It's a fire extinguisher"
 
-## Mission Control (102)
+## Mission Control (108)
 
-### System / framing (2 · 3 files w/ variants)
+### System / framing (9)
 
+- [ ] `touchdown.mp3` — "Touchdown!" — _closing pool A — mission-end intro_
+- [ ] `safe-landing.mp3` — "Safe landing!" — _closing pool A — mission-end intro_
+- [ ] `great-flying.mp3` — "Great flying!" — _closing pool B — pilot praise_
+- [ ] `stellar-work.mp3` — "Stellar work!" — _closing pool B — pilot praise_
+- [ ] `ace-work-pilot.mp3` — "Ace work pilot!" — _closing pool B — pilot praise_
+- [ ] `smooth-landing.mp3` — "Smooth landing!" — _closing pool B — pilot praise_
+- [ ] `mission-complete.mp3` — "Mission complete!" — _closing pool A — mission-end intro_
+- [ ] `mission-accomplished.mp3` — "Mission accomplished!" — _closing pool A — mission-end intro_
 - [ ] `mission-control-all-systems-go.mp3` — "Mission Control: all systems go!" — _Test Voice button line_
-- **Mission accomplished! Great flying!** · 2 variants — _closing line_
-  - [ ] `mission-accomplished-great-flying.mp3`
-  - [ ] `mission-accomplished-great-flying-2.mp3`
 
-### Content / prompts (100)
+### Content / prompts (99)
 
 - [ ] `ten.mp3` — "Ten!"
 - [ ] `six.mp3` — "Six!"
@@ -1058,7 +1076,6 @@ _No voice lines — game uses procedural chirps only._
 - [ ] `power-up-the-engines.mp3` — "Power up the engines!"
 - [ ] `ufo-at-twelve-oclock.mp3` — "UFO at twelve oclock!"
 - [ ] `repair-the-satellite.mp3` — "Repair the satellite!"
-- [ ] `mission-accomplished.mp3` — "Mission accomplished!"
 - [ ] `final-checks-complete.mp3` — "Final checks complete!"
 - [ ] `skim-across-the-ocean.mp3` — "Skim across the ocean!"
 - [ ] `fly-through-a-rainbow.mp3` — "Fly through a rainbow!"
@@ -1104,14 +1121,17 @@ _No voice lines — game uses procedural chirps only._
 - [ ] `squeeze-space-food-into-your-mouth.mp3` — "Squeeze space food into your mouth!"
 - [ ] `mash-buttons-emergency-diagnostic.mp3` — "Mash buttons — emergency diagnostic!"
 
-## Weather Report (51)
+## Weather Report (56)
 
-### System / framing (2 · 3 files w/ variants)
+### System / framing (7)
 
+- [ ] `see-you-tomorrow.mp3` — "See you tomorrow!" — _closing pool B — sign-off farewell_
 - [ ] `its-pouring-rain.mp3` — "It's pouring rain!" — _Test Voice button line — overlaps with weather pool_
-- **That's all for today's weather!** · 2 variants — _closing line_
-  - [ ] `thats-all-for-todays-weather.mp3`
-  - [ ] `thats-all-for-todays-weather-2.mp3`
+- [ ] `forecast-complete.mp3` — "Forecast complete!" — _closing pool A — sign-off intro_
+- [ ] `stay-weatherwise.mp3` — "Stay weather-wise!" — _closing pool B — sign-off farewell_
+- [ ] `bundle-up-out-there.mp3` — "Bundle up out there!" — _closing pool B — sign-off farewell_
+- [ ] `and-thats-the-forecast.mp3` — "And that's the forecast!" — _closing pool A — sign-off intro_
+- [ ] `thats-all-for-todays-weather.mp3` — "That's all for today's weather!" — _closing pool A — sign-off intro_
 
 ### Content / prompts (49)
 

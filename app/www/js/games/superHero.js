@@ -24,6 +24,13 @@ import {
   stopSpeechKeepalive,
   speechDurationMs,
   cancelSpeech,
+  speakClose,
+  HERO_VICTORY_INTROS,
+  HERO_PRAISE,
+  VILLAIN_VICTORY_INTROS,
+  VILLAIN_PRAISE,
+  BOTH_VICTORY_INTROS,
+  BOTH_PRAISE,
 } from '../speech.js';
 import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
 import {
@@ -468,13 +475,22 @@ function endGame() {
   cancelSpeech();
   document.body.classList.remove('hero-bg');
   successHaptic();
-  const closingLine =
-    STATE.role === 'villain'
-      ? 'Mwa ha ha! Great evil-doing!'
-      : STATE.role === 'both'
-      ? 'Great work, hero or villain!'
-      : 'You saved the day! Great job hero!';
-  speak(closingLine, { rate: 1.0 });
+  // Pick the role-appropriate intro + praise pool, speakClose picks one
+  // of each and speaks them as two distinct beats — far less rushed than
+  // the old "Mwa ha ha! Great evil-doing!" single utterance.
+  let intros;
+  let praises;
+  if (STATE.role === 'villain') {
+    intros = VILLAIN_VICTORY_INTROS;
+    praises = VILLAIN_PRAISE;
+  } else if (STATE.role === 'both') {
+    intros = BOTH_VICTORY_INTROS;
+    praises = BOTH_PRAISE;
+  } else {
+    intros = HERO_VICTORY_INTROS;
+    praises = HERO_PRAISE;
+  }
+  speakClose(intros, praises, { rate: 1.0 });
   playSuccessJingle();
   show('heroEnd');
   _starting = false;

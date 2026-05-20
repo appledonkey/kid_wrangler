@@ -25,6 +25,9 @@ import {
   stopSpeechKeepalive,
   speechDurationMs,
   cancelSpeech,
+  speakClose,
+  WEATHER_VICTORY_INTROS,
+  WEATHER_PRAISE,
 } from '../speech.js';
 import { requestWakeLock, releaseWakeLock } from '../wakeLock.js';
 import {
@@ -147,7 +150,7 @@ function endGame() {
   stopSpeechKeepalive();
   cancelSpeech();
   setBg(null);
-  speak("That's all for today's weather!", { rate: 1.0 });
+  speakClose(WEATHER_VICTORY_INTROS, WEATHER_PRAISE, { rate: 1.0 });
   successHaptic();
   playSuccessJingle();
   show('weatherEnd');
