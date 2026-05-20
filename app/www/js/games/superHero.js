@@ -418,9 +418,6 @@ function startGame() {
   show('heroGame');
   document.body.classList.add('hero-bg');
   queue.reset();
-  // Reset prompt area so stale state from the last session doesn't flash.
-  document.getElementById('heroEmoji').textContent = '🦸';
-  document.getElementById('heroText').textContent = 'Get ready!';
 
   const fire = () => {
     if (!isActiveScreen('heroGame')) return;
@@ -431,7 +428,7 @@ function startGame() {
     const gapMs = (min + Math.random() * (max - min)) * 1000;
     actionTimer = setTimeout(fire, speechMs + gapMs);
   };
-  setTimeout(fire, 250); // see floorLava.js for the rationale
+  fire(); // see floorLava.js for the rationale
 
   if (STATE.length > 0) {
     endTime = Date.now() + STATE.length * 1000;

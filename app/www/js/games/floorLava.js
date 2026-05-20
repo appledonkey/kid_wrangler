@@ -317,10 +317,6 @@ function startGame() {
   actionQueue.reset();
   lavaQueue.reset();
   document.body.classList.remove('lava-bg');
-  // Reset the prompt area to its placeholder so a new session doesn't
-  // flash the previous game's last action for the 900ms before fire().
-  document.getElementById('actionEmoji').textContent = '🎯';
-  document.getElementById('actionText').textContent = 'Get ready!';
 
   const fire = () => {
     if (!isActiveScreen('actionGame')) return;
@@ -338,10 +334,11 @@ function startGame() {
     if (action.holdMs) duration = Math.max(duration, action.holdMs);
     actionTimer = setTimeout(fire, duration);
   };
-  // 250ms — just enough for the game-screen transition to paint cleanly
-  // after the 3-2-1 countdown ends. The countdown itself is the "get
-  // ready" beat; no need for an extra 900ms of "Get ready!" on top.
-  setTimeout(fire, 250);
+  // Fire synchronously — the 3-2-1 countdown was the get-ready beat,
+  // so the first prompt should land the moment the game screen swaps in.
+  // fire() updates the DOM before the browser paints, so the placeholder
+  // never renders and no stale state from a prior session flashes.
+  fire();
 
   if (STATE.length > 0) {
     endTime = Date.now() + STATE.length * 1000;

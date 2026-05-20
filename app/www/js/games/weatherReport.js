@@ -93,9 +93,6 @@ function startGame() {
   show('weatherGame');
   weatherQueue.reset();
   setBg(null);
-  // Reset prompt area so stale state from the last session doesn't flash.
-  document.getElementById('weatherEmoji').textContent = '🌦️';
-  document.getElementById('weatherText').textContent = 'And now, the weather!';
 
   const fire = () => {
     if (!isActiveScreen('weatherGame')) return;
@@ -110,7 +107,7 @@ function startGame() {
     const gapMs = (paceMin + Math.random() * (paceMax - paceMin)) * 1000;
     actionTimer = setTimeout(fire, speechMs + gapMs);
   };
-  setTimeout(fire, 250); // see floorLava.js for the rationale
+  fire(); // see floorLava.js for the rationale
 
   if (STATE.length > 0) {
     endTime = Date.now() + STATE.length * 1000;
